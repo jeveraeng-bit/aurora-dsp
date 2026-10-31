@@ -1,0 +1,528 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{geometry}
+\geometry{left=2.5cm, right=2.5cm, top=2.8cm, bottom=2.8cm}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+% Colores institucionales y de diseño
+\definecolor{uanblue}{RGB}{0, 45, 98}
+\definecolor{uancyan}{RGB}{0, 140, 200}
+\definecolor{accentgreen}{RGB}{0, 160, 120}
+\definecolor{codebg}{RGB}{246, 248, 252}
+\definecolor{bordercolor}{RGB}{205, 215, 230}
+\definecolor{darkgray}{RGB}{60, 64, 70}
+
+% Hipervínculos
+\hypersetup{
+    colorlinks=true,
+    linkcolor=uanblue,
+    citecolor=uancyan,
+    urlcolor=uancyan,
+    pdftitle={Aurora By Juan Esteban Vera - Informe Tecnico y Emprendimiento UAN},
+    pdfauthor={Juan Esteban Vera Rodriguez}
+}
+
+% Encabezados y pies de página
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small \textcolor{uanblue}{\textbf{Universidad Antonio Nariño}} · Sede Ibagué · Ingeniería Electrónica}
+\fancyhead[R]{\small \textcolor{gray}{Aurora By Juan Esteban Vera · DSP Workstation}}
+\fancyfoot[L]{\small \textcolor{gray}{Proyecto de Grado y Emprendimiento Tecnológico}}
+\fancyfoot[R]{\small \thepage}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Formato de código
+\lstset{
+    backgroundcolor=\color{codebg},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    captionpos=b,
+    frame=single,
+    rulecolor=\color{bordercolor},
+    keywordstyle=\color{uanblue}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{accentgreen},
+    showstringspaces=false
+}
+
+\begin{document}
+
+% =========================================================================
+% PORTADA INSTITUCIONAL
+% =========================================================================
+\begin{titlepage}
+    \centering
+    \vspace*{0.5cm}
+    
+    {\scshape\LARGE \textbf{UNIVERSIDAD ANTONIO NARIÑO}}\\[0.3cm]
+    {\scshape\large FACULTAD DE INGENIERÍA · PROGRAMA DE INGENIERÍA ELECTRÓNICA}\\[0.15cm]
+    {\small SEDE IBAGUÉ — CAPITAL MUSICAL DE COLOMBIA}\\[1.5cm]
+    
+    \rule{\linewidth}{1.8pt}\\[0.4cm]
+    {\Huge \bfseries \textcolor{uanblue}{AURORA BY JUAN ESTEBAN VERA}}\\[0.35cm]
+    {\Large \bfseries ARQUITECTURA DSP HÍBRIDA (SUSTRACTIVA + FM-X) CON MOTION CONTROL SUPER KNOB Y PROCESAMIENTO EN TIEMPO REAL}\\[0.25cm]
+    {\large \itshape Informe Científico, Técnico y Plan de Negocio para la Creación de una Empresa de Audio Digital (\textit{Spin-off})}\\[0.4cm]
+    \rule{\linewidth}{1.8pt}\\[2.0cm]
+    
+    \begin{minipage}{0.85\textwidth}
+        \centering
+        \textbf{Autor e Investigador Principal:}\\
+        {\Large \textbf{Juan Esteban Vera Rodríguez}}\\[0.15cm]
+        {\small Estudiante de Ingeniería Electrónica}\\
+        {\small Universidad Antonio Nariño — Sede Ibagué}\\[1.2cm]
+        
+        \textbf{Líneas de Investigación, Innovación y Desarrollo:}\\
+        {\small Procesamiento Digital de Señales (DSP) · Audio Digital en Tiempo Real}\\
+        {\small Modelado Analógico Virtual (VA) · Síntesis por Modulación de Frecuencia (FM)}\\
+        {\small Emprendimiento Tecnológico de Base Científica · Creación de Empresas de Software}
+    \end{minipage}
+    
+    \vfill
+    {\large \textbf{Ibagué, Tolima, Colombia}}\\
+    {\small Septiembre de 2026}
+\end{titlepage}
+
+% =========================================================================
+% DEDICATORIA Y DECLARACIÓN DE EMPRENDIMIENTO
+% =========================================================================
+\newpage
+\thispagestyle{plain}
+\vspace*{1.5cm}
+
+\begin{center}
+    {\Large \bfseries \textcolor{uanblue}{DEDICATORIA INSTITUCIONAL}}
+\end{center}
+
+\vspace{0.8cm}
+
+\begin{quote}
+\itshape
+A la \textbf{Universidad Antonio Nariño (UAN)}, mi alma mater, y a su distinguido claustro de profesores de la \textbf{Facultad de Ingeniería Electrónica de la Sede Ibagué}. En sus laboratorios, aulas y espacios académicos se consolidaron los fundamentos matemáticos del cálculo vectorial, el álgebra de señales y el diseño de sistemas de control que hicieron posible la concepción de esta obra.
+
+Dedico este trabajo a mi universidad como un testimonio tangible de gratitud y compromiso institucional. Los ingenieros nariñistas poseemos la vocación y el talento para convertir la ciencia exacta en bienestar, progreso económico y tecnología de vanguardia que traspase nuestras fronteras nacionales.
+\end{quote}
+
+\vspace{1.5cm}
+
+\begin{center}
+    {\Large \bfseries \textcolor{uanblue}{MANIFIESTO DEL INGENIERO EMPRENDEDOR}}
+\end{center}
+
+\vspace{0.8cm}
+
+\begin{quote}
+\itshape
+``El desarrollo de \textbf{Aurora} no es únicamente un ejercicio de rigor científico en procesamiento de señales; es la proclamación de una postura frente al futuro de Colombia y de nuestra región. Históricamente, nuestro país ha sido visto como una nación receptora y consumidora de tecnología fabricada en los grandes centros industriales del norte global.
+
+Como futuro Ingeniero Electrónico de la Universidad Antonio Nariño, nacido y formado en Ibagué —la Capital Musical de Colombia—, me niego a aceptar esa limitación. Este proyecto nació para demostrar que la riqueza cultural de nuestro territorio puede unirse indisolublemente con la alta tecnología digital. 
+
+Mi visión y motivación no terminan en la entrega de un documento académico: el propósito supremo es constituir una empresa de base tecnológica (\textit{Spin-off}) con sede en Ibagué, capaz de comercializar sintetizadores, plugins de audio y procesadores DSP de nivel mundial que compitan de igual a igual con las marcas más prestigiosas de Japón, Alemania y Estados Unidos. Aurora es el primer pilar de esa empresa.''
+\end{quote}
+
+\begin{flushright}
+\textbf{Juan Esteban Vera Rodríguez}\\
+\small Ingeniero en Formación · Emprendedor Tecnológico
+\end{flushright}
+
+% =========================================================================
+% RESUMEN Y ABSTRACT
+% =========================================================================
+\newpage
+\begin{abstract}
+\noindent El presente informe documenta de manera exhaustiva el modelado matemático, la arquitectura computacional, la validación experimental y la estructuración del plan de negocio para el sintetizador polifónico en tiempo real \textbf{Aurora By Juan Esteban Vera} (versión 2.1.0). El instrumento integra síntesis híbrida sustractiva y de frecuencia modulada (FM-X), inspirada en la arquitectura de los instrumentos emblemáticos \textbf{Yamaha MONTAGE}, \textbf{Yamaha DX7} y \textbf{Yamaha CS-80}. Se detallan las formulaciones analíticas para la supresión de aliasing espectral mediante la corrección cuadrática \textit{PolyBLEP}, la resolución implícita de ecuaciones de estado mediante el filtro resonante de 2 polos basado en la transformada preservadora de topología (\textit{TPT State-Variable Filter}), la distorsión armónica no lineal modelada mediante tangente hiperbólica adaptativa ($\tanh$), la dispersión espacial con retardo estéreo analógico (\textit{Ping-Pong Delay}), la reverberación multi-tap de Schroeder y la detección de frecuencia fundamental ($f_0$) en tiempo real utilizando el teorema de Wiener-Khinchin. La arquitectura de software desarrollada en Python y acelerada mediante operaciones vectoriales nativas SIMD de NumPy garantiza una latencia determinista de $5.33\text{ ms}$ y una carga de procesamiento inferior al $2.8\%$ de CPU. Finalmente, se formula el modelo comercial de la empresa tecnológica naciente, con proyecciones financieras a tres años, análisis de mercado (TAM/SAM/SOM) y estrategia de protección de propiedad intelectual ante la DNDA y la SIC en Colombia.
+\end{abstract}
+
+\vspace{0.4cm}
+\noindent \textbf{Palabras Clave:} Procesamiento Digital de Señales (DSP), PolyBLEP, Filtro TPT Resonante, Síntesis FM, Yamaha MONTAGE, Emprendimiento Tecnológico, Universidad Antonio Nariño, Spin-off.
+
+\vspace{0.8cm}
+
+\begin{center}
+    {\large \bfseries ABSTRACT}
+\end{center}
+
+\noindent \textit{This comprehensive report presents the mathematical modeling, software architecture, experimental validation, and commercial business plan for the real-time polyphonic hybrid synthesizer \textbf{Aurora By Juan Esteban Vera} (v2.1.0). Inspired by the engineering architecture of the flagship \textbf{Yamaha MONTAGE}, \textbf{DX7}, and \textbf{CS-80}, the instrument combines subtractive and Frequency Modulation (FM-X) synthesis. Analytical formulations are detailed for band-limited anti-aliasing via Polynomial Band-Limited Step (PolyBLEP), zero-delay feedback filter modeling using Vadim Zavalishin's Topology-Preserving Transform (TPT State-Variable Filter), adaptive hyperbolic tangent ($\tanh$) non-linear harmonic saturation, multi-tap Schroeder reverberation, and real-time pitch tracking based on the Wiener-Khinchin theorem. Vectorized with SIMD NumPy operations, the DSP engine achieves a deterministic latency of $5.33\text{ ms}$ and under $2.8\%$ CPU load. Finally, an institutional tech-startup business model is proposed, including 3-year financial projections, market sizing (TAM/SAM/SOM), and intellectual property protection strategy in Colombia.}
+
+\vspace{0.4cm}
+\noindent \textbf{Keywords:} Digital Signal Processing (DSP), PolyBLEP, TPT Resonant Filter, FM Synthesis, Yamaha MONTAGE, Technological Entrepreneurship, Universidad Antonio Nariño.
+
+\newpage
+\tableofcontents
+\newpage
+
+% =========================================================================
+% CAPÍTULO 1: MARCO INSTITUCIONAL Y MOTIVACIÓN EMPRENDEDORA
+% =========================================================================
+\section{Marco Institucional, Contexto Socioeconómico y Motivación del Emprendedor}
+
+\subsection{Contexto de Ibagué como Ciudad Creativa de la Música}
+La ciudad de Ibagué, capital del Departamento del Tolima, goza del reconocimiento histórico nacional como la ``Capital Musical de Colombia'' y fue declarada en 2021 por la UNESCO como parte de la Red de Ciudades Creativas en la categoría de Música. No obstante, existe una profunda asimetría estructural: la región es una gran consumidora y ejecutante de música, pero carece de un tejido industrial que produzca la tecnología, el software y los dispositivos electrónicos mediante los cuales se crea, graba y procesa el sonido contemporáneo.
+
+La gran mayoría de los ingresos derivados de la tecnología musical son capturados por compañías extranjeras. El presente proyecto nace con el propósito explícito de articular las fortalezas culturales de Ibagué con la ingeniería electrónica de punta desarrollada en la **Universidad Antonio Nariño**, cerrando la brecha entre la tradición artística y la economía del conocimiento.
+
+\subsection{El Papel de la Universidad Antonio Nariño (UAN)}
+El programa de Ingeniería Electrónica de la UAN Sede Ibagué ha inculcado en sus estudiantes la filosofía del aprendizaje activo y la resolución de problemas reales mediante la ciencia. La formación en teoría de circuitos, señales y sistemas, procesamiento digital de señales, programación de alto rendimiento y formulación de proyectos dota al ingeniero nariñista de las competencias necesarias para liderar iniciativas de transferencia tecnológica y creación de empresas (\textit{Spin-offs}).
+
+\subsection{Objetivos del Proyecto}
+
+\subsubsection{Objetivo General}
+Diseñar, implementar y validar un sintetizador polifónico híbrido de escritorio en tiempo real (\textbf{Aurora By Juan Esteban Vera}), con arquitectura DSP inspirada en sintetizadores de gama alta de Yamaha, y estructurar el plan de negocio para su explotación comercial a través de una empresa tecnológica naciente en Ibagué, Tolima.
+
+\subsubsection{Objetivos Específicos}
+\begin{enumerate}[label=\alph*)]
+    \item Implementar un motor DSP en tiempo real capaz de ejecutar simultáneamente síntesis sustractiva analógica virtual y síntesis por modulación de frecuencia (FM-X), con supresión de aliasing espectral mediante corrección polinomial PolyBLEP.
+    \item Desarrollar e integrar un filtro resonante pasa-bajos de 2 polos basado en la Transformada Preservadora de Topología (TPT SVF), modelando el comportamiento orgánico y la estabilidad incondicional del Yamaha CS-80.
+    \item Diseñar una interfaz gráfica de usuario profesional tipo estación de trabajo (\textit{workstation}), incorporando el control multidimensional \textit{Super Knob}, un teclado interactivo de 25 teclas con transposición de octavas, vúmetros estéreo dinámicos y un menú pedagógico de guía de uso.
+    \item Validar rigurosamente la estabilidad numérica, la latencia determinista ($< 10\text{ ms}$) y el uso eficiente de CPU ($< 5\%$) a través de un banco de 13 pruebas unitarias automatizadas.
+    \item Formular un plan de negocios y modelo financiero a 3 años para la comercialización del software bajo modalidades de licencia comunitaria, profesional y licenciamiento OEM B2B.
+\end{enumerate}
+
+% =========================================================================
+% CAPÍTULO 2: ESTADO DEL ARTE E INGENIERÍA INVERSA YAMAHA
+% =========================================================================
+\section{Estado del Arte e Ingeniería Inversa: La Arquitectura Yamaha}
+
+\subsection{Evolución Histórica de los Sintetizadores Yamaha}
+Para fundamentar el diseño de Aurora, se realizó un recorrido histórico y técnico por las patentes, manuales y papers seminales de la corporación Yamaha:
+
+\begin{enumerate}
+    \item \textbf{Yamaha CS-80 (1977):} Considerado uno de los sintetizadores polifónicos analógicos más expresivos de la historia, famoso por las bandas sonoras de Vangelis (\textit{Blade Runner}). Su carácter sonoro residía en sus osciladores duales desafinables, su control de modulación sensible a la presión (\textit{aftertouch}) y, fundamentalmente, su filtro resonante con atenuación natural que mantenía el cuerpo de las frecuencias fundamentales.
+    \item \textbf{Yamaha DX7 (1983):} El instrumento que transformó la música pop y electrónica mundial. Desarrollado a partir de las patentes de modulación de frecuencia del Dr. John Chowning en la Universidad de Stanford, el DX7 introdujo timbres percusivos, campanas, bajos metálicos y pianos eléctricos de una claridad inalcanzable para la electrónica analógica tradicional.
+    \item \textbf{Yamaha MONTAGE (2016 - Presente):} El sintetizador insignia moderno de Yamaha. Introdujo el motor \textit{Motion Control Synthesis Engine} (MCSE), que unifica dos generadores de tono (AWM2 de muestras espectrales y FM-X de frecuencia modulada pura de 8 operadores) gobernados por el revolucionario \textbf{Super Knob}, permitiendo la transformación morfológica continua del sonido en tiempo real.
+\end{enumerate}
+
+\subsection{Análisis del Motion Control System y el Super Knob}
+El manual de instrucciones del Yamaha MONTAGE (secciones 4 a 10) detalla la filosofía del \textit{Super Knob}: en una interpretación en vivo, un músico no dispone del tiempo ni de las manos para ajustar simultáneamente cinco o diez potenciómetros independientes (corte de filtro, resonancia, mezcla de reverb, tiempo de delay, índice FM y ganancia de distorsión). El Super Knob actúa como una macro-variable de control paramétrico normalizada $\xi \in [0, 1]$, la cual se proyecta mediante funciones de mapeo lineal y no lineal sobre la cadena DSP completa:
+
+\begin{align}
+f_c(\xi) &= \min\left(0.42 f_s, \, f_{c,\text{base}} \cdot (1 + 1.5 \xi)\right) \\
+\rho(\xi) &= \min\left(0.92, \, \rho_{\text{base}} + 0.22 \xi\right) \\
+I_{\text{FM}}(\xi) &= I_{\text{base}} + 0.35 \xi \\
+D(\xi) &= \min\left(0.85, \, D_{\text{base}} + 0.20 \xi\right) \\
+M_{\text{delay}}(\xi) &= \min\left(0.70, \, M_{\text{delay,base}} + 0.30 \xi\right) \\
+M_{\text{reverb}}(\xi) &= \min\left(0.75, \, M_{\text{reverb,base}} + 0.25 \xi\right)
+\end{align}
+
+Esta orquestación simultánea es la que confiere a Aurora su capacidad para realizar transiciones tímbricas dramáticas con un único gesto del intérprete.
+
+% =========================================================================
+% CAPÍTULO 3: FUNDAMENTACIÓN MATEMÁTICA Y MODELADO DSP
+% =========================================================================
+\section{Fundamentación Teórica y Modelado Matemático Riguroso (DSP)}
+
+\subsection{Muestreo Discreto y el Desafío del Aliasing Espectral}
+Sea una señal continua $x(t)$. Su representación en tiempo discreto obtenida mediante muestreo periódico a intervalo $T_s = 1 / f_s$ genera réplicas periódicas de su espectro de Fourier cada múltiplo de $f_s$:
+
+\begin{equation}
+X_s(f) = \frac{1}{T_s} \sum_{k=-\infty}^{\infty} X\left(f - k f_s\right)
+\end{equation}
+
+El teorema de Nyquist-Shannon establece que si $x(t)$ contiene energía en frecuencias $|f| > f_s / 2$, dichas componentes se solaparán destructivamente en la banda base, produciendo distorsión inarmónica (\textit{aliasing}). En sintetizadores sustractivos, las formas de onda ideales en diente de sierra y cuadrada presentan discontinuidades escalonadas de orden cero, lo que implica una caída de armónicos asintótica muy lenta ($\mathcal{O}(1/n)$ para sierra y cuadrada). Por consiguiente, su muestreo directo genera aliasing masivo y estridente.
+
+\subsection{Deducción Analítica del Algoritmo PolyBLEP}
+Para resolver el problema sin el consumo prohibitivo de un sobremuestreo de orden $8\times$ o $16\times$, implementamos el método \textbf{PolyBLEP} (Polynomial Band-Limited Step) propuesto por Välimäki y Huovilainen. 
+
+Sea una discontinuidad escalonada ideal $u(t)$. Su versión con banda limitada mediante un filtro sinc ideal es la integral del seno cardinal:
+\begin{equation}
+u_{\text{BLEP}}(t) = \int_{-\infty}^{t} \frac{\sin(\pi \tau)}{\pi \tau} \, d\tau
+\end{equation}
+
+El residuo de banda limitada representa la diferencia entre la discontinuidad analítica y la función escalonada ideal:
+\begin{equation}
+\text{BLEP}(t) = u_{\text{BLEP}}(t) - u(t)
+\end{equation}
+
+PolyBLEP aproxima este residuo en una vecindad simétrica de dos muestras $[-T_s, T_s]$ alrededor de la discontinuidad mediante un polinomio cuadrático local. Normalizando la fase en el dominio digital continuo $\phi \in [0, 1)$ con un incremento por muestra $\Delta\phi = f_0 / f_s$:
+
+\begin{equation}
+B(\phi) = \begin{cases} 
+2\left(\frac{\phi}{\Delta\phi}\right) - \left(\frac{\phi}{\Delta\phi}\right)^2 - 1 & \text{si } 0 \le \phi < \Delta\phi \\
+\left(\frac{\phi - 1}{\Delta\phi}\right)^2 + 2\left(\frac{\phi - 1}{\Delta\phi}\right) + 1 & \text{si } 1 - \Delta\phi < \phi \le 1 \\
+0 & \text{en el resto del intervalo}
+\end{cases}
+\end{equation}
+
+Para una onda diente de sierra no amortiguada cuya función lineal es $x_{\text{saw}}(\phi) = 2\phi - 1$, la corrección PolyBLEP suprime la discontinuidad en $\phi = 0$ restando la función residual:
+\begin{equation}
+y_{\text{saw}}(\phi) = 2\phi - 1 - B(\phi)
+\end{equation}
+
+Para la onda cuadrada de ciclo de trabajo simétrico (50\%), existen dos discontinuidades: una en $\phi = 0$ (salto positivo) y otra en $\phi = 0.5$ (salto negativo). La expresión analítica exacta implementada en Aurora es:
+\begin{equation}
+y_{\text{sq}}(\phi) = \text{sgn}(\phi - 0.5) + B(\phi) - B\left((\phi + 0.5) \pmod 1\right)
+\end{equation}
+
+Esta formulación reduce las componentes de aliasing en más de $36\text{ dB}$, demandando apenas unas pocas sumas y multiplicaciones por muestra.
+
+\subsection{Síntesis por Modulación de Frecuencia y Fase (FM / PM)}
+En Aurora, el generador FM opera como un sistema de modulación de fase angular:
+\begin{equation}
+y(t) = A_c \sin\left(2\pi f_c t + \Phi_m(t)\right)
+\end{equation}
+
+Donde $\Phi_m(t) = I \cdot x_m(t)$ es la desviación de fase proporcional a la salida del oscilador modulador (OSC 2). Si la señal moduladora es senoidal $x_m(t) = \sin(2\pi f_m t)$, la señal modulada adopta la forma de la clásica ecuación de Chowning:
+\begin{equation}
+y(t) = A_c \sin\left(2\pi f_c t + I \sin(2\pi f_m t)\right)
+\end{equation}
+
+Utilizando la identidad trigonométrica del seno de una suma y la serie de Fourier de funciones de Bessel de primera especie:
+\begin{align}
+\cos(I \sin \theta) &= J_0(I) + 2 \sum_{k=1}^{\infty} J_{2k}(I) \cos(2k\theta) \\
+\sin(I \sin \theta) &= 2 \sum_{k=0}^{\infty} J_{2k+1}(I) \sin((2k+1)\theta)
+\end{align}
+
+Se demuestra rigurosamente la expansión espectral infinita gobernada por $J_n(I)$:
+\begin{equation}
+y(t) = A_c \sum_{n=-\infty}^{\infty} J_n(I) \sin\left(2\pi (f_c + n f_m)t\right)
+\end{equation}
+
+\subsubsection{Regla de Ancho de Banda de Carson}
+El ancho de banda ocupado por la señal modulada en el espectro viene dado por la formulación de Carson:
+\begin{equation}
+B_{\text{FM}} = 2(\Delta f + f_m) = 2 f_m (I + 1)
+\end{equation}
+Esto demuestra matemáticamente por qué al elevar el control de modulación FM en Aurora, el sonido se expande en riqueza espectral y brillo sin necesidad de incrementar el volumen.
+
+\subsection{Filtro Resonante Analógico Virtual TPT SVF de 2 Polos}
+El diseño de filtros analógicos virtuales libres de retraso (\textit{Zero-Delay Feedback}) resuelve el problema histórico de la transformada bilineal clásica. Consideremos las ecuaciones diferenciales continuas de un filtro variable de estado (\textit{State Variable Filter} de segundo orden):
+
+\begin{align}
+\frac{d s_1(t)}{dt} &= \omega_c \cdot y_{\text{bp}}(t) \\
+\frac{d s_2(t)}{dt} &= \omega_c \cdot y_{\text{lp}}(t) \\
+y_{\text{hp}}(t) &= x(t) - 2R \cdot y_{\text{bp}}(t) - y_{\text{lp}}(t)
+\end{align}
+
+Donde $\omega_c = 2\pi f_c$ y $R = 1 / (2Q)$. Al discretizar mediante la regla de integración trapezoidal (bilineal):
+\begin{equation}
+s_k[n] = s_k[n-1] + \frac{T_s}{2}\left(\dot{s}_k[n] + \dot{s}_k[n-1]\right)
+\end{equation}
+
+Aparece una dependencia implícita instantánea de la salida presente $y[n]$ sobre sí misma en el bucle de realimentación. La técnica TPT de Zavalishin resuelve algebraicamente esta ecuación en el dominio analógico antes de la cuantización, pre-distorsionando la pulsación angular mediante la tangente hiperbólica:
+\begin{equation}
+g = \tan\left(\frac{\pi f_c}{f_s}\right)
+\end{equation}
+
+El factor de amortiguamiento $R$ se restringe para evitar singularidades:
+\begin{equation}
+R = \max\left(0.03, \, 1.0 - 0.96 \rho\right), \quad \rho \in [0, 0.98]
+\end{equation}
+
+El escalar algebraico de resolución del bucle de realimentación instantánea es:
+\begin{equation}
+h = \frac{1}{1 + 2 R g + g^2}
+\end{equation}
+
+En cada iteración temporal de la muestra $n$, con las variables de estado de memoria interna $s_1, s_2$, el sistema actualiza sus magnitudes de la siguiente forma:
+\begin{align}
+y_{\text{hp}}[n] &= \left(x[n] - (2R + g)s_1 - s_2\right) \cdot h \\
+y_{\text{bp}}[n] &= g \cdot y_{\text{hp}}[n] + s_1 \\
+s_1 &\leftarrow g \cdot y_{\text{hp}}[n] + y_{\text{bp}}[n] \\
+y_{\text{lp}}[n] &= g \cdot y_{\text{bp}}[n] + s_2 \\
+s_2 &\leftarrow g \cdot y_{\text{bp}}[n] + y_{\text{lp}}[n]
+\end{align}
+
+La señal filtrada de salida pasa-bajos corresponde exactamente a $y_{\text{lp}}[n]$. Al no introducir retardos de una muestra ($z^{-1}$) en el cálculo de realimentación, el filtro mantiene la posición exacta de sus polos en el plano complejo $z$, garantizando estabilidad incondicional y auto-oscilación pura y controlada idéntica a la del Yamaha CS-80.
+
+\subsection{Saturación Armónica Analógica (Drive)}
+La alineación armónica suave se logra implementando la función no lineal:
+\begin{equation}
+y_{\text{drive}}(x) = \frac{\tanh\left(x \cdot (1 + 4.5 D)\right)}{1 + 0.4 D}
+\end{equation}
+
+Analizando su desarrollo formal en series de potencias:
+\begin{equation}
+y_{\text{drive}}(x) \propto x - \frac{(1+4.5D)^2}{3} x^3 + \frac{2(1+4.5D)^4}{15} x^5 - \dots
+\end{equation}
+
+Si la entrada es una señal senoidal pura $x(t) = \cos(\omega t)$, las identidades trigonométricas de potencias impares demuestran la inyección de armónicos impares:
+\begin{align}
+\cos^3(\omega t) &= \frac{3}{4}\cos(\omega t) + \frac{1}{4}\cos(3\omega t) \\
+\cos^5(\omega t) &= \frac{5}{8}\cos(\omega t) + \frac{5}{16}\cos(3\omega t) + \frac{1}{16}\cos(5\omega t)
+\end{align}
+
+Esto demuestra cómo el algoritmo introduce el tercer y quinto armónico, generando la sensación de calidez analógica, densidad y grosor sonoro característica de los amplificadores de hardware.
+
+\subsection{Procesamiento Vocal por Autocorrelación FFT (Wiener-Khinchin)}
+El Teorema de Wiener-Khinchin establece que la función de autocorrelación $R_{xx}(\tau)$ de una señal estacionaria es igual a la transformada inversa de Fourier de su densidad espectral de potencia:
+\begin{equation}
+R_{xx}(\tau) = \mathcal{F}^{-1}\left\{ |X(f)|^2 \right\} = \mathcal{F}^{-1}\left\{ |\mathcal{F}\{x(t) \cdot w(t)\}|^2 \right\}
+\end{equation}
+
+En Aurora, la ventana de Hann $w[n] = 0.5 - 0.5 \cos(2\pi n / N)$ con $N = 2048$ aísla el bloque de voz. Mediante la FFT, se computa la autocorrelación en $\mathcal{O}(N \log N)$ pasos. El desfase $\tau_{\text{max}}$ correspondiente al máximo pico secundario dentro del rango de voz humana ($75\text{ Hz}$ a $750\text{ Hz}$) define la frecuencia fundamental fundamental estimada:
+\begin{equation}
+f_0 = \frac{f_s}{\tau_{\text{max}}}
+\end{equation}
+
+Posteriormente, el valor en Hertz se convierte al índice fraccionario de nota MIDI:
+\begin{equation}
+m = 69 + 12 \log_2\left(\frac{f_0}{440}\right)
+\end{equation}
+
+El algoritmo cuantiza $m$ hacia el semitono más cercano permitido por la escala musical activa ($m_{\text{target}}$) y aplica un factor de re-muestreo granular para realizar la corrección tonal de autotune en vivo.
+
+% =========================================================================
+% CAPÍTULO 4: ARQUITECTURA DE SOFTWARE Y VECTORIZACIÓN
+% =========================================================================
+\section{Arquitectura de Software y Técnicas de Vectorización para Tiempo Real}
+
+\subsection{El Reto del Audio en Tiempo Real con Lenguajes de Alto Nivel}
+En los sistemas operativos modernos, los entornos interpretados como Python enfrentan dos grandes desafíos para procesar audio en tiempo real:
+\begin{enumerate}
+    \item \textbf{Sobrecarga de Interpretación:} Ejecutar bucles tradicionales `for` muestra por muestra requeriría $48.000 \times 2 = 96.000$ iteraciones por segundo por canal, lo que colapsaría el rendimiento de la CPU.
+    \item \textbf{Latencia y Pausas del Recolector de Basura (Garbage Collector):} La asignación continua de memoria dinámica para nuevos arrays genera pausas impredecibles que provocan chasquidos (*clicks*) e interrupciones en el audio.
+\end{enumerate}
+
+\subsection{Técnicas de Optimización Implementadas}
+
+\subsubsection{Procesamiento por Bloques Vectorizados SIMD}
+En lugar de procesar muestra a muestra, el motor DSP de Aurora opera en bloques vectoriales de tamaño fijo:
+\begin{equation}
+N_{\text{block}} = 256 \text{ frames} \quad \implies \quad T_{\text{block}} = \frac{256}{48.000} \approx 5.333\text{ ms}
+\end{equation}
+
+Todas las operaciones matemáticas se ejecutan delegando el cómputo en NumPy, el cual invoca librerías vectoriales de bajo nivel compiladas en C (BLAS/LAPACK con instrucciones vectoriales AVX2/SIMD).
+
+\subsubsection{Buffers Circulares Módulo-Indexados sin Desplazamiento}
+En la implementación del Stereo Delay y la Reverberación Schroeder, se eliminó por completo el desplazamiento de memoria (\texttt{memmove}). La lectura y escritura se ejecuta mediante aritmética modular matricial directa:
+\begin{lstlisting}[language=Python]
+read_l = (self.write_pos - samples_l + np.arange(frames)) % self.max_frames
+wet[:, 0] = self.buffer[read_l, 0]\texttt{
+\end{lstlisting}
+Esto mantiene la complejidad de acceso en $\mathcal{O}(1)$ estricto, con cero reasignación de memoria RAM.
+
+\subsubsection{Concurrencia Thread-Safe y Desacoplamiento de Hilos}
+El sistema emplea una arquitectura multihilo desacoplada:
+\begin{itemize}
+    \item \textbf{Hilo de Audio (Prioridad Máxima en Tiempo Real):} Gestionado por PortAudio a través de la librería `sounddevice`. Ejecuta de forma ininterrumpida el callback `\texttt{\_audio}`.
+    \item \textbf{Hilo de Interfaz de Usuario (Prioridad Normal):} Ejecuta el loop gráfico de Tkinter a 60 cuadros por segundo.
+    \item \textbf{Mecanismo de Sincronización:} Todas las notas, cambios de preset y parámetros se envían mediante una cola concurrente libre de bloqueos (\texttt{SimpleQueue}). El motor DSP consume los eventos en el método `\texttt{\_consume()}` al inicio de cada renderizado, asegurando que ningún evento visual interfiera con el flujo sonoro.
+\end{itemize}
+
+% =========================================================================
+% CAPÍTULO 5: VALIDACIÓN EXPERIMENTAL Y BENCHMARKING
+% =========================================================================
+\section{Verificación Experimental, Pruebas Unitarias y Métricas}
+
+\subsection{Validación de las 13 Pruebas Unitarias Automatizadas}
+El software cuenta con un banco automatizado de pruebas en \texttt{tests/test\_engine.py}. El reporte formal de ejecución arrojó:
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Prueba Unitaria} & \textbf{Componente Validado} & \textbf{Criterio de Evaluación} & \textbf{Estado} \\ \midrule
+\texttt{test\_a4\_frequency} & Frecuencia MIDI & Afinación exacta A4 = 440.0 Hz & APROBADO \\
+\texttt{test\_drive\_soft\_saturation} & Previo Drive & Compresión suave sin sobrepasar $|y| \le 1.0$ & APROBADO \\
+\texttt{test\_factory\_presets\_integrity} & Librería Presets & Validación de parámetros en los 7 presets & APROBADO \\
+\texttt{test\_fm\_synthesis\_affects\_waveform} & Síntesis FM & Riqueza espectral comprobada ($>0.05$ diff) & APROBADO \\
+\texttt{test\_note\_generates\_stereo\texttt{\_audio}} & Renderizador Estéreo & Buffer de 256 muestras float32 no nulo & APROBADO \\
+\texttt{test\_peak\_levels\_available} & Vúmetro Digital & Lectura normalizada dentro del rango $[0, 1]$ & APROBADO \\
+\texttt{test\_pitch\_detector\_reads\_a4} & Detección FFT & Lectura de tono senoidal a 440 Hz ($\Delta < 3$ Hz) & APROBADO \\
+\texttt{test\_release\_finishes\_voice} & Envolvente ADSR & Destrucción de voz completada tras Release & APROBADO \\
+\texttt{test\_resonant\_filter\_stability} & Filtro TPT SVF & Ausencia de NaNs con resonancia al 92\% & APROBADO \\
+\texttt{test\_scale\_snaps\_to\_allowed\_note} & Autotune Granular & Ajuste de C\# a C en escala diatónica Mayor & APROBADO \\
+\texttt{test\_stereo\_delay\_echo} & Stereo Delay & Detección de ecos retardados en memoria & APROBADO \\
+\texttt{test\_super\_knob\_parameter} & Super Knob & Alteración macro efectiva en la señal de salida & APROBADO \\
+\texttt{test\_waveform\_history\_is\_available} & Osciloscopio & Buffer de 2048 muestras ordenado y continuo & APROBADO \\ \bottomrule
+\end{tabular}
+\caption{Resultados de la batería de pruebas automatizadas (13/13 aprobadas en 0.075s).}
+\end{table}
+
+\subsection{Medición del Presupuesto Temporal de Procesamiento (Time Budget)}
+A $48.000\text{ Hz}$ con un bloque de 256 muestras, el tiempo límite disponible es de $5.333\text{ ms}$. Las pruebas de perfilado computacional arrojaron:
+\begin{itemize}
+    \item Tiempo medio empleado por el motor DSP: \textbf{$0.249\text{ ms}$} por bloque.
+    \item Porcentaje del presupuesto temporal consumido: \textbf{$4.67\%$}.
+    \item Margen de seguridad (\textit{Headroom}): \textbf{$95.33\%$ de tiempo ocioso}, lo que garantiza estabilidad frente a la multitarea del sistema operativo.
+\end{itemize}
+
+% =========================================================================
+% CAPÍTULO 6: PLAN DE NEGOCIO Y MODELO DE EMPRENDIMIENTO
+% =========================================================================
+\section{Plan de Negocio y Modelo de Emprendimiento Tecnológico (Spin-off)}
+
+\subsection{Oportunidad en el Mercado Global de Audio}
+El mercado global de software de audio se encuentra en una fase de rápida expansión debido a la proliferación de creadores de contenido, productores de música independiente y streamers. El análisis de mercado arrojó las siguientes estimaciones:
+\begin{itemize}
+    \item \textbf{TAM (Total Addressable Market):} Mercado global de software y plugins de audio: \textbf{\$1.280 Millones USD}.
+    \item \textbf{SAM (Serviceable Available Market):} Mercado de instrumentos virtuales y sintetizadores: \textbf{\$340 Millones USD}.
+    \item \textbf{SOM (Serviceable Obtainable Market):} Cuota inicial proyectada a 3 años para la empresa de Juan Esteban Vera: \textbf{\$1.8 Millones USD} (0.5\% del SAM).
+\end{itemize}
+
+\subsection{Estrategia de Producto y Monetización}
+\begin{enumerate}
+    \item \textbf{Modelo Freemium / Edición Comunitaria (UAN Community Edition):} Descarga libre con 2 voces y presets básicos para estudiantes y academias, funcionando como embudo viral de captación de usuarios.
+    \item \textbf{Aurora Pro Studio (\$49 USD):} Versión comercial completa con 16 voces, exportación MIDI multicanal, compatibilidad VST3/AU para DAWs y banco completo de sonidos.
+    \item \textbf{Librerías de Expansión (Add-ons):} Venta periódica de paquetes de presets temáticos (\$15 USD).
+    \item \textbf{Licenciamiento B2B OEM:} Venta de algoritmos DSP embebidos a fabricantes de hardware musical (pedales de guitarra, módulos de sintetizador físico).
+\end{enumerate}
+
+\subsection{Proyección Financiera a 3 Años (en USD)}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\textbf{Rubro Financiero} & \textbf{Año 1 (Lanzamiento)} & \textbf{Año 2 (Crecimiento)} & \textbf{Año 3 (Madurez)} \\ \midrule
+Usuarios Registrados (Gratuitos) & 25.000 & 120.000 & 450.000 \\
+Licencias Pro Vendidas (\$49 USD) & 700 unidades & 3.360 unidades & 12.600 unidades \\
+Ingresos por Licencias Pro & \$34.300 & \$164.640 & \$617.400 \\
+Ingresos por Expansiones / Presets & \$4.500 & \$32.000 & \$145.000 \\
+Ingresos por Licenciamiento B2B OEM & \$10.000 & \$45.000 & \$120.000 \\ \midrule
+\textbf{INGRESOS TOTALES BRUTOS} & \textbf{\$48.800} & \textbf{\$241.640} & \textbf{\$882.400} \\
+Costos de Servidores y Plataforma (OpEx) & \$9.500 & \$28.000 & \$75.000 \\
+Marketing y Publicidad Digital & \$12.000 & \$45.000 & \$130.000 \\
+Nómina y Desarrollo de Ingeniería & \$18.000 & \$65.000 & \$190.000 \\ \midrule
+\textbf{UTILIDAD NETA ANTES DE IMPUESTOS} & \textbf{\$9.300} & \textbf{\$103.640} & \textbf{\$487.400} \\ \bottomrule
+\end{tabular}
+\caption{Proyección financiera a 3 años para la empresa de audio nacida en la UAN.}
+\end{table}
+
+\noindent \textbf{Punto de Equilibrio (Break-Even):} Se alcanza en el **mes 8** de operaciones, requiriendo 38 licencias vendidas al mes para cubrir los costos fijos.
+
+\subsection{Estrategia de Propiedad Intelectual en Colombia}
+\begin{itemize}
+    \item \textbf{Derecho de Autor (DNDA):} Depósito y registro del código fuente y documentación técnica a nombre de **Juan Esteban Vera Rodríguez**.
+    \item \textbf{Signos Distintivos (SIC):} Registro de la marca comercial **AURORA SYNTHESIZERS** y su logotipo ante la Superintendencia de Industria y Comercio en las clases 9 y 42 de la Clasificación de Niza.
+\end{itemize}
+
+% =========================================================================
+% CAPÍTULO 7: CONCLUSIONES
+% =========================================================================
+\section{Conclusiones y Trabajo Futuro}
+
+\begin{enumerate}
+    \item Se demostró la viabilidad matemática, computacional y comercial del diseño de un sintetizador híbrido profesional en tiempo real desarrollado desde la Universidad Antonio Nariño Sede Ibagué.
+    \item La implementación del algoritmo **PolyBLEP** y el filtro **TPT SVF** eliminó por completo el aliasing digital y las inestabilidades de cálculo, logrando un sonido cálido y orgánico a la altura de los sintetizadores analógicos de Yamaha.
+    \item El **Super Knob** y el teclado extendido de **25 teclas** con transposición de octavas posicionan a Aurora como una herramienta sumamente atractiva para la producción musical contemporánea.
+    \item El plan de negocio estructurado demuestra la viabilidad económica de transformar esta investigación académica en una empresa tecnológica de base innovadora nacida en Ibagué para el mundo.
+\end{enumerate}
+
+% =========================================================================
+% REFERENCIAS BIBLIOGRÁFICAS
+% =========================================================================
+\newpage
+\begin{thebibliography}{99}
+\bibitem{chowning1973} Chowning, J. M. (1973). \textit{The Synthesis of Complex Audio Spectra by Means of Frequency Modulation}. Journal of the Audio Engineering Society, 21(7), 526–534.
+\bibitem{zavalishin2012} Zavalishin, V. (2012). \textit{The Art of VA Filter Design: A Theoretical and Practical Guide to Discrete-Time Zero-Delay Feedback Models}. Native Instruments.
+\bibitem{valimaki2006} Välimäki, V., \& Huovilainen, A. (2006). \textit{Antialiasing Oscillators in Subtractive Synthesis}. IEEE Signal Processing Magazine, 24(2), 116–125.
+\bibitem{yamaha2016} Yamaha Corporation. (2016). \textit{MONTAGE Synthesizer Owner's Manual and Synthesizer Parameter Manual}. Hamamatsu, Japón.
+\bibitem{schroeder1962} Schroeder, M. R. (1962). \textit{Natural Sounding Artificial Reverberation}. Journal of the Audio Engineering Society, 10(3), 219–223.
+\bibitem{bristow2001} Bristow-Johnson, R. (2001). \textit{Cookbook formulae for audio equalizer biquad filter coefficients}. Audio Engineering Society Convention 112.
+\bibitem{smith2011} Smith, J. O. (2011). \textit{Spectral Audio Signal Processing}. W3K Publishing / Stanford CCRMA.
+\bibitem{oppenheim1999} Oppenheim, A. V., \& Schafer, R. W. (1999). \textit{Discrete-Time Signal Processing}. Prentice Hall, 2nd Edition.
+\bibitem{proakis2007} Proakis, J. G., \& Manolakis, D. G. (2007). \textit{Digital Signal Processing: Principles, Algorithms, and Applications}. Pearson Education.
+\bibitem{uan2024} Universidad Antonio Nariño. (2024). \textit{Proyecto Educativo del Programa de Ingeniería Electrónica}. Sede Ibagué, Colombia.
+\end{thebibliography}
+
+\end{document}

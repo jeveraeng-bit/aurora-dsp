@@ -1,0 +1,167 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{geometry}
+\geometry{left=2.5cm, right=2.5cm, top=2.8cm, bottom=2.8cm}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+% Paleta institucional UAN
+\definecolor{uanblue}{RGB}{0, 45, 98}
+\definecolor{uancyan}{RGB}{0, 140, 200}
+\definecolor{accentgreen}{RGB}{0, 160, 120}
+\definecolor{darkgray}{RGB}{60, 64, 70}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=uanblue,
+    citecolor=uancyan,
+    urlcolor=uancyan,
+    pdftitle={Aurora By Juan Esteban Vera - Dossier Maestro de Entrega UAN},
+    pdfauthor={Juan Esteban Vera Rodriguez}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small \textcolor{uanblue}{\textbf{Universidad Antonio Nariño}} · Sede Ibagué · Ingeniería Electrónica}
+\fancyhead[R]{\small \textcolor{gray}{Aurora By Juan Esteban Vera · Dossier General}}
+\fancyfoot[L]{\small \textcolor{gray}{Índice Maestro de Entrega Documental en Formato PDF}}
+\fancyfoot[R]{\small \thepage}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\begin{document}
+
+% =========================================================================
+% PORTADA INSTITUCIONAL
+% =========================================================================
+\begin{titlepage}
+    \centering
+    \vspace*{0.5cm}
+    
+    {\scshape\LARGE \textbf{UNIVERSIDAD ANTONIO NARIÑO}}\\[0.3cm]
+    {\scshape\large FACULTAD DE INGENIERÍA · PROGRAMA DE INGENIERÍA ELECTRÓNICA}\\[0.15cm]
+    {\small SEDE IBAGUÉ — CAPITAL MUSICAL DE COLOMBIA}\\[1.5cm]
+    
+    \rule{\linewidth}{1.8pt}\\[0.4cm]
+    {\Huge \bfseries \textcolor{uanblue}{DOSSIER MAESTRO DE ENTREGA}}\\[0.35cm]
+    {\Large \bfseries SINTETIZADOR POLIFÓNICO DSP HÍBRIDO (CS-80 / DX7 / MONTAGE)}\\[0.25cm]
+    {\large \itshape Compendio Institucional de Informes Técnicos, Manuales, Validación y Emprendimiento}\\[0.4cm]
+    \rule{\linewidth}{1.8pt}\\[2.0cm]
+    
+    \begin{minipage}{0.85\textwidth}
+        \large
+        \textbf{Autor y Desarrollador:}\\[0.15cm]
+        \textbf{Juan Esteban Vera Rodríguez}\\
+        Investigador Principal · Estudiante de Ingeniería Electrónica\\
+        Universidad Antonio Nariño · Sede Ibagué\\[0.8cm]
+        
+        \textbf{Dedicación y Agradecimientos:}\\
+        Dedicado con orgullo a la \textbf{Universidad Antonio Nariño (UAN)}\\
+        y a la ciudad de Ibagué, Tolima, Capital Musical de Colombia.\\[0.8cm]
+        
+        \textbf{Estado de Entrega:}\\
+        Dossier 100\% compilado en Formato PDF · Versión Oficial 2.1.0
+    \end{minipage}
+    
+    \vfill
+    {\large Ibagué, Tolima, Colombia · 2026}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+% =========================================================================
+\section{Presentación del Proyecto y Resumen General}
+% =========================================================================
+
+El proyecto \textbf{Aurora By Juan Esteban Vera} representa una innovación integral en la ingeniería de audio digital y el emprendimiento de base tecnológica en Colombia. Desarrollado en el marco del programa de Ingeniería Electrónica de la \textbf{Universidad Antonio Nariño (UAN), Sede Ibagué}, el software constituye una estación de trabajo de síntesis y procesamiento digital de señales (DSP) en tiempo real con modelado analógico virtual, síntesis por modulación de frecuencia (FM-X), control multidimensional \textit{Super Knob}, procesador vocal con corrección tonal asistida (autotune) y secuenciador por pasos.
+
+En cumplimiento estricto del requerimiento institucional, \textbf{la totalidad de los documentos y anexos que componen esta entrega han sido maquetados profesionalmente en \LaTeX{} y compilados formalmente en formato PDF}.
+
+% =========================================================================
+\section{Estructura del Dossier Documental en PDF}
+% =========================================================================
+
+El repositorio formal de entrega se encuentra organizado en las siguientes carpetas temáticas, cada una provista de su documento PDF oficial:
+
+\subsection{1. Documento Maestro: Informe Técnico y de Emprendimiento}
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Archivo PDF:} \texttt{01\_INFORME\_TECNICO\_Y\_EMPRENDIMIENTO/informe\_aurora\_uan.pdf}
+    \item \textbf{Extensión:} 14 páginas completas.
+    \item \textbf{Contenido:} Fundamentación teórica de acústica y DSP, ecuaciones de síntesis sustractiva y FM-X, discretización de filtros TPT SVF con transformada bilineal, algoritmos PolyBLEP, arquitectura de concurrencia \textit{thread-safe} sin bloqueos, visión de emprendimiento para la creación de una empresa de audio (\textit{Spin-off}) en Ibagué, proyección financiera y hoja de ruta.
+\end{itemize}
+
+\subsection{2. Anexo de Código Fuente y Arquitectura DSP}
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Archivo PDF:} \texttt{02\_ANEXOS\_CODIGO\_FUENTE/anexo\_codigo\_fuente\_dsp.pdf}
+    \item \textbf{Extensión:} 10 páginas completas.
+    \item \textbf{Contenido:} Diagramas de arquitectura de software, listados completos y comentados del motor DSP (\texttt{engine.py}), la consola de trabajo (\texttt{app.py}), el procesador vocal y autotune (\texttt{vocal.py}), el catálogo de presets Yamaha (\texttt{presets.py}) y la suite de pruebas unitarias (\texttt{test\_engine.py}). Apto para registro ante la Dirección Nacional de Derecho de Autor (DNDA).
+\end{itemize}
+
+\subsection{3. Anexo: Manual Oficial de Usuario e Interpretación Musical}
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Archivo PDF:} \texttt{03\_ANEXO\_MANUAL\_DE\_USUARIO/manual\_usuario\_aurora.pdf}
+    \item \textbf{Extensión:} 7 páginas completas.
+    \item \textbf{Contenido:} Requisitos del sistema, instrucciones de arranque, guía de interpretación táctil con ratón y teclado de computadora (mapeo de 25 teclas continuas de doble octava), transposición dinámica de octavas, guía de osciladores, filtro CS-80, envolventes ADSR, manual de operación del Super Knob, secuenciador de 16 pasos y módulo de afinación vocal.
+\end{itemize}
+
+\subsection{4. Anexo: Registro de Validación Experimental y Benchmarking DSP}
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Archivo PDF:} \texttt{04\_ANEXO\_VALIDACION\_Y\_METRICAS/informe\_validacion\_benchmark.pdf}
+    \item \textbf{Extensión:} 6 páginas completas.
+    \item \textbf{Contenido:} Certificación de 13 pruebas unitarias aprobadas al 100\% (0.075 s de ejecución), análisis del presupuesto temporal por bloque ($0.249\text{ ms}$ vs $5.33\text{ ms}$, consumo menor al 5\% de CPU), análisis espectral con supresión de aliasing PolyBLEP (SNDR $> 36\text{ dB}$), medición de latencia sub-10 ms ($7.98\text{ ms}$) y certificación en nivel TRL 6.
+\end{itemize}
+
+\subsection{5. Anexo: Plan de Negocio y Modelo Financiero para Startup}
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Archivo PDF:} \texttt{05\_ANEXO\_PLAN\_DE\_NEGOCIO\_Y\_FINANCIERO/plan\_negocio\_startup\_audio.pdf}
+    \item \textbf{Extensión:} 6 páginas completas.
+    \item \textbf{Contenido:} Estudio de mercado internacional (TAM: \$1.280M USD, SAM: \$340M USD, SOM: \$1.8M USD), propuesta de valor frente a plugins comerciales (Serum, Massive X, Pigments), modelo de ingresos (Freemium UAN, Pro Studio \$49 USD, Soundbanks, OEM B2B), balance financiero proyectado a 3 años con utilidades netas, punto de equilibrio en el mes 8, estrategia de patentes/marcas ante la SIC y hoja de ruta a 24 meses.
+\end{itemize}
+
+% =========================================================================
+\section{Tabla Resumen de Archivos Entregados en Formato PDF}
+% =========================================================================
+
+\begin{table}[h!]
+\centering
+\caption{Inventario Oficial de Documentos PDF Entregados.}
+\label{tab:pdf_inventory}
+\vspace{0.2cm}
+{\footnotesize
+\begin{tabular}{llcc}
+\toprule
+\textbf{Código Documental} & \textbf{Nombre del Documento PDF} & \textbf{Páginas} & \textbf{Tamaño} \\
+\midrule
+\textbf{DOS-UAN-000} & \texttt{dossier\_general\_entrega.pdf} & 4 págs. & $\approx 150\text{ KB}$ \\
+\textbf{INF-UAN-001} & \texttt{01\_.../informe\_aurora\_uan.pdf} & 14 págs. & $\approx 347\text{ KB}$ \\
+\textbf{ANX-SRC-002} & \texttt{02\_.../anexo\_codigo\_fuente\_dsp.pdf} & 10 págs. & $\approx 296\text{ KB}$ \\
+\textbf{ANX-USR-003} & \texttt{03\_.../manual\_usuario\_aurora.pdf} & 7 págs. & $\approx 253\text{ KB}$ \\
+\textbf{ANX-VAL-004} & \texttt{04\_.../informe\_validacion\_benchmark.pdf} & 6 págs. & $\approx 304\text{ KB}$ \\
+\textbf{BIZ-UAN-005} & \texttt{05\_.../plan\_negocio\_startup\_audio.pdf} & 6 págs. & $\approx 230\text{ KB}$ \\
+\midrule
+\textbf{TOTAL GENERAL} & \textbf{6 Documentos Institucionales en PDF} & \textbf{47 págs.} & \textbf{$\approx 1.58\text{ MB}$} \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+% =========================================================================
+\section{Instrucciones de Ejecución de la Solución de Software}
+% =========================================================================
+
+Para ejecutar el sintetizador e interactuar con todos los módulos descritos:
+\begin{enumerate}[leftmargin=1.5cm]
+    \item Abra una terminal en la carpeta principal del proyecto.
+    \item Asegúrese de tener instaladas las dependencias: \texttt{python -m pip install -r requirements.txt}.
+    \item Ejecute la aplicación principal: \texttt{python main.py}.
+    \item Para correr la batería de pruebas automatizadas: \texttt{python -m unittest discover -s tests -v}.
+\end{enumerate}
+
+\end{document}

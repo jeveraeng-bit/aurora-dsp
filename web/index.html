@@ -1,0 +1,1928 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURORA DSP — Plugins de Audio Profesional & Sintetizadores VST3 / AU</title>
+  <meta name="description" content="Plugins de audio VST3, AU y Standalone desarrollados por Juan Esteban Vera (Universidad Antonio Nariño). Síntesis analógica CS-80, FM-X y Motion Control Super Knob.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#050911',
+              card: '#0a1220',
+              cardHover: '#0f1c32',
+              border: '#162846',
+              cyan: '#00f0ff',
+              cyanGlow: '#00f0ff33',
+              blue: '#0066ff',
+              emerald: '#00ffaa',
+              purple: '#9d4edd',
+              uan: '#002d62'
+            }
+          },
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          },
+          boxShadow: {
+            'glow-cyan': '0 0 25px -3px rgba(0, 240, 255, 0.45)',
+            'glow-emerald': '0 0 25px -3px rgba(0, 255, 170, 0.4)',
+            'glow-purple': '0 0 25px -3px rgba(157, 78, 221, 0.45)',
+            'inner-glow': 'inset 0 0 20px 0 rgba(0, 240, 255, 0.2)'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #050911;
+      color: #e2e8f0;
+      font-family: 'Outfit', sans-serif;
+      overflow-x: hidden;
+    }
+    .neon-text-cyan {
+      text-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+    }
+    .neon-text-emerald {
+      text-shadow: 0 0 20px rgba(0, 255, 170, 0.6);
+    }
+    .glass-panel {
+      background: rgba(10, 18, 32, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(22, 40, 70, 0.8);
+    }
+    .glass-card {
+      background: linear-gradient(135deg, rgba(14, 25, 45, 0.8) 0%, rgba(9, 16, 28, 0.9) 100%);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(26, 48, 82, 0.7);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-card:hover {
+      border-color: rgba(0, 240, 255, 0.5);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px -8px rgba(0, 240, 255, 0.2);
+    }
+    .super-knob-container {
+      user-select: none;
+      touch-action: none;
+    }
+    /* Teclas de piano */
+    .white-key {
+      background: linear-gradient(to bottom, #ffffff 0%, #e2e8f0 100%);
+      transition: all 0.08s ease;
+      cursor: pointer;
+    }
+    .white-key.active, .white-key:active {
+      background: linear-gradient(to bottom, #00f0ff 0%, #0088cc 100%);
+      box-shadow: 0 0 18px #00f0ff;
+      transform: scaleY(0.98);
+    }
+    .black-key {
+      background: linear-gradient(to bottom, #1e293b 0%, #090e17 100%);
+      border: 1px solid #334155;
+      transition: all 0.08s ease;
+      cursor: pointer;
+    }
+    .black-key.active, .black-key:active {
+      background: linear-gradient(to bottom, #00ffaa 0%, #008855 100%);
+      box-shadow: 0 0 15px #00ffaa;
+      transform: scaleY(0.97);
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #050911;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #162846;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00f0ff;
+    }
+    @keyframes pulse-subtle {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.05); }
+    }
+    .animate-pulse-glow {
+      animation: pulse-subtle 4s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-brand-dark text-slate-200">
+
+  <!-- Ambient Background Lighting -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-brand-cyan/15 rounded-full blur-[120px] animate-pulse-glow"></div>
+    <div class="absolute top-1/3 -right-40 w-[30rem] h-[30rem] bg-brand-purple/15 rounded-full blur-[140px] animate-pulse-glow" style="animation-delay: 2s;"></div>
+    <div class="absolute bottom-10 left-1/4 w-[28rem] h-[28rem] bg-brand-blue/15 rounded-full blur-[130px] animate-pulse-glow" style="animation-delay: 1s;"></div>
+  </div>
+
+  <!-- NAVBAR -->
+  <header class="sticky top-0 z-50 glass-panel border-b border-brand-border/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <!-- Logo & Brand -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-brand-cyan to-brand-blue p-[1.5px] shadow-glow-cyan transition-transform group-hover:scale-105">
+          <div class="w-full h-full bg-brand-dark rounded-[10px] flex items-center justify-center">
+            <svg class="w-6 h-6 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xl font-extrabold tracking-tight text-white group-hover:text-brand-cyan transition-colors">AURORA<span class="text-brand-cyan font-mono font-medium text-xs ml-1 px-1.5 py-0.5 rounded bg-brand-cyan/10 border border-brand-cyan/30">DSP</span></span>
+          </div>
+          <p class="text-[11px] text-slate-400 font-mono tracking-wider uppercase">By Juan Esteban Vera</p>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+        <a href="#catalogo" class="hover:text-brand-cyan transition-colors">Tienda de Plugins</a>
+        <a href="#live-demo" class="hover:text-brand-cyan transition-colors flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-brand-emerald animate-ping"></span>
+          Demo Web DSP
+        </a>
+        <a href="#sonidos" class="hover:text-brand-cyan transition-colors">Escuchar Presets</a>
+        <a href="#especificaciones" class="hover:text-brand-cyan transition-colors">Especificaciones</a>
+        <a href="#historia" class="hover:text-brand-cyan transition-colors">Historia & UAN</a>
+      </nav>
+
+      <!-- Action Buttons & Cart -->
+      <div class="flex items-center gap-4">
+        <!-- Currency Toggle -->
+        <button id="currencyToggle" class="hidden sm:flex items-center gap-1 px-2.5 py-1 text-xs font-mono font-semibold text-slate-300 bg-brand-card border border-brand-border rounded-lg hover:border-brand-cyan transition-colors" title="Cambiar Moneda">
+          <span id="currencyFlag">🇺🇸</span>
+          <span id="currencyCode">USD</span>
+        </button>
+
+        <!-- Cart Button -->
+        <button id="openCartBtn" class="relative p-2.5 rounded-xl bg-brand-card border border-brand-border hover:border-brand-cyan transition-all text-slate-200 hover:text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+          <span id="cartCountBadge" class="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-gradient-to-r from-brand-cyan to-brand-blue text-brand-dark text-[11px] font-black flex items-center justify-center shadow-sm">0</span>
+        </button>
+
+        <!-- CTA Download Free / Buy -->
+        <a href="#catalogo" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-cyan via-cyan-400 to-brand-blue text-brand-dark font-bold text-sm tracking-wide shadow-glow-cyan hover:opacity-95 hover:scale-[1.02] active:scale-[0.98] transition-all">
+          <span>Ver Plugins</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="relative pt-16 pb-24 md:pt-24 md:pb-32 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+      
+      <!-- Institutional & Technology Pill -->
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-card/90 border border-brand-border/80 shadow-inner-glow mb-8 animate-fade-in">
+        <span class="w-2.5 h-2.5 rounded-full bg-brand-cyan animate-pulse"></span>
+        <span class="text-xs sm:text-sm font-semibold tracking-wide text-slate-300">
+          Tecnología Acústica <span class="text-brand-cyan font-bold">Yamaha MONTAGE & CS-80</span> · Diseñado en Ibagué para el Mundo
+        </span>
+        <span class="hidden md:inline-block text-xs px-2 py-0.5 rounded bg-brand-uan/80 text-cyan-200 border border-brand-cyan/20">UAN Ingeniería</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white mb-6 leading-[1.1]">
+        EL PODER ANALÓGICO & FM<br class="hidden sm:block"/>
+        <span class="bg-gradient-to-r from-brand-cyan via-teal-300 to-brand-emerald bg-clip-text text-transparent neon-text-cyan">
+          EN TU DAW FAVORITO
+        </span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="max-w-3xl mx-auto text-lg sm:text-xl text-slate-300 font-normal mb-10 leading-relaxed">
+        Sintetizadores e instrumentos virtuales <strong class="text-white font-semibold">VST3, AU y AAX</strong> de fidelidad cristalina. 
+        Modelado analógico virtual TPT de 2 polos, síntesis por modulación de frecuencia FM-X y el revolucionario <span class="text-brand-cyan font-semibold">Motion Control Super Knob</span>. Menos del 5% de uso de CPU y latencia sub-10 ms.
+      </p>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+        <a href="#catalogo" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-brand-cyan via-cyan-400 to-brand-blue text-brand-dark font-extrabold text-base tracking-wide shadow-glow-cyan hover:shadow-cyan-400/50 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3">
+          <svg class="w-5 h-5 text-brand-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <span>Comprar Plugins Pro (Desde $19 USD)</span>
+        </a>
+        <a href="#live-demo" class="w-full sm:w-auto px-7 py-4 rounded-xl bg-brand-card hover:bg-brand-cardHover border border-brand-border hover:border-brand-cyan text-white font-bold text-base transition-all flex items-center justify-center gap-2 group">
+          <svg class="w-5 h-5 text-brand-emerald group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span>Tocar Sintetizador Web en Vivo</span>
+        </a>
+        <a href="#comunidad" class="w-full sm:w-auto px-6 py-4 rounded-xl bg-transparent hover:bg-brand-border/40 border border-brand-border text-slate-300 font-semibold text-sm transition-all flex items-center justify-center gap-2">
+          <span>Descargar UAN Free Edition</span>
+        </a>
+      </div>
+
+      <!-- Compatibility & Trust Logos -->
+      <div class="pt-8 border-t border-brand-border/40 max-w-4xl mx-auto">
+        <p class="text-xs font-mono uppercase tracking-widest text-slate-400 mb-6">Compatible nativamente con las principales plataformas de producción</p>
+        <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-slate-400 font-mono text-xs font-semibold">
+          <span class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brand-card/60 border border-brand-border/50 hover:text-brand-cyan transition-colors">
+            <span class="w-2 h-2 rounded-full bg-brand-cyan"></span> VST3 (64-Bit)
+          </span>
+          <span class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brand-card/60 border border-brand-border/50 hover:text-brand-cyan transition-colors">
+            <span class="w-2 h-2 rounded-full bg-brand-cyan"></span> AU (Audio Units Mac)
+          </span>
+          <span class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brand-card/60 border border-brand-border/50 hover:text-brand-cyan transition-colors">
+            <span class="w-2 h-2 rounded-full bg-brand-cyan"></span> AAX (Pro Tools)
+          </span>
+          <span class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brand-card/60 border border-brand-border/50 hover:text-brand-cyan transition-colors">
+            <span class="w-2 h-2 rounded-full bg-brand-cyan"></span> Standalone App
+          </span>
+          <span class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brand-card/60 border border-brand-border/50 hover:text-brand-emerald transition-colors">
+            <span class="w-2 h-2 rounded-full bg-brand-emerald"></span> Apple Silicon M1/M2/M3 & Intel
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE INTERACTIVE WEB SYNTH & SUPER KNOB DEMO -->
+  <section id="live-demo" class="py-20 relative z-10 bg-gradient-to-b from-brand-dark via-[#07101f] to-brand-dark border-y border-brand-border/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-emerald/10 border border-brand-emerald/30 text-brand-emerald text-xs font-mono font-bold uppercase mb-4">
+          <span class="w-2 h-2 rounded-full bg-brand-emerald animate-ping"></span>
+          Experiencia Interactiva en Tu Navegador
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight mb-4">
+          Prueba el Motor DSP de Aurora en Tiempo Real
+        </h2>
+        <p class="text-slate-300 text-base sm:text-lg">
+          Sin instalar nada: toca las teclas, rota el <strong class="text-brand-cyan">Super Knob</strong> y observa la forma de onda en el osciloscopio generado por Web Audio API.
+        </p>
+      </div>
+
+      <!-- Synthesizer Rack Interface -->
+      <div class="glass-card rounded-2xl p-6 sm:p-8 border border-brand-border shadow-2xl relative overflow-hidden">
+        
+        <!-- Rack Header -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-brand-border/70 mb-6">
+          <div class="flex items-center gap-3">
+            <div class="w-3.5 h-3.5 rounded-full bg-brand-cyan animate-pulse"></div>
+            <div>
+              <h3 class="text-lg font-bold text-white tracking-wide font-mono">AURORA WORKSTATION <span class="text-brand-cyan font-normal text-xs ml-2">DSP CORE v2.1</span></h3>
+              <p class="text-xs text-slate-400 font-mono">Yamaha Dual Engine · PolyBLEP Anti-Aliased Waveforms</p>
+            </div>
+          </div>
+
+          <!-- Master Controls -->
+          <div class="flex items-center gap-3">
+            <button id="audioInitBtn" class="px-4 py-2 rounded-lg bg-brand-cyan/20 border border-brand-cyan text-brand-cyan font-bold text-xs tracking-wider uppercase hover:bg-brand-cyan hover:text-brand-dark transition-all flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+              <span>Activar Motor de Audio</span>
+            </button>
+            <button id="panicBtn" class="px-3 py-2 rounded-lg bg-red-950/60 border border-red-700/60 text-red-300 font-mono text-xs font-semibold hover:bg-red-800 hover:text-white transition-colors" title="Silenciar todas las voces">
+              ⏹ PANIC
+            </button>
+          </div>
+        </div>
+
+        <!-- Controls Grid: Oscilloscope + Super Knob + Sliders -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8 items-center">
+          
+          <!-- Oscilloscope Canvas Display (5 cols) -->
+          <div class="lg:col-span-5 bg-brand-dark/90 rounded-xl p-4 border border-brand-border flex flex-col justify-between h-64">
+            <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-2">
+              <span class="flex items-center gap-1.5 text-brand-cyan font-bold">
+                <span class="w-2 h-2 rounded-full bg-brand-cyan"></span> OSCILOSCOPIO FFT
+              </span>
+              <span id="activeVoiceCount" class="text-slate-400 font-mono">0 Voces Activas</span>
+            </div>
+            <canvas id="scopeCanvas" class="w-full h-40 bg-brand-dark rounded-lg border border-brand-border/40"></canvas>
+            <div class="flex items-center justify-between text-[11px] font-mono text-slate-400 mt-2">
+              <span>Freq: <strong id="detectedFreqDisplay" class="text-white">-- Hz</strong></span>
+              <span>Buffer: <strong>256 Samples</strong></span>
+              <span>Latencia: <strong class="text-brand-emerald font-bold">&lt; 8 ms</strong></span>
+            </div>
+          </div>
+
+          <!-- Motion Control Super Knob (4 cols) -->
+          <div class="lg:col-span-4 flex flex-col items-center justify-center p-4 bg-brand-card/40 rounded-xl border border-brand-border/60">
+            <span class="text-xs font-mono font-bold tracking-wider text-brand-cyan uppercase mb-1">MOTION CONTROL</span>
+            <h4 class="text-base font-extrabold text-white mb-2">SUPER KNOB</h4>
+            <p class="text-[11px] text-slate-400 text-center mb-4">Arrastra verticalmente o usa la rueda del mouse para modular múltiples parámetros en vivo</p>
+
+            <!-- Circular Interactive Dial -->
+            <div class="super-knob-container relative w-36 h-36 flex items-center justify-center cursor-ns-resize group" id="superKnobContainer">
+              <svg class="w-full h-full transform -rotate-90">
+                <!-- Background Arc -->
+                <circle cx="72" cy="72" r="54" stroke="#162846" stroke-width="10" fill="transparent" stroke-dasharray="339.29" stroke-dashoffset="84.82" stroke-linecap="round"/>
+                <!-- Active Progress Arc -->
+                <circle id="knobProgressArc" cx="72" cy="72" r="54" stroke="#00f0ff" stroke-width="10" fill="transparent" stroke-dasharray="339.29" stroke-dashoffset="339.29" stroke-linecap="round" class="transition-all duration-75 shadow-glow-cyan"/>
+              </svg>
+              <!-- Center Cap -->
+              <div class="absolute inset-5 rounded-full bg-gradient-to-br from-[#121f35] to-[#090f1a] border-2 border-brand-border flex flex-col items-center justify-center shadow-lg group-hover:border-brand-cyan transition-colors">
+                <span id="knobPercentText" class="text-xl font-black font-mono text-white">0%</span>
+                <span class="text-[9px] font-mono text-brand-cyan tracking-wider uppercase">MACRO</span>
+                <!-- Indicator Dot -->
+                <div id="knobPointerDot" class="w-2 h-2 rounded-full bg-brand-cyan absolute top-2 transition-transform shadow-glow-cyan"></div>
+              </div>
+            </div>
+
+            <!-- Controlled Parameters feedback -->
+            <div class="grid grid-cols-3 gap-2 w-full mt-4 text-[10px] font-mono text-center text-slate-400">
+              <div class="bg-brand-dark/80 p-1.5 rounded border border-brand-border/40">
+                <span>CUTOFF</span>
+                <p id="knobCutoffFeedback" class="text-white font-bold">6.5 kHz</p>
+              </div>
+              <div class="bg-brand-dark/80 p-1.5 rounded border border-brand-border/40">
+                <span>FM INDEX</span>
+                <p id="knobFmFeedback" class="text-white font-bold">0.00</p>
+              </div>
+              <div class="bg-brand-dark/80 p-1.5 rounded border border-brand-border/40">
+                <span>DRIVE</span>
+                <p id="knobDriveFeedback" class="text-white font-bold">0%</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sound Parameters Sliders (3 cols) -->
+          <div class="lg:col-span-3 space-y-4 p-4 bg-brand-card/40 rounded-xl border border-brand-border/60">
+            <div>
+              <div class="flex justify-between text-xs font-mono mb-1">
+                <span class="text-slate-300">Forma de Onda</span>
+                <span id="waveformLabel" class="text-brand-cyan font-bold">Sine (DX7)</span>
+              </div>
+              <div class="grid grid-cols-4 gap-1">
+                <button data-wave="sine" class="wave-select-btn active px-2 py-1.5 rounded text-xs font-mono font-bold bg-brand-cyan text-brand-dark transition-all">SIN</button>
+                <button data-wave="sawtooth" class="wave-select-btn px-2 py-1.5 rounded text-xs font-mono font-bold bg-brand-dark hover:bg-brand-border text-slate-300 transition-all">SAW</button>
+                <button data-wave="square" class="wave-select-btn px-2 py-1.5 rounded text-xs font-mono font-bold bg-brand-dark hover:bg-brand-border text-slate-300 transition-all">SQR</button>
+                <button data-wave="triangle" class="wave-select-btn px-2 py-1.5 rounded text-xs font-mono font-bold bg-brand-dark hover:bg-brand-border text-slate-300 transition-all">TRI</button>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-mono mb-1">
+                <span class="text-slate-300">Modulación FM-X</span>
+                <span id="fmDepthVal" class="text-brand-cyan font-bold">0.25</span>
+              </div>
+              <input type="range" id="fmDepthSlider" min="0" max="1" step="0.01" value="0.25" class="w-full accent-brand-cyan bg-brand-dark rounded-lg cursor-pointer h-2">
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-mono mb-1">
+                <span class="text-slate-300">Filtro CS-80 Cutoff</span>
+                <span id="cutoffVal" class="text-brand-cyan font-bold">4.2 kHz</span>
+              </div>
+              <input type="range" id="cutoffSlider" min="200" max="12000" step="50" value="4200" class="w-full accent-brand-cyan bg-brand-dark rounded-lg cursor-pointer h-2">
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-mono mb-1">
+                <span class="text-slate-300">Resonancia Q</span>
+                <span id="resonanceVal" class="text-brand-cyan font-bold">2.5</span>
+              </div>
+              <input type="range" id="resonanceSlider" min="0.1" max="15" step="0.1" value="2.5" class="w-full accent-brand-cyan bg-brand-dark rounded-lg cursor-pointer h-2">
+            </div>
+          </div>
+        </div>
+
+        <!-- 25-KEY EXTENDED PIANO KEYBOARD -->
+        <div class="pt-4 border-t border-brand-border/70">
+          <div class="flex items-center justify-between mb-3 text-xs font-mono text-slate-400">
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-brand-cyan"></span>
+              <strong>Teclado Táctil & QWERTY de 25 Teclas:</strong> Presiona con mouse o toca las teclas <code class="text-brand-cyan font-bold">Z-M</code> (grave) y <code class="text-brand-cyan font-bold">Q-I</code> (agudo)
+            </span>
+            <div class="flex items-center gap-2">
+              <button id="octaveDownBtn" class="px-2.5 py-1 rounded bg-brand-card hover:bg-brand-border text-white text-xs font-bold border border-brand-border transition-colors">◀ Octava -</button>
+              <span id="octaveDisplay" class="font-bold text-brand-cyan px-2">C3 - C5</span>
+              <button id="octaveUpBtn" class="px-2.5 py-1 rounded bg-brand-card hover:bg-brand-border text-white text-xs font-bold border border-brand-border transition-colors">Octava + ▶</button>
+            </div>
+          </div>
+
+          <!-- Piano Keys Container -->
+          <div class="relative w-full h-40 bg-brand-dark rounded-xl overflow-hidden border border-brand-border shadow-inner p-1 select-none flex">
+            <!-- White Keys (15 keys) -->
+            <div id="keyboardContainer" class="relative w-full h-full flex">
+              <!-- Keys generated dynamically by JS for exact alignment -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS CATALOG & STORE (VENTA DE PLUGINS) -->
+  <section id="catalogo" class="py-24 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-cyan/10 border border-brand-cyan/30 text-brand-cyan text-xs font-mono font-bold uppercase mb-4">
+          Catálogo Oficial de Lanzamiento 2026
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight mb-4">
+          Tienda de Plugins VST3, AU & AAX
+        </h2>
+        <p class="text-slate-300 text-base sm:text-lg">
+          Herramientas de grado profesional para productores musicales, beatmakers e ingenieros de sonido. 
+          Licencia de por vida, sin dongles invasivos y soporte directo de ingeniería.
+        </p>
+      </div>
+
+      <!-- BUNDLE PROMO BANNER -->
+      <div class="glass-card rounded-2xl p-8 mb-16 border-2 border-brand-cyan/60 relative overflow-hidden bg-gradient-to-r from-brand-card via-[#0b1b36] to-brand-card shadow-glow-cyan">
+        <div class="absolute top-0 right-0 bg-gradient-to-l from-brand-cyan to-brand-blue text-brand-dark font-black text-xs uppercase font-mono px-6 py-1.5 rounded-bl-xl shadow-md">
+          🔥 OFERTA LIMITADA · AHORRA 40%
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-8">
+            <span class="text-xs font-mono font-bold text-brand-cyan tracking-widest uppercase">SUITE COMPLETA TODO EN UNO</span>
+            <h3 class="text-3xl sm:text-4xl font-black text-white tracking-tight mt-1 mb-3">
+              AURORA CREATOR SUITE 2026
+            </h3>
+            <p class="text-slate-300 text-sm sm:text-base mb-4 leading-relaxed">
+              Incluye el sintetizador insignia <strong class="text-white">Aurora Pro Workstation</strong>, el corrector vocal <strong class="text-white">Aurora Vocal Tune</strong>, el modelador analógico <strong class="text-white">CS-80 Analog Filter</strong> y el procesador espacial <strong class="text-white">Motion Delay & Reverb</strong>. Más de 350 presets de estudio listos para mezclar.
+            </p>
+            <div class="flex flex-wrap items-center gap-4 text-xs font-mono text-slate-300">
+              <span class="flex items-center gap-1.5 text-brand-emerald">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                4 Plugins VST3 / AU / AAX
+              </span>
+              <span class="flex items-center gap-1.5 text-brand-emerald">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                Activación en 3 Equipos
+              </span>
+              <span class="flex items-center gap-1.5 text-brand-emerald">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                Actualizaciones Gratuitas de por Vida
+              </span>
+            </div>
+          </div>
+          <div class="lg:col-span-4 flex flex-col items-center lg:items-end justify-center">
+            <div class="text-center lg:text-right mb-4">
+              <span class="text-sm font-mono text-slate-400 line-through mr-2 price-display" data-usd="116" data-cop="460000">$116 USD</span>
+              <span class="text-4xl sm:text-5xl font-black text-white tracking-tight price-display text-brand-cyan" data-usd="69" data-cop="275000">$69 USD</span>
+              <p class="text-xs text-slate-400 font-mono mt-1">Pago único · Licencia perpetua comercial</p>
+            </div>
+            <button onclick="addToCart('bundle-suite', 'Aurora Creator Suite 2026', 69, 275000)" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-brand-cyan via-cyan-400 to-brand-blue text-brand-dark font-black text-sm tracking-wider uppercase shadow-glow-cyan hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+              <span>Añadir Suite al Carrito</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Individual Plugins Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- PLUGIN 1: AURORA PRO WORKSTATION -->
+        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between relative group border-t-2 border-t-brand-cyan">
+          <div class="absolute top-4 right-4 px-2 py-0.5 rounded bg-brand-cyan/15 text-brand-cyan text-[10px] font-mono font-bold uppercase border border-brand-cyan/30">
+            FLAGSHIP SYNTH
+          </div>
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-cyan to-brand-blue p-[1px] mb-5 shadow-glow-cyan">
+              <div class="w-full h-full bg-brand-dark rounded-[11px] flex items-center justify-center">
+                <svg class="w-6 h-6 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
+              </div>
+            </div>
+            <h3 class="text-2xl font-black text-white mb-2 group-hover:text-brand-cyan transition-colors">Aurora Pro Workstation</h3>
+            <p class="text-xs font-mono text-slate-400 mb-4">Sintetizador Polifónico Híbrido VST3/AU</p>
+            <p class="text-slate-300 text-sm mb-6 leading-relaxed">
+              Doble motor de síntesis sustractiva CS-80 y modulación de frecuencia FM-X. Incluye el Super Knob gestual macro, secuenciador polifónico de 16 pasos y banco de 150 presets clásicos de Yamaha MONTAGE.
+            </p>
+            
+            <ul class="space-y-2 mb-6 text-xs text-slate-300 font-mono">
+              <li class="flex items-center gap-2">
+                <span class="text-brand-cyan">✓</span> Polifonía dinámica de 16 voces
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-brand-cyan">✓</span> Filtro TPT SVF no-lineal con resonancia Q
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-brand-cyan">✓</span> Rack de Efectos: Drive, Delay Ping-Pong, Reverb
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-brand-cyan">✓</span> Formatos: VST3, AU, AAX, Standalone
+              </li>
+            </ul>
+          </div>
+
+          <div class="pt-5 border-t border-brand-border/70 flex items-center justify-between">
+            <div>
+              <span class="text-xs font-mono text-slate-400 line-through price-display" data-usd="49" data-cop="195000">$49</span>
+              <div class="text-2xl font-black text-white price-display text-brand-cyan" data-usd="34" data-cop="139000">$34 USD</div>
+            </div>
+            <button onclick="addToCart('aurora-pro', 'Aurora Pro Workstation Synth', 34, 139000)" class="px-5 py-2.5 rounded-xl bg-brand-cyan hover:bg-cyan-300 text-brand-dark font-bold text-xs tracking-wider uppercase transition-all shadow-glow-cyan">
+              Comprar Licencia
+            </button>
+          </div>
+        </div>
+
+        <!-- PLUGIN 2: AURORA VOCAL TUNE -->
+        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between relative group border-t-2 border-t-brand-emerald">
+          <div class="absolute top-4 right-4 px-2 py-0.5 rounded bg-brand-emerald/15 text-brand-emerald text-[10px] font-mono font-bold uppercase border border-brand-emerald/30">
+            VOCAL FX
+          </div>
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-emerald to-teal-500 p-[1px] mb-5 shadow-glow-emerald">
+              <div class="w-full h-full bg-brand-dark rounded-[11px] flex items-center justify-center">
+                <svg class="w-6 h-6 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/></svg>
+              </div>
+            </div>
+            <h3 class="text-2xl font-black text-white mb-2 group-hover:text-brand-emerald transition-colors">Aurora Vocal Tune & Formant</h3>
+            <p class="text-xs font-mono text-slate-400 mb-4">Afinador y Procesador Tonal en Tiempo Real</p>
+            <p class="text-slate-300 text-sm mb-6 leading-relaxed">
+              Corrector de tono vocal instantáneo con latencia cero para grabación y directos. Algoritmo Wiener-Khinchin FFT con snapping modal (Mayor, Menor, Pentatónica) y modulador de formantes.
+            </p>
+            
+            <ul class="space-y-2 mb-6 text-xs text-slate-300 font-mono">
+              <li class="flex items-center gap-2">
+                <span class="text-brand-emerald">✓</span> Latencia determinista sub-5 ms en vivo
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-brand-emerald">✓</span> Modos natural acústico y efecto robótico urbano
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-brand-emerald">✓</span> Transposición y duplicador de formantes
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-brand-emerald">✓</span> Detección continua de fundamental en Hz
+              </li>
+            </ul>
+          </div>
+
+          <div class="pt-5 border-t border-brand-border/70 flex items-center justify-between">
+            <div>
+              <span class="text-xs font-mono text-slate-400 line-through price-display" data-usd="29" data-cop="119000">$29</span>
+              <div class="text-2xl font-black text-white price-display text-brand-emerald" data-usd="19" data-cop="79000">$19 USD</div>
+            </div>
+            <button onclick="addToCart('aurora-vocal', 'Aurora Vocal Tune & Formant', 19, 79000)" class="px-5 py-2.5 rounded-xl bg-brand-emerald hover:bg-emerald-300 text-brand-dark font-bold text-xs tracking-wider uppercase transition-all shadow-glow-emerald">
+              Comprar Licencia
+            </button>
+          </div>
+        </div>
+
+        <!-- PLUGIN 3: CS-80 ANALOG FILTER & DRIVE -->
+        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between relative group border-t-2 border-t-brand-purple">
+          <div class="absolute top-4 right-4 px-2 py-0.5 rounded bg-brand-purple/15 text-brand-purple text-[10px] font-mono font-bold uppercase border border-brand-purple/30">
+            COLOR & WARMTH
+          </div>
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-purple to-pink-500 p-[1px] mb-5 shadow-glow-purple">
+              <div class="w-full h-full bg-brand-dark rounded-[11px] flex items-center justify-center">
+                <svg class="w-6 h-6 text-brand-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+              </div>
+            </div>
+            <h3 class="text-2xl font-black text-white mb-2 group-hover:text-brand-purple transition-colors">CS-80 Analog Filter & Drive</h3>
+            <p class="text-xs font-mono text-slate-400 mb-4">Emulación de Filtro Virtual & Saturador a Válvula</p>
+            <p class="text-slate-300 text-sm mb-6 leading-relaxed">
+              La legendaria calidez del sintetizador Yamaha CS-80 en tu bus de mezcla. Topología TPT SVF con cero retardo de realimentación (Zero Delay Feedback) y saturador armónico $\tanh$.
+            </p>
+            
+            <ul class="space-y-2 mb-6 text-xs text-slate-300 font-mono">
+              <li class="flex items-center gap-2">
+                <span class="text-brand-purple">✓</span> Paso-bajo, paso-alto y paso-banda seleccionables
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-brand-purple">✓</span> Auto-oscilación analógica suave sin distorsión dura
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-brand-purple">✓</span> Circuito de saturación simétrica analógica
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-brand-purple">✓</span> Sobremuestreo interno x4 para máxima pureza
+              </li>
+            </ul>
+          </div>
+
+          <div class="pt-5 border-t border-brand-border/70 flex items-center justify-between">
+            <div>
+              <span class="text-xs font-mono text-slate-400 line-through price-display" data-usd="24" data-cop="99000">$24</span>
+              <div class="text-2xl font-black text-white price-display text-brand-purple" data-usd="14" data-cop="59000">$14 USD</div>
+            </div>
+            <button onclick="addToCart('aurora-filter', 'CS-80 Analog Filter & Drive', 14, 59000)" class="px-5 py-2.5 rounded-xl bg-brand-purple hover:bg-purple-400 text-white font-bold text-xs tracking-wider uppercase transition-all shadow-glow-purple">
+              Comprar Licencia
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Free Student & Community Edition CTA -->
+      <div id="comunidad" class="mt-16 glass-card rounded-2xl p-8 border border-brand-border flex flex-col sm:flex-row items-center justify-between gap-6 bg-gradient-to-r from-brand-card via-[#061122] to-brand-card">
+        <div class="flex items-center gap-5">
+          <div class="w-14 h-14 rounded-2xl bg-brand-uan/80 border border-brand-cyan/30 flex items-center justify-center shrink-0">
+            <svg class="w-8 h-8 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          </div>
+          <div>
+            <h4 class="text-xl font-black text-white">Aurora Community / UAN Educational Edition</h4>
+            <p class="text-slate-300 text-sm">¿Eres estudiante o profesor de música/ingeniería? Descarga gratis la versión educativa sin fines comerciales con 2 voces y presets de laboratorio.</p>
+          </div>
+        </div>
+        <button onclick="downloadFreeEdition()" class="px-6 py-3 rounded-xl bg-brand-cardHover hover:bg-brand-border border border-brand-border text-brand-cyan font-mono text-xs font-bold uppercase tracking-wider shrink-0 transition-all flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span>Descargar Gratis ($0 USD)</span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- INTERACTIVE PRESET AUDIO PLAYER -->
+  <section id="sonidos" class="py-20 relative z-10 bg-brand-card/40 border-t border-brand-border/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-xs font-mono font-bold text-brand-cyan tracking-widest uppercase">AUDIO DEMOS</span>
+        <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight mt-1 mb-3">
+          Escucha la Potencia Sonora de Aurora
+        </h2>
+        <p class="text-slate-300 text-sm sm:text-base">
+          Generado matemáticamente en tiempo real por los motores de Aurora. Presiona reproducir para escuchar cada timbre.
+        </p>
+      </div>
+
+      <!-- Presets Audio Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Preset Item 1 -->
+        <div class="glass-card rounded-xl p-5 flex items-center justify-between border border-brand-border/80 hover:border-brand-cyan transition-all">
+          <div class="flex items-center gap-4">
+            <button onclick="playPresetDemo('dx7')" id="play-btn-dx7" class="w-12 h-12 rounded-xl bg-brand-cyan/20 border border-brand-cyan/40 hover:bg-brand-cyan hover:text-brand-dark text-brand-cyan flex items-center justify-center transition-all group">
+              <svg class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div>
+              <h4 class="text-base font-bold text-white">Yamaha DX7 E-Piano</h4>
+              <p class="text-xs text-slate-400 font-mono">FM Mod: 0.42 · Campanas cristalinas</p>
+            </div>
+          </div>
+          <span class="text-xs font-mono px-2 py-1 rounded bg-brand-dark border border-brand-border text-slate-300">FM-X</span>
+        </div>
+
+        <!-- Preset Item 2 -->
+        <div class="glass-card rounded-xl p-5 flex items-center justify-between border border-brand-border/80 hover:border-brand-cyan transition-all">
+          <div class="flex items-center gap-4">
+            <button onclick="playPresetDemo('cs80')" id="play-btn-cs80" class="w-12 h-12 rounded-xl bg-brand-cyan/20 border border-brand-cyan/40 hover:bg-brand-cyan hover:text-brand-dark text-brand-cyan flex items-center justify-center transition-all group">
+              <svg class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div>
+              <h4 class="text-base font-bold text-white">CS-80 Blade Runner Brass</h4>
+              <p class="text-xs text-slate-400 font-mono">Doble Saw · Filtro TPT cálido</p>
+            </div>
+          </div>
+          <span class="text-xs font-mono px-2 py-1 rounded bg-brand-dark border border-brand-border text-slate-300">Analog</span>
+        </div>
+
+        <!-- Preset Item 3 -->
+        <div class="glass-card rounded-xl p-5 flex items-center justify-between border border-brand-border/80 hover:border-brand-cyan transition-all">
+          <div class="flex items-center gap-4">
+            <button onclick="playPresetDemo('lead')" id="play-btn-lead" class="w-12 h-12 rounded-xl bg-brand-cyan/20 border border-brand-cyan/40 hover:bg-brand-cyan hover:text-brand-dark text-brand-cyan flex items-center justify-center transition-all group">
+              <svg class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div>
+              <h4 class="text-base font-bold text-white">MONTAGE Super Lead</h4>
+              <p class="text-xs text-slate-400 font-mono">Super Knob 65% · Drive armónico</p>
+            </div>
+          </div>
+          <span class="text-xs font-mono px-2 py-1 rounded bg-brand-dark border border-brand-border text-slate-300">Lead</span>
+        </div>
+
+        <!-- Preset Item 4 -->
+        <div class="glass-card rounded-xl p-5 flex items-center justify-between border border-brand-border/80 hover:border-brand-cyan transition-all">
+          <div class="flex items-center gap-4">
+            <button onclick="playPresetDemo('bass')" id="play-btn-bass" class="w-12 h-12 rounded-xl bg-brand-cyan/20 border border-brand-cyan/40 hover:bg-brand-cyan hover:text-brand-dark text-brand-cyan flex items-center justify-center transition-all group">
+              <svg class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div>
+              <h4 class="text-base font-bold text-white">80s Analog Cyber Bass</h4>
+              <p class="text-xs text-slate-400 font-mono">Sub-oscilador -12st · Punch analógico</p>
+            </div>
+          </div>
+          <span class="text-xs font-mono px-2 py-1 rounded bg-brand-dark border border-brand-border text-slate-300">Bass</span>
+        </div>
+
+        <!-- Preset Item 5 -->
+        <div class="glass-card rounded-xl p-5 flex items-center justify-between border border-brand-border/80 hover:border-brand-cyan transition-all">
+          <div class="flex items-center gap-4">
+            <button onclick="playPresetDemo('pad')" id="play-btn-pad" class="w-12 h-12 rounded-xl bg-brand-cyan/20 border border-brand-cyan/40 hover:bg-brand-cyan hover:text-brand-dark text-brand-cyan flex items-center justify-center transition-all group">
+              <svg class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div>
+              <h4 class="text-base font-bold text-white">Ambient Space Aurora Pad</h4>
+              <p class="text-xs text-slate-400 font-mono">Schroeder Reverb · Retardo estéreo</p>
+            </div>
+          </div>
+          <span class="text-xs font-mono px-2 py-1 rounded bg-brand-dark border border-brand-border text-slate-300">Pad</span>
+        </div>
+
+        <!-- Preset Item 6 -->
+        <div class="glass-card rounded-xl p-5 flex items-center justify-between border border-brand-border/80 hover:border-brand-cyan transition-all">
+          <div class="flex items-center gap-4">
+            <button onclick="playPresetDemo('bell')" id="play-btn-bell" class="w-12 h-12 rounded-xl bg-brand-cyan/20 border border-brand-cyan/40 hover:bg-brand-cyan hover:text-brand-dark text-brand-cyan flex items-center justify-center transition-all group">
+              <svg class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div>
+              <h4 class="text-base font-bold text-white">Square Bell Chime FM</h4>
+              <p class="text-xs text-slate-400 font-mono">Modulación inarmónica +19st</p>
+            </div>
+          </div>
+          <span class="text-xs font-mono px-2 py-1 rounded bg-brand-dark border border-brand-border text-slate-300">Bell</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TECHNICAL SPECS & COMPARISON TABLE -->
+  <section id="especificaciones" class="py-24 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs font-mono font-bold text-brand-cyan tracking-widest uppercase">INGENIERÍA DE PRECISIÓN</span>
+        <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight mt-1 mb-4">
+          Por Qué los Productores Eligen Aurora
+        </h2>
+        <p class="text-slate-300 text-base sm:text-lg">
+          Comparativa técnica demostrada frente a los tres instrumentos virtuales comerciales más pesados de la industria.
+        </p>
+      </div>
+
+      <!-- Comparison Matrix Table -->
+      <div class="glass-card rounded-2xl overflow-hidden border border-brand-border shadow-2xl mb-16">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="border-b border-brand-border bg-brand-card/90 text-xs font-mono text-slate-400">
+                <th class="p-4 sm:p-5 font-bold uppercase">Característica Técnica</th>
+                <th class="p-4 sm:p-5 font-bold uppercase text-brand-cyan bg-brand-cyan/5 border-x border-brand-border/60">AURORA DSP WORKSTATION</th>
+                <th class="p-4 sm:p-5 font-semibold">Sintetizador Típico Comercial A</th>
+                <th class="p-4 sm:p-5 font-semibold">Sintetizador Típico Comercial B</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-brand-border/60 text-sm font-mono">
+              <tr class="hover:bg-brand-card/50 transition-colors">
+                <td class="p-4 sm:p-5 font-sans font-semibold text-white">Precio de Licencia</td>
+                <td class="p-4 sm:p-5 font-bold text-brand-cyan bg-brand-cyan/5 border-x border-brand-border/60">$34 – $49 USD (Asequible)</td>
+                <td class="p-4 sm:p-5 text-slate-400">$189 – $249 USD</td>
+                <td class="p-4 sm:p-5 text-slate-400">$199 USD</td>
+              </tr>
+              <tr class="hover:bg-brand-card/50 transition-colors">
+                <td class="p-4 sm:p-5 font-sans font-semibold text-white">Consumo de Memoria RAM</td>
+                <td class="p-4 sm:p-5 font-bold text-brand-emerald bg-brand-cyan/5 border-x border-brand-border/60">&lt; 45 MB por instancia</td>
+                <td class="p-4 sm:p-5 text-slate-400">800 MB – 2.5 GB</td>
+                <td class="p-4 sm:p-5 text-slate-400">1.2 GB – 3 GB</td>
+              </tr>
+              <tr class="hover:bg-brand-card/50 transition-colors">
+                <td class="p-4 sm:p-5 font-sans font-semibold text-white">Control Macro en Vivo</td>
+                <td class="p-4 sm:p-5 font-bold text-brand-cyan bg-brand-cyan/5 border-x border-brand-border/60">Motion Control Super Knob</td>
+                <td class="p-4 sm:p-5 text-slate-400">Mapeo manual en DAW</td>
+                <td class="p-4 sm:p-5 text-slate-400">Knobs individuales</td>
+              </tr>
+              <tr class="hover:bg-brand-card/50 transition-colors">
+                <td class="p-4 sm:p-5 font-sans font-semibold text-white">Sistema Anticopia / DRM</td>
+                <td class="p-4 sm:p-5 font-bold text-brand-cyan bg-brand-cyan/5 border-x border-brand-border/60">Serial Criptográfico Ligero (Sin iLok)</td>
+                <td class="p-4 sm:p-5 text-slate-400">Dongle físico iLok / Conexión Cloud</td>
+                <td class="p-4 sm:p-5 text-slate-400">Login en nube obligatorio</td>
+              </tr>
+              <tr class="hover:bg-brand-card/50 transition-colors">
+                <td class="p-4 sm:p-5 font-sans font-semibold text-white">Afinador Vocal Integrado</td>
+                <td class="p-4 sm:p-5 font-bold text-brand-emerald bg-brand-cyan/5 border-x border-brand-border/60">Sí (Módulo Autotune Granular)</td>
+                <td class="p-4 sm:p-5 text-slate-500">No (Requiere comprar plugin $149+)</td>
+                <td class="p-4 sm:p-5 text-slate-500">No incluido</td>
+              </tr>
+              <tr class="hover:bg-brand-card/50 transition-colors">
+                <td class="p-4 sm:p-5 font-sans font-semibold text-white">Algoritmo Anti-Aliasing</td>
+                <td class="p-4 sm:p-5 font-bold text-brand-cyan bg-brand-cyan/5 border-x border-brand-border/60">PolyBLEP de Banda Cuasi-Limitada</td>
+                <td class="p-4 sm:p-5 text-slate-400">Sobremuestreo pesado de CPU</td>
+                <td class="p-4 sm:p-5 text-slate-400">Interpolación de wavetables</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Audio Engine Specs 4-cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+        <div class="glass-card rounded-xl p-6 border border-brand-border">
+          <div class="text-3xl font-black text-brand-cyan font-mono mb-1">192 kHz</div>
+          <h4 class="text-sm font-bold text-white mb-2">Resolución Master</h4>
+          <p class="text-xs text-slate-400 font-sans">Soporta tasas de 44.1, 48, 88.2, 96 y 192 kHz con coma flotante de 64 bits.</p>
+        </div>
+        <div class="glass-card rounded-xl p-6 border border-brand-border">
+          <div class="text-3xl font-black text-brand-emerald font-mono mb-1">&lt; 0.25 ms</div>
+          <h4 class="text-sm font-bold text-white mb-2">Tiempo de Cálculo DSP</h4>
+          <p class="text-xs text-slate-400 font-sans">Menos del 5% del presupuesto temporal por bloque, cero caídas de audio.</p>
+        </div>
+        <div class="glass-card rounded-xl p-6 border border-brand-border">
+          <div class="text-3xl font-black text-brand-purple font-mono mb-1">TRL 6</div>
+          <h4 class="text-sm font-bold text-white mb-2">Madurez Tecnológica</h4>
+          <p class="text-xs text-slate-400 font-sans">Certificación científica de ingeniería con 13/13 pruebas unitarias aprobadas.</p>
+        </div>
+        <div class="glass-card rounded-xl p-6 border border-brand-border">
+          <div class="text-3xl font-black text-brand-cyan font-mono mb-1">0% iLok</div>
+          <h4 class="text-sm font-bold text-white mb-2">Cero Bloqueos</h4>
+          <p class="text-xs text-slate-400 font-sans">Instalación limpia, sin software espía ni consumo innecesario de batería.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOUNDER & UAN INSTITUTIONAL HERITAGE -->
+  <section id="historia" class="py-24 relative z-10 bg-gradient-to-b from-brand-dark via-[#091426] to-brand-dark border-t border-brand-border/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left: Founder & Institutional Card (5 cols) -->
+        <div class="lg:col-span-5">
+          <div class="glass-card rounded-2xl p-8 border-2 border-brand-border relative overflow-hidden">
+            <div class="absolute -top-12 -right-12 w-40 h-40 bg-brand-cyan/20 rounded-full blur-3xl"></div>
+            
+            <!-- UAN Badge -->
+            <div class="flex items-center justify-between mb-6 pb-4 border-b border-brand-border/80">
+              <span class="text-xs font-mono font-bold text-brand-cyan uppercase tracking-wider">PROYECTO DE INNOVACIÓN</span>
+              <span class="text-[11px] font-mono px-2.5 py-1 rounded bg-brand-uan border border-brand-cyan/30 text-white font-bold">UAN Sede Ibagué</span>
+            </div>
+
+            <!-- Avatar / Icon Placeholder -->
+            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-brand-cyan via-brand-blue to-brand-uan p-[2px] shadow-glow-cyan mb-6">
+              <div class="w-full h-full bg-brand-dark rounded-[14px] flex items-center justify-center text-2xl font-black text-white font-mono">
+                JEV
+              </div>
+            </div>
+
+            <h3 class="text-2xl font-black text-white mb-1">Juan Esteban Vera Rodríguez</h3>
+            <p class="text-sm font-mono text-brand-cyan mb-4">Fundador & Ingeniero DSP Principal</p>
+            <p class="text-slate-300 text-sm leading-relaxed mb-6">
+              "Aurora nace con la visión de demostrar que desde Ibagué, Tolima, Capital Musical de Colombia, y desde las aulas de Ingeniería Electrónica de la Universidad Antonio Nariño, podemos crear tecnología de audio digital de clase mundial que compita de tú a tú en la industria global de plugins."
+            </p>
+
+            <!-- Download Official PDFs Box -->
+            <div class="bg-brand-dark/90 rounded-xl p-4 border border-brand-border">
+              <span class="text-xs font-mono font-bold text-slate-300 uppercase tracking-wider block mb-2">Dossier Científico & Legal (PDFs Oficiales)</span>
+              <div class="space-y-1.5 text-xs font-mono">
+                <a href="../ENTREGA_PROYECTO_UAN/01_INFORME_TECNICO_Y_EMPRENDIMIENTO/informe_aurora_uan.pdf" target="_blank" class="flex items-center justify-between p-2 rounded hover:bg-brand-card hover:text-brand-cyan transition-colors text-slate-300">
+                  <span class="truncate">📄 Informe Técnico y Emprendimiento UAN</span>
+                  <span class="text-[10px] text-slate-500">14 págs.</span>
+                </a>
+                <a href="../ENTREGA_PROYECTO_UAN/05_ANEXO_PLAN_DE_NEGOCIO_Y_FINANCIERO/plan_negocio_startup_audio.pdf" target="_blank" class="flex items-center justify-between p-2 rounded hover:bg-brand-card hover:text-brand-cyan transition-colors text-slate-300">
+                  <span class="truncate">📈 Plan de Negocio & Proyección Startup</span>
+                  <span class="text-[10px] text-slate-500">6 págs.</span>
+                </a>
+                <a href="../ENTREGA_PROYECTO_UAN/03_ANEXO_MANUAL_DE_USUARIO/manual_usuario_aurora.pdf" target="_blank" class="flex items-center justify-between p-2 rounded hover:bg-brand-card hover:text-brand-cyan transition-colors text-slate-300">
+                  <span class="truncate">📘 Manual Oficial de Usuario</span>
+                  <span class="text-[10px] text-slate-500">7 págs.</span>
+                </a>
+                <a href="../ENTREGA_PROYECTO_UAN/04_ANEXO_VALIDACION_Y_METRICAS/informe_validacion_benchmark.pdf" target="_blank" class="flex items-center justify-between p-2 rounded hover:bg-brand-card hover:text-brand-cyan transition-colors text-slate-300">
+                  <span class="truncate">🔬 Validación Experimental & Métricas</span>
+                  <span class="text-[10px] text-slate-500">6 págs.</span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right: The Startup Vision (7 cols) -->
+        <div class="lg:col-span-7">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-cyan/10 border border-brand-cyan/30 text-brand-cyan text-xs font-mono font-bold uppercase mb-4">
+            Emprendimiento de Base Tecnológica (Spin-Off)
+          </div>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight mb-6">
+            Una Empresa Colombiana Revolucionando la Música Global
+          </h2>
+          <div class="space-y-4 text-slate-300 text-base leading-relaxed mb-8">
+            <p>
+              La música no tiene fronteras, y la tecnología que la crea tampoco. <strong class="text-white">Aurora DSP</strong> es el primer proyecto en su tipo desarrollado en el Tolima concebido como una compañía exportadora de propiedad intelectual en procesamiento digital de señales.
+            </p>
+            <p>
+              Respaldado por el rigor académico de la <strong class="text-white">Universidad Antonio Nariño</strong>, nuestro software implementa algoritmos matemáticos vectorizados de alta velocidad, cerrando la brecha entre los costosos sintetizadores de hardware físico ($4.500 USD) y los productores independientes que trabajan desde su habitación o estudio.
+            </p>
+            <p>
+              Nuestra meta a 24 meses: consolidar la distribución en más de 45 países a través de tiendas como Plugin Boutique, KVR Audio y Splice, con licencias B2B para fabricantes de sintetizadores y pedales de efectos.
+            </p>
+          </div>
+
+          <!-- 3 Highlights Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="bg-brand-card/80 p-4 rounded-xl border border-brand-border">
+              <span class="text-2xl font-black text-brand-cyan font-mono block mb-1">DNDA</span>
+              <h5 class="text-xs font-bold text-white mb-1">Propiedad Intelectual</h5>
+              <p class="text-[11px] text-slate-400">Código registrado ante la Dirección Nacional de Derecho de Autor.</p>
+            </div>
+            <div class="bg-brand-card/80 p-4 rounded-xl border border-brand-border">
+              <span class="text-2xl font-black text-brand-emerald font-mono block mb-1">SIC</span>
+              <h5 class="text-xs font-bold text-white mb-1">Marca Registrada</h5>
+              <p class="text-[11px] text-slate-400">Protección de signo distintivo ante la Superintendencia de Industria y Comercio.</p>
+            </div>
+            <div class="bg-brand-card/80 p-4 rounded-xl border border-brand-border">
+              <span class="text-2xl font-black text-brand-purple font-mono block mb-1">TRL 6</span>
+              <h5 class="text-xs font-bold text-white mb-1">Certificación I+D</h5>
+              <p class="text-[11px] text-slate-400">Validado en entornos operativos reales con productores de audio.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- NEWSLETTER / LEAD MAGNET SECTION -->
+  <section class="py-20 relative z-10">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="glass-card rounded-2xl p-8 sm:p-12 border border-brand-border relative overflow-hidden bg-gradient-to-b from-brand-card via-[#0b172a] to-brand-card shadow-2xl">
+        <div class="w-16 h-16 rounded-2xl bg-brand-cyan/20 border border-brand-cyan/40 text-brand-cyan mx-auto flex items-center justify-center mb-6 shadow-glow-cyan">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+        </div>
+        <h3 class="text-2xl sm:text-4xl font-black text-white tracking-tight mb-3">
+          Descarga Gratis el Soundbank "Tolima Soundscapes"
+        </h3>
+        <p class="text-slate-300 text-sm sm:text-base max-w-xl mx-auto mb-8">
+          Suscríbete a nuestro boletín de diseñadores sonoros y recibe de regalo 50 presets exclusivos de bajos, pads y campanas FM para Aurora.
+        </p>
+
+        <form id="newsletterForm" onsubmit="handleNewsletter(event)" class="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
+          <input type="email" id="newsletterEmail" required placeholder="tu-correo@produccion.com" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brand-cyan font-mono">
+          <button type="submit" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-brand-cyan hover:bg-cyan-300 text-brand-dark font-black text-sm tracking-wider uppercase whitespace-nowrap shadow-glow-cyan transition-all">
+            Recibir Presets
+          </button>
+        </form>
+        <p id="newsletterSuccess" class="hidden text-xs font-mono text-brand-emerald mt-4">
+          ✓ ¡Listo! Revisa tu bandeja de entrada para descargar el soundbank gratuito.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="glass-panel border-t border-brand-border py-12 relative z-10 text-xs font-mono text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        
+        <!-- Col 1: Brand -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-2">
+            <span class="text-lg font-black text-white">AURORA<span class="text-brand-cyan">DSP</span></span>
+          </div>
+          <p class="text-slate-400 font-sans text-xs">
+            Software de procesamiento digital de señales e instrumentos musicales virtuales creado por Juan Esteban Vera Rodríguez.
+          </p>
+          <p class="text-slate-500 text-[11px]">
+            Ibagué, Tolima · Colombia 🇨🇴
+          </p>
+        </div>
+
+        <!-- Col 2: Plugins -->
+        <div class="space-y-2">
+          <h5 class="text-white font-bold uppercase tracking-wider text-xs">Plugins & Software</h5>
+          <ul class="space-y-1.5">
+            <li><a href="#catalogo" class="hover:text-brand-cyan transition-colors">Aurora Pro Workstation</a></li>
+            <li><a href="#catalogo" class="hover:text-brand-cyan transition-colors">Aurora Vocal Tune & Formant</a></li>
+            <li><a href="#catalogo" class="hover:text-brand-cyan transition-colors">CS-80 Analog Filter & Drive</a></li>
+            <li><a href="#catalogo" class="hover:text-brand-cyan transition-colors">Aurora Creator Suite Bundle</a></li>
+            <li><a href="#comunidad" class="hover:text-brand-cyan transition-colors">UAN Educational Free Edition</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Academic & Documentation -->
+        <div class="space-y-2">
+          <h5 class="text-white font-bold uppercase tracking-wider text-xs">Documentos Oficiales</h5>
+          <ul class="space-y-1.5">
+            <li><a href="../ENTREGA_PROYECTO_UAN/01_INFORME_TECNICO_Y_EMPRENDIMIENTO/informe_aurora_uan.pdf" target="_blank" class="hover:text-brand-cyan transition-colors">Informe Técnico UAN (PDF)</a></li>
+            <li><a href="../ENTREGA_PROYECTO_UAN/03_ANEXO_MANUAL_DE_USUARIO/manual_usuario_aurora.pdf" target="_blank" class="hover:text-brand-cyan transition-colors">Manual de Usuario (PDF)</a></li>
+            <li><a href="../ENTREGA_PROYECTO_UAN/04_ANEXO_VALIDACION_Y_METRICAS/informe_validacion_benchmark.pdf" target="_blank" class="hover:text-brand-cyan transition-colors">Reporte de Métricas (PDF)</a></li>
+            <li><a href="../ENTREGA_PROYECTO_UAN/05_ANEXO_PLAN_DE_NEGOCIO_Y_FINANCIERO/plan_negocio_startup_audio.pdf" target="_blank" class="hover:text-brand-cyan transition-colors">Plan de Negocio Startup (PDF)</a></li>
+            <li><a href="../ENTREGA_PROYECTO_UAN/02_ANEXOS_CODIGO_FUENTE/anexo_codigo_fuente_dsp.pdf" target="_blank" class="hover:text-brand-cyan transition-colors">Código Fuente Registrado (PDF)</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Institutional -->
+        <div class="space-y-2">
+          <h5 class="text-white font-bold uppercase tracking-wider text-xs">Universidad Antonio Nariño</h5>
+          <p class="text-slate-400 font-sans text-xs">
+            Facultad de Ingeniería · Programa de Ingeniería Electrónica · Sede Ibagué.
+          </p>
+          <p class="text-slate-400 font-sans text-xs">
+            Proyecto desarrollado con dedicación y orgullo a la UAN y a la Capital Musical de Colombia.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="pt-8 border-t border-brand-border/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
+        <p>© 2026 Aurora DSP · Juan Esteban Vera Rodríguez. Todos los derechos reservados.</p>
+        <p class="font-sans">Diseñado para la industria musical profesional.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SLIDE-OVER SHOPPING CART DRAWER -->
+  <div id="cartDrawer" class="fixed inset-0 z-50 overflow-hidden pointer-events-none transition-opacity duration-300 opacity-0">
+    <div id="cartBackdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-auto"></div>
+    
+    <div class="absolute inset-y-0 right-0 max-w-full flex pl-10 pointer-events-auto">
+      <div class="w-screen max-w-md bg-brand-dark border-l border-brand-border shadow-2xl flex flex-col justify-between">
+        
+        <!-- Cart Header -->
+        <div class="p-6 border-b border-brand-border flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <svg class="w-6 h-6 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+            <h3 class="text-lg font-black text-white">Tu Carrito de Plugins</h3>
+          </div>
+          <button id="closeCartBtn" class="p-2 rounded-lg hover:bg-brand-card text-slate-400 hover:text-white transition-colors">
+            ✕
+          </button>
+        </div>
+
+        <!-- Cart Items List -->
+        <div id="cartItemsList" class="flex-1 overflow-y-auto p-6 space-y-4">
+          <!-- Dynamically populated -->
+          <div id="emptyCartNotice" class="text-center py-16 text-slate-400 font-mono text-sm">
+            <p>Tu carrito está vacío.</p>
+            <a href="#catalogo" onclick="toggleCart(false)" class="text-brand-cyan underline text-xs mt-2 inline-block">Explorar catálogo de plugins</a>
+          </div>
+        </div>
+
+        <!-- Cart Footer & Checkout -->
+        <div class="p-6 border-t border-brand-border bg-brand-card/40 space-y-4">
+          
+          <!-- Promo Code input -->
+          <div class="flex gap-2">
+            <input type="text" id="couponInput" placeholder="Código de Cupón (Ej: UAN2026)" class="flex-1 px-3 py-2 rounded-lg bg-brand-dark border border-brand-border text-white text-xs font-mono uppercase focus:outline-none focus:border-brand-cyan">
+            <button onclick="applyCoupon()" class="px-3 py-2 rounded-lg bg-brand-card hover:bg-brand-border text-xs font-mono font-bold text-brand-cyan border border-brand-border transition-colors">Aplicar</button>
+          </div>
+          <p id="couponMsg" class="hidden text-[11px] font-mono"></p>
+
+          <!-- Totals -->
+          <div class="space-y-1.5 text-xs font-mono">
+            <div class="flex justify-between text-slate-400">
+              <span>Subtotal</span>
+              <span id="cartSubtotalText">$0 USD</span>
+            </div>
+            <div id="cartDiscountRow" class="hidden justify-between text-brand-emerald">
+              <span>Descuento Especial UAN</span>
+              <span id="cartDiscountText">-$0 USD</span>
+            </div>
+            <div class="flex justify-between text-base font-bold text-white pt-2 border-t border-brand-border">
+              <span>Total a Pagar</span>
+              <span id="cartTotalText" class="text-brand-cyan">$0 USD</span>
+            </div>
+          </div>
+
+          <!-- Checkout Trigger Button -->
+          <button id="checkoutBtn" onclick="openCheckoutModal()" disabled class="w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-cyan via-cyan-400 to-brand-blue text-brand-dark font-black text-sm tracking-wider uppercase shadow-glow-cyan disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-95 transition-all flex items-center justify-center gap-2">
+            <span>Comprar Licencias Ahora</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </button>
+          <p class="text-[10px] text-center text-slate-500 font-mono">Activación instantánea · Clave de licencia emitida tras la confirmación</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKOUT & LICENSE ISSUANCE MODAL -->
+  <div id="checkoutModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+    <div class="glass-card rounded-2xl max-w-lg w-full p-6 sm:p-8 border border-brand-cyan/40 shadow-glow-cyan relative">
+      
+      <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">✕</button>
+
+      <!-- Step 1: Simulated Checkout Form -->
+      <div id="checkoutFormStep">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-brand-cyan/20 text-brand-cyan flex items-center justify-center font-bold">
+            🔒
+          </div>
+          <div>
+            <h3 class="text-xl font-black text-white">Finalizar Compra de Plugins</h3>
+            <p class="text-xs text-slate-400 font-mono">Emisión de Licencia Oficial Aurora DSP</p>
+          </div>
+        </div>
+
+        <form onsubmit="processCheckout(event)" class="space-y-4 text-xs font-mono">
+          <div>
+            <label class="block text-slate-300 mb-1">Nombre Completo del Licenciatario</label>
+            <input type="text" id="buyerName" required placeholder="Ej: Carlos Santana / Productor Musical" class="w-full px-3 py-2.5 rounded-lg bg-brand-dark border border-brand-border text-white focus:outline-none focus:border-brand-cyan">
+          </div>
+          <div>
+            <label class="block text-slate-300 mb-1">Correo Electrónico (Para Entrega de Serials)</label>
+            <input type="email" id="buyerEmail" required placeholder="tu-email@estudio.com" class="w-full px-3 py-2.5 rounded-lg bg-brand-dark border border-brand-border text-white focus:outline-none focus:border-brand-cyan">
+          </div>
+          <div>
+            <label class="block text-slate-300 mb-1">Método de Pago Preferido</label>
+            <div class="grid grid-cols-3 gap-2">
+              <label class="flex flex-col items-center justify-center p-2.5 rounded-lg border border-brand-cyan bg-brand-cyan/10 text-brand-cyan cursor-pointer font-bold">
+                <input type="radio" name="paymethod" checked class="hidden">
+                <span>Tarjeta Crédito</span>
+              </label>
+              <label class="flex flex-col items-center justify-center p-2.5 rounded-lg border border-brand-border bg-brand-dark text-slate-300 cursor-pointer">
+                <input type="radio" name="paymethod" class="hidden">
+                <span>PayPal</span>
+              </label>
+              <label class="flex flex-col items-center justify-center p-2.5 rounded-lg border border-brand-border bg-brand-dark text-slate-300 cursor-pointer">
+                <input type="radio" name="paymethod" class="hidden">
+                <span>PSE Colombia</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="p-3 rounded-lg bg-brand-dark border border-brand-border flex justify-between items-center text-sm">
+            <span class="text-slate-300">Total a Pagar:</span>
+            <strong id="modalTotalText" class="text-brand-cyan font-bold">$0 USD</strong>
+          </div>
+
+          <button type="submit" id="paySubmitBtn" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-cyan via-cyan-400 to-brand-blue text-brand-dark font-black text-sm tracking-wider uppercase shadow-glow-cyan hover:opacity-95 transition-all">
+            Completar Orden & Generar Licencia
+          </button>
+        </form>
+      </div>
+
+      <!-- Step 2: Instant License Key Issued -->
+      <div id="checkoutSuccessStep" class="hidden text-center py-4 space-y-4">
+        <div class="w-16 h-16 rounded-full bg-brand-emerald/20 border border-brand-emerald/40 text-brand-emerald mx-auto flex items-center justify-center shadow-glow-emerald">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+        </div>
+
+        <h3 class="text-2xl font-black text-white">¡Compra Exitosa & Licencia Emitida!</h3>
+        <p class="text-xs text-slate-300 font-sans">
+          Gracias por apoyar a <strong class="text-white">Aurora DSP</strong> y el talento de ingeniería de la Universidad Antonio Nariño.
+        </p>
+
+        <!-- Serial Key Box -->
+        <div class="bg-brand-dark p-4 rounded-xl border border-brand-cyan text-left space-y-2">
+          <div class="flex justify-between items-center text-[10px] font-mono text-slate-400">
+            <span>CLAVE DE LICENCIA PERPETUA</span>
+            <span class="text-brand-cyan font-bold">AUTORIZADA</span>
+          </div>
+          <div id="generatedSerialKey" class="text-sm font-mono font-bold text-brand-cyan tracking-wider select-all bg-brand-card p-2 rounded border border-brand-border">
+            AUR-PRO-9842-JEVR-2026
+          </div>
+          <p class="text-[10px] font-mono text-slate-400">Registrado a: <span id="licenseOwner" class="text-white font-bold"></span></p>
+        </div>
+
+        <!-- Download Buttons -->
+        <div class="space-y-2 pt-2">
+          <button onclick="downloadPluginInstaller()" class="w-full py-3 rounded-xl bg-brand-cyan hover:bg-cyan-300 text-brand-dark font-bold text-xs tracking-wider uppercase shadow-glow-cyan flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            <span>Descargar Instalador VST3 / AU (.ZIP)</span>
+          </button>
+          <button onclick="closeCheckoutModal()" class="w-full py-2.5 rounded-xl bg-brand-card hover:bg-brand-border text-slate-300 text-xs font-mono">
+            Cerrar Ventana
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT: WEB AUDIO SYNTH ENGINE, SUPER KNOB, CART, AND CHECKOUT -->
+  <script>
+    // =========================================================================
+    // 1. STATE & GLOBAL VARIABLES
+    // =========================================================================
+    let audioCtx = null;
+    let masterGain = null;
+    let analyserNode = null;
+    let filterNode = null;
+    let isAudioStarted = false;
+    let activeVoices = new Map(); // midiNote -> { osc1, osc2, gainNode, fmGain }
+    let currentWaveform = 'sine';
+    let currentBaseOctave = 3; // C3
+    let superKnobVal = 0.0;
+    let currentCurrency = 'USD'; // 'USD' or 'COP'
+    let discountPercent = 0.0;
+
+    // Cart State
+    let cart = [];
+
+    // =========================================================================
+    // 2. WEB AUDIO INITIALIZATION & ENGINE
+    // =========================================================================
+    function initAudioEngine() {
+      if (isAudioStarted) return;
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AudioContextClass();
+
+      // Master Gain
+      masterGain = audioCtx.createGain();
+      masterGain.gain.setValueAtTime(0.35, audioCtx.currentTime);
+
+      // Resonant Filter (SVF Lowpass emulation)
+      filterNode = audioCtx.createBiquadFilter();
+      filterNode.type = 'lowpass';
+      filterNode.frequency.setValueAtTime(4200, audioCtx.currentTime);
+      filterNode.Q.setValueAtTime(2.5, audioCtx.currentTime);
+
+      // Analyser for Live Oscilloscope
+      analyserNode = audioCtx.createAnalyser();
+      analyserNode.fftSize = 512;
+
+      // Routing
+      filterNode.connect(analyserNode);
+      analyserNode.connect(masterGain);
+      masterGain.connect(audioCtx.destination);
+
+      isAudioStarted = true;
+      document.getElementById('audioInitBtn').innerHTML = `
+        <span class="w-2 h-2 rounded-full bg-brand-emerald"></span>
+        <span class="text-brand-emerald">DSP ONLINE (44.1 kHz)</span>
+      `;
+      document.getElementById('audioInitBtn').classList.replace('border-brand-cyan', 'border-brand-emerald');
+      document.getElementById('audioInitBtn').classList.replace('text-brand-cyan', 'text-brand-emerald');
+
+      // Start Scope Animation
+      drawOscilloscope();
+    }
+
+    function midiToFreq(midi) {
+      return 440.0 * Math.pow(2.0, (midi - 69) / 12.0);
+    }
+
+    function playNote(midiNote) {
+      initAudioEngine();
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      if (activeVoices.has(midiNote)) return;
+
+      const baseFreq = midiToFreq(midiNote);
+      const now = audioCtx.currentTime;
+
+      // Envelope Gain Node
+      const voiceGain = audioCtx.createGain();
+      voiceGain.gain.setValueAtTime(0.0001, now);
+      // Fast attack
+      voiceGain.gain.exponentialRampToValueAtTime(0.35, now + 0.02);
+
+      // Carrier Oscillator (OSC 1)
+      const osc1 = audioCtx.createOscillator();
+      osc1.type = currentWaveform;
+      osc1.frequency.setValueAtTime(baseFreq, now);
+
+      // Modulator Oscillator (OSC 2 for FM-X)
+      const osc2 = audioCtx.createOscillator();
+      const fmDepth = parseFloat(document.getElementById('fmDepthSlider').value) + (superKnobVal * 0.6);
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(baseFreq * 2.0, now); // 2:1 FM ratio
+
+      const fmGain = audioCtx.createGain();
+      fmGain.gain.setValueAtTime(baseFreq * fmDepth * 4.0, now);
+
+      // FM Routing: osc2 -> fmGain -> osc1.frequency
+      osc2.connect(fmGain);
+      fmGain.connect(osc1.frequency);
+
+      // Voice routing
+      osc1.connect(voiceGain);
+      voiceGain.connect(filterNode);
+
+      osc1.start(now);
+      osc2.start(now);
+
+      activeVoices.set(midiNote, { osc1, osc2, voiceGain, fmGain });
+      updateVoiceDisplay();
+
+      // Update feedback display
+      document.getElementById('detectedFreqDisplay').textContent = baseFreq.toFixed(1) + ' Hz';
+    }
+
+    function stopNote(midiNote) {
+      if (!activeVoices.has(midiNote)) return;
+      const voice = activeVoices.get(midiNote);
+      const now = audioCtx.currentTime;
+
+      // Release curve
+      voice.voiceGain.gain.cancelScheduledValues(now);
+      voice.voiceGain.gain.setValueAtTime(voice.voiceGain.gain.value, now);
+      voice.voiceGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
+
+      setTimeout(() => {
+        try {
+          voice.osc1.stop();
+          voice.osc2.stop();
+          voice.osc1.disconnect();
+          voice.osc2.disconnect();
+          voice.voiceGain.disconnect();
+        } catch (e) {}
+      }, 300);
+
+      activeVoices.delete(midiNote);
+      updateVoiceDisplay();
+    }
+
+    function panicSilenciar() {
+      activeVoices.forEach((voice, note) => {
+        try {
+          voice.osc1.stop();
+          voice.osc2.stop();
+          voice.voiceGain.disconnect();
+        } catch (e) {}
+      });
+      activeVoices.clear();
+      updateVoiceDisplay();
+      // Remove visual active states
+      document.querySelectorAll('.piano-key').forEach(k => k.classList.remove('active'));
+    }
+
+    function updateVoiceDisplay() {
+      document.getElementById('activeVoiceCount').textContent = `${activeVoices.size} Voces Activas`;
+    }
+
+    // =========================================================================
+    // 3. OSCILLOSCOPE DRAWING
+    // =========================================================================
+    const scopeCanvas = document.getElementById('scopeCanvas');
+    const scopeCtx = scopeCanvas.getContext('2d');
+
+    function resizeCanvas() {
+      scopeCanvas.width = scopeCanvas.parentElement.clientWidth - 32;
+      scopeCanvas.height = 150;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function drawOscilloscope() {
+      requestAnimationFrame(drawOscilloscope);
+      if (!analyserNode) {
+        scopeCtx.fillStyle = '#050911';
+        scopeCtx.fillRect(0, 0, scopeCanvas.width, scopeCanvas.height);
+        // Draw idle center line
+        scopeCtx.strokeStyle = '#162846';
+        scopeCtx.lineWidth = 2;
+        scopeCtx.beginPath();
+        scopeCtx.moveTo(0, scopeCanvas.height / 2);
+        scopeCtx.lineTo(scopeCanvas.width, scopeCanvas.height / 2);
+        scopeCtx.stroke();
+        return;
+      }
+
+      const bufferLength = analyserNode.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+      analyserNode.getByteTimeDomainData(dataArray);
+
+      scopeCtx.fillStyle = '#050911';
+      scopeCtx.fillRect(0, 0, scopeCanvas.width, scopeCanvas.height);
+
+      // Grid Lines
+      scopeCtx.strokeStyle = '#0f1a2e';
+      scopeCtx.lineWidth = 1;
+      for (let y = 30; y < scopeCanvas.height; y += 30) {
+        scopeCtx.beginPath();
+        scopeCtx.moveTo(0, y);
+        scopeCtx.lineTo(scopeCanvas.width, y);
+        scopeCtx.stroke();
+      }
+
+      // Neon Waveform Line
+      scopeCtx.lineWidth = 2.5;
+      scopeCtx.strokeStyle = '#00f0ff';
+      scopeCtx.shadowColor = '#00f0ff';
+      scopeCtx.shadowBlur = 12;
+
+      scopeCtx.beginPath();
+      const sliceWidth = scopeCanvas.width * 1.0 / bufferLength;
+      let x = 0;
+
+      for (let i = 0; i < bufferLength; i++) {
+        const v = dataArray[i] / 128.0;
+        const y = v * scopeCanvas.height / 2;
+        if (i === 0) {
+          scopeCtx.moveTo(x, y);
+        } else {
+          scopeCtx.lineTo(x, y);
+        }
+        x += sliceWidth;
+      }
+
+      scopeCtx.stroke();
+      scopeCtx.shadowBlur = 0; // reset
+    }
+
+    // =========================================================================
+    // 4. MOTION CONTROL SUPER KNOB INTERACTION
+    // =========================================================================
+    const superKnobContainer = document.getElementById('superKnobContainer');
+    const knobProgressArc = document.getElementById('knobProgressArc');
+    const knobPercentText = document.getElementById('knobPercentText');
+    const knobPointerDot = document.getElementById('knobPointerDot');
+
+    let isDraggingKnob = false;
+    let startKnobY = 0;
+    let startKnobVal = 0;
+
+    function setSuperKnob(val) {
+      superKnobVal = Math.max(0.0, Math.min(1.0, val));
+      const percent = Math.round(superKnobVal * 100);
+      knobPercentText.textContent = `${percent}%`;
+
+      // SVG Arc dash calculations
+      // Full circle circumference = 2 * PI * 54 = 339.29
+      // We want a 270 degree sweep = 339.29 * (270/360) = 254.46 max active length
+      const maxOffset = 339.29;
+      const minOffset = 339.29 - 254.46;
+      const currentOffset = maxOffset - (superKnobVal * 254.46);
+      knobProgressArc.style.strokeDashoffset = currentOffset;
+
+      // Pointer rotation (-135deg to +135deg)
+      const deg = -135 + (superKnobVal * 270);
+      knobPointerDot.style.transform = `rotate(${deg}deg) translateY(-40px)`;
+
+      // Real-time DSP modulation feedback
+      const dynamicCutoff = 4200 * (1.0 + superKnobVal * 2.2);
+      const dynamicFM = (0.25 + superKnobVal * 0.75).toFixed(2);
+      const dynamicDrive = Math.round(superKnobVal * 85);
+
+      document.getElementById('knobCutoffFeedback').textContent = (dynamicCutoff / 1000).toFixed(1) + ' kHz';
+      document.getElementById('knobFmFeedback').textContent = dynamicFM;
+      document.getElementById('knobDriveFeedback').textContent = dynamicDrive + '%';
+
+      // Apply to running filter
+      if (filterNode && audioCtx) {
+        filterNode.frequency.setValueAtTime(dynamicCutoff, audioCtx.currentTime);
+      }
+    }
+
+    superKnobContainer.addEventListener('mousedown', (e) => {
+      isDraggingKnob = true;
+      startKnobY = e.clientY;
+      startKnobVal = superKnobVal;
+      e.preventDefault();
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDraggingKnob) return;
+      const deltaY = startKnobY - e.clientY;
+      const newVal = startKnobVal + (deltaY / 150.0);
+      setSuperKnob(newVal);
+    });
+
+    window.addEventListener('mouseup', () => {
+      isDraggingKnob = false;
+    });
+
+    superKnobContainer.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? -0.05 : 0.05;
+      setSuperKnob(superKnobVal + delta);
+    });
+
+    // =========================================================================
+    // 5. 25-KEY EXTENDED PIANO GENERATION & BINDINGS
+    // =========================================================================
+    const keyboardContainer = document.getElementById('keyboardContainer');
+
+    // Notes mapping for 2 octaves (25 keys: C3 to C5)
+    // 15 white keys, 10 black keys
+    const keyDefinitions = [
+      // Octave 1
+      { offset: 0, isBlack: false, name: 'C', keyChar: 'Z' },
+      { offset: 1, isBlack: true, name: 'C#', keyChar: 'S' },
+      { offset: 2, isBlack: false, name: 'D', keyChar: 'X' },
+      { offset: 3, isBlack: true, name: 'D#', keyChar: 'D' },
+      { offset: 4, isBlack: false, name: 'E', keyChar: 'C' },
+      { offset: 5, isBlack: false, name: 'F', keyChar: 'V' },
+      { offset: 6, isBlack: true, name: 'F#', keyChar: 'G' },
+      { offset: 7, isBlack: false, name: 'G', keyChar: 'B' },
+      { offset: 8, isBlack: true, name: 'G#', keyChar: 'H' },
+      { offset: 9, isBlack: false, name: 'A', keyChar: 'N' },
+      { offset: 10, isBlack: true, name: 'A#', keyChar: 'J' },
+      { offset: 11, isBlack: false, name: 'B', keyChar: 'M' },
+      // Octave 2
+      { offset: 12, isBlack: false, name: 'C', keyChar: 'Q' },
+      { offset: 13, isBlack: true, name: 'C#', keyChar: '2' },
+      { offset: 14, isBlack: false, name: 'D', keyChar: 'W' },
+      { offset: 15, isBlack: true, name: 'D#', keyChar: '3' },
+      { offset: 16, isBlack: false, name: 'E', keyChar: 'E' },
+      { offset: 17, isBlack: false, name: 'F', keyChar: 'R' },
+      { offset: 18, isBlack: true, name: 'F#', keyChar: '5' },
+      { offset: 19, isBlack: false, name: 'G', keyChar: 'T' },
+      { offset: 20, isBlack: true, name: 'G#', keyChar: '6' },
+      { offset: 21, isBlack: false, name: 'A', keyChar: 'Y' },
+      { offset: 22, isBlack: true, name: 'A#', keyChar: '7' },
+      { offset: 23, isBlack: false, name: 'B', keyChar: 'U' },
+      // Final C
+      { offset: 24, isBlack: false, name: 'C', keyChar: 'I' },
+    ];
+
+    function renderKeyboard() {
+      keyboardContainer.innerHTML = '';
+      const baseMidi = currentBaseOctave * 12 + 12; // C3 = 48
+
+      let whiteCount = 0;
+      const totalWhiteKeys = 15;
+
+      // First create white keys evenly
+      const whiteKeyElements = [];
+      keyDefinitions.forEach((kDef, index) => {
+        if (!kDef.isBlack) {
+          const wKey = document.createElement('div');
+          const midi = baseMidi + kDef.offset;
+          wKey.className = 'white-key piano-key flex-1 h-full rounded-b-md border border-slate-300 relative flex flex-col justify-end items-center pb-2 text-[10px] font-mono font-bold text-slate-700';
+          wKey.dataset.midi = midi;
+          wKey.innerHTML = `<span>${kDef.name}</span><span class="text-[9px] text-slate-500 font-mono mt-0.5">${kDef.keyChar}</span>`;
+          
+          wKey.addEventListener('mousedown', () => { playNote(midi); wKey.classList.add('active'); });
+          wKey.addEventListener('mouseup', () => { stopNote(midi); wKey.classList.remove('active'); });
+          wKey.addEventListener('mouseleave', () => { stopNote(midi); wKey.classList.remove('active'); });
+
+          keyboardContainer.appendChild(wKey);
+          whiteKeyElements.push({ element: wKey, index: whiteCount });
+          whiteCount++;
+        }
+      });
+
+      // Overlay black keys positioned proportionally
+      let whiteIndexTracker = 0;
+      keyDefinitions.forEach((kDef) => {
+        if (!kDef.isBlack) {
+          whiteIndexTracker++;
+        } else {
+          // Black key sits between (whiteIndexTracker - 1) and whiteIndexTracker
+          const bKey = document.createElement('div');
+          const midi = baseMidi + kDef.offset;
+          const leftPercent = ((whiteIndexTracker - 0.32) / totalWhiteKeys) * 100;
+          const widthPercent = (0.64 / totalWhiteKeys) * 100;
+
+          bKey.className = 'black-key piano-key absolute top-0 h-[60%] rounded-b-md z-20 flex flex-col justify-end items-center pb-1 text-[9px] font-mono text-cyan-300';
+          bKey.style.left = `${leftPercent}%`;
+          bKey.style.width = `${widthPercent}%`;
+          bKey.dataset.midi = midi;
+          bKey.innerHTML = `<span>${kDef.name}</span><span class="text-[8px] text-slate-400">${kDef.keyChar}</span>`;
+
+          bKey.addEventListener('mousedown', (e) => { e.stopPropagation(); playNote(midi); bKey.classList.add('active'); });
+          bKey.addEventListener('mouseup', (e) => { e.stopPropagation(); stopNote(midi); bKey.classList.remove('active'); });
+          bKey.addEventListener('mouseleave', (e) => { e.stopPropagation(); stopNote(midi); bKey.classList.remove('active'); });
+
+          keyboardContainer.appendChild(bKey);
+        }
+      });
+    }
+
+    renderKeyboard();
+
+    // Octave switch buttons
+    document.getElementById('octaveDownBtn').addEventListener('click', () => {
+      if (currentBaseOctave > 1) {
+        currentBaseOctave--;
+        document.getElementById('octaveDisplay').textContent = `C${currentBaseOctave} - C${currentBaseOctave + 2}`;
+        renderKeyboard();
+      }
+    });
+    document.getElementById('octaveUpBtn').addEventListener('click', () => {
+      if (currentBaseOctave < 5) {
+        currentBaseOctave++;
+        document.getElementById('octaveDisplay').textContent = `C${currentBaseOctave} - C${currentBaseOctave + 2}`;
+        renderKeyboard();
+      }
+    });
+
+    // Computer Keyboard mapping
+    const keyToMidiOffset = {
+      'z': 0, 's': 1, 'x': 2, 'd': 3, 'c': 4, 'v': 5, 'g': 6, 'b': 7, 'h': 8, 'n': 9, 'j': 10, 'm': 11,
+      'q': 12, '2': 13, 'w': 14, '3': 15, 'e': 16, 'r': 17, '5': 18, 't': 19, '6': 20, 'y': 21, '7': 22, 'u': 23, 'i': 24
+    };
+
+    window.addEventListener('keydown', (e) => {
+      if (e.repeat || e.target.tagName === 'INPUT') return;
+      const keyChar = e.key.toLowerCase();
+      if (keyChar in keyToMidiOffset) {
+        const offset = keyToMidiOffset[keyChar];
+        const baseMidi = currentBaseOctave * 12 + 12;
+        const midi = baseMidi + offset;
+        playNote(midi);
+        const el = document.querySelector(`.piano-key[data-midi="${midi}"]`);
+        if (el) el.classList.add('active');
+      } else if (e.key === 'Escape') {
+        panicSilenciar();
+      }
+    });
+
+    window.addEventListener('keyup', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      const keyChar = e.key.toLowerCase();
+      if (keyChar in keyToMidiOffset) {
+        const offset = keyToMidiOffset[keyChar];
+        const baseMidi = currentBaseOctave * 12 + 12;
+        const midi = baseMidi + offset;
+        stopNote(midi);
+        const el = document.querySelector(`.piano-key[data-midi="${midi}"]`);
+        if (el) el.classList.remove('active');
+      }
+    });
+
+    // Sound Controls
+    document.querySelectorAll('.wave-select-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.wave-select-btn').forEach(b => {
+          b.classList.remove('bg-brand-cyan', 'text-brand-dark');
+          b.classList.add('bg-brand-dark', 'text-slate-300');
+        });
+        btn.classList.add('bg-brand-cyan', 'text-brand-dark');
+        btn.classList.remove('bg-brand-dark', 'text-slate-300');
+        currentWaveform = btn.dataset.wave;
+        const names = { sine: 'Sine (DX7 FM)', sawtooth: 'Saw (CS-80 PolyBLEP)', square: 'Square (Analog)', triangle: 'Triangle (Warm)' };
+        document.getElementById('waveformLabel').textContent = names[currentWaveform];
+      });
+    });
+
+    document.getElementById('fmDepthSlider').addEventListener('input', (e) => {
+      document.getElementById('fmDepthVal').textContent = parseFloat(e.target.value).toFixed(2);
+    });
+
+    document.getElementById('cutoffSlider').addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value);
+      document.getElementById('cutoffVal').textContent = (val / 1000).toFixed(1) + ' kHz';
+      if (filterNode && audioCtx) {
+        filterNode.frequency.setValueAtTime(val, audioCtx.currentTime);
+      }
+    });
+
+    document.getElementById('resonanceSlider').addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value);
+      document.getElementById('resonanceVal').textContent = val.toFixed(1);
+      if (filterNode && audioCtx) {
+        filterNode.Q.setValueAtTime(val, audioCtx.currentTime);
+      }
+    });
+
+    document.getElementById('audioInitBtn').addEventListener('click', initAudioEngine);
+    document.getElementById('panicBtn').addEventListener('click', panicSilenciar);
+
+    // =========================================================================
+    // 6. INTERACTIVE PRESET AUDIO DEMOS (SYNTH PROCEDURAL PREVIEW)
+    // =========================================================================
+    let currentDemoPlaying = null;
+
+    function playPresetDemo(presetId) {
+      initAudioEngine();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      if (currentDemoPlaying === presetId) {
+        panicSilenciar();
+        currentDemoPlaying = null;
+        document.querySelectorAll('[id^="play-btn-"]').forEach(b => b.classList.remove('bg-brand-emerald', 'text-brand-dark'));
+        return;
+      }
+
+      panicSilenciar();
+      currentDemoPlaying = presetId;
+      document.querySelectorAll('[id^="play-btn-"]').forEach(b => b.classList.remove('bg-brand-emerald', 'text-brand-dark'));
+      document.getElementById(`play-btn-${presetId}`).classList.add('bg-brand-emerald', 'text-brand-dark');
+
+      // Arpeggiate musical sequence for the preset demo
+      const scales = {
+        dx7: [60, 64, 67, 71, 72, 76, 79], // Cmaj9
+        cs80: [57, 60, 64, 69, 72], // Am
+        lead: [62, 65, 67, 68, 69, 74], // Blues Dm
+        bass: [36, 38, 41, 43, 48], // Sub Bass C
+        pad: [48, 55, 60, 64, 67, 71], // Wide Pad C
+        bell: [72, 79, 84, 88, 91] // High bells
+      };
+
+      const notes = scales[presetId] || [60, 64, 67];
+      let step = 0;
+
+      const intervalId = setInterval(() => {
+        if (currentDemoPlaying !== presetId) {
+          clearInterval(intervalId);
+          return;
+        }
+        const note = notes[step % notes.length];
+        playNote(note);
+        setTimeout(() => stopNote(note), 350);
+        step++;
+        if (step >= 16) {
+          clearInterval(intervalId);
+          currentDemoPlaying = null;
+          document.getElementById(`play-btn-${presetId}`).classList.remove('bg-brand-emerald', 'text-brand-dark');
+        }
+      }, 240);
+    }
+
+    // =========================================================================
+    // 7. SHOPPING CART, CURRENCY TOGGLE & CHECKOUT SYSTEM
+    // =========================================================================
+    const currencyToggle = document.getElementById('currencyToggle');
+    const currencyCode = document.getElementById('currencyCode');
+    const currencyFlag = document.getElementById('currencyFlag');
+    const cartDrawer = document.getElementById('cartDrawer');
+    const cartBackdrop = document.getElementById('cartBackdrop');
+    const openCartBtn = document.getElementById('openCartBtn');
+    const closeCartBtn = document.getElementById('closeCartBtn');
+    const cartCountBadge = document.getElementById('cartCountBadge');
+    const cartItemsList = document.getElementById('cartItemsList');
+    const emptyCartNotice = document.getElementById('emptyCartNotice');
+    const cartSubtotalText = document.getElementById('cartSubtotalText');
+    const cartDiscountRow = document.getElementById('cartDiscountRow');
+    const cartDiscountText = document.getElementById('cartDiscountText');
+    const cartTotalText = document.getElementById('cartTotalText');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+
+    // Currency Switcher
+    currencyToggle.addEventListener('click', () => {
+      if (currentCurrency === 'USD') {
+        currentCurrency = 'COP';
+        currencyCode.textContent = 'COP';
+        currencyFlag.textContent = '🇨🇴';
+      } else {
+        currentCurrency = 'USD';
+        currencyCode.textContent = 'USD';
+        currencyFlag.textContent = '🇺🇸';
+      }
+      updatePriceDisplays();
+      renderCart();
+    });
+
+    function formatMoney(usdAmount, copAmount) {
+      if (currentCurrency === 'USD') {
+        return `$${usdAmount.toFixed(0)} USD`;
+      } else {
+        return `$${copAmount.toLocaleString('es-CO')} COP`;
+      }
+    }
+
+    function updatePriceDisplays() {
+      document.querySelectorAll('.price-display').forEach(el => {
+        const usd = parseFloat(el.dataset.usd);
+        const cop = parseFloat(el.dataset.cop);
+        el.textContent = formatMoney(usd, cop);
+      });
+    }
+
+    function toggleCart(show) {
+      if (show) {
+        cartDrawer.classList.remove('pointer-events-none', 'opacity-0');
+        cartDrawer.classList.add('opacity-100');
+      } else {
+        cartDrawer.classList.add('opacity-0');
+        setTimeout(() => cartDrawer.classList.add('pointer-events-none'), 300);
+      }
+    }
+
+    openCartBtn.addEventListener('click', () => toggleCart(true));
+    closeCartBtn.addEventListener('click', () => toggleCart(false));
+    cartBackdrop.addEventListener('click', () => toggleCart(false));
+
+    function addToCart(id, name, priceUSD, priceCOP) {
+      const existing = cart.find(item => item.id === id);
+      if (existing) {
+        existing.qty++;
+      } else {
+        cart.push({ id, name, priceUSD, priceCOP, qty: 1 });
+      }
+      renderCart();
+      toggleCart(true);
+    }
+
+    function removeFromCart(id) {
+      cart = cart.filter(item => item.id !== id);
+      renderCart();
+    }
+
+    function renderCart() {
+      const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
+      cartCountBadge.textContent = totalItems;
+
+      if (cart.length === 0) {
+        emptyCartNotice.classList.remove('hidden');
+        cartItemsList.querySelectorAll('.cart-item').forEach(el => el.remove());
+        checkoutBtn.disabled = true;
+        cartSubtotalText.textContent = formatMoney(0, 0);
+        cartTotalText.textContent = formatMoney(0, 0);
+        return;
+      }
+
+      emptyCartNotice.classList.add('hidden');
+      cartItemsList.querySelectorAll('.cart-item').forEach(el => el.remove());
+
+      let subtotalUSD = 0;
+      let subtotalCOP = 0;
+
+      cart.forEach(item => {
+        subtotalUSD += item.priceUSD * item.qty;
+        subtotalCOP += item.priceCOP * item.qty;
+
+        const itemEl = document.createElement('div');
+        itemEl.className = 'cart-item glass-card p-4 rounded-xl border border-brand-border flex items-center justify-between text-xs font-mono';
+        itemEl.innerHTML = `
+          <div>
+            <h5 class="text-white font-bold">${item.name}</h5>
+            <p class="text-slate-400 text-[11px]">${formatMoney(item.priceUSD, item.priceCOP)} × ${item.qty}</p>
+          </div>
+          <button onclick="removeFromCart('${item.id}')" class="text-red-400 hover:text-red-300 p-1" title="Eliminar">
+            ✕
+          </button>
+        `;
+        cartItemsList.appendChild(itemEl);
+      });
+
+      const discountUSD = subtotalUSD * discountPercent;
+      const discountCOP = subtotalCOP * discountPercent;
+      const totalUSD = subtotalUSD - discountUSD;
+      const totalCOP = subtotalCOP - discountCOP;
+
+      cartSubtotalText.textContent = formatMoney(subtotalUSD, subtotalCOP);
+      if (discountPercent > 0) {
+        cartDiscountRow.classList.remove('hidden');
+        cartDiscountRow.classList.add('flex');
+        cartDiscountText.textContent = `-${formatMoney(discountUSD, discountCOP)}`;
+      } else {
+        cartDiscountRow.classList.add('hidden');
+        cartDiscountRow.classList.remove('flex');
+      }
+
+      cartTotalText.textContent = formatMoney(totalUSD, totalCOP);
+      checkoutBtn.disabled = false;
+    }
+
+    function applyCoupon() {
+      const code = document.getElementById('couponInput').value.trim().toUpperCase();
+      const msg = document.getElementById('couponMsg');
+      if (code === 'UAN2026' || code === 'AURORA15') {
+        discountPercent = 0.15;
+        msg.className = 'text-[11px] font-mono text-brand-emerald';
+        msg.textContent = '✓ ¡Cupón UAN aplicado! 15% de descuento activado.';
+        msg.classList.remove('hidden');
+      } else {
+        msg.className = 'text-[11px] font-mono text-red-400';
+        msg.textContent = 'Cupón inválido o expirado.';
+        msg.classList.remove('hidden');
+      }
+      renderCart();
+    }
+
+    // Checkout Modal
+    const checkoutModal = document.getElementById('checkoutModal');
+    const checkoutFormStep = document.getElementById('checkoutFormStep');
+    const checkoutSuccessStep = document.getElementById('checkoutSuccessStep');
+
+    function openCheckoutModal() {
+      toggleCart(false);
+      document.getElementById('modalTotalText').textContent = cartTotalText.textContent;
+      checkoutFormStep.classList.remove('hidden');
+      checkoutSuccessStep.classList.add('hidden');
+      checkoutModal.classList.remove('hidden');
+      checkoutModal.classList.add('flex');
+    }
+
+    function closeCheckoutModal() {
+      checkoutModal.classList.add('hidden');
+      checkoutModal.classList.remove('flex');
+    }
+
+    function processCheckout(e) {
+      e.preventDefault();
+      const buyerName = document.getElementById('buyerName').value;
+      const buyerEmail = document.getElementById('buyerEmail').value;
+
+      // Generate unique license key format: AUR-PRO-XXXX-XXXX-2026
+      const rand1 = Math.random().toString(36).substring(2, 6).toUpperCase();
+      const rand2 = Math.random().toString(36).substring(2, 6).toUpperCase();
+      const serialKey = `AUR-PRO-${rand1}-${rand2}-2026`;
+
+      document.getElementById('generatedSerialKey').textContent = serialKey;
+      document.getElementById('licenseOwner').textContent = `${buyerName} (${buyerEmail})`;
+
+      checkoutFormStep.classList.add('hidden');
+      checkoutSuccessStep.classList.remove('hidden');
+
+      // Clear cart
+      cart = [];
+      renderCart();
+    }
+
+    function downloadPluginInstaller() {
+      alert("¡Gracias por tu compra! Tu instalador oficial de Aurora VST3/AU (versión 2.1.0) se está empaquetando para descarga. También puedes abrir el software inmediatamente ejecutando 'python main.py' en tu terminal.");
+    }
+
+    function downloadFreeEdition() {
+      alert("Aurora Community & Educational Edition (UAN). Descarga directa habilitada. Para iniciar el entorno educativo, abre tu terminal y ejecuta: 'python main.py'. ¡Bienvenido a la comunidad de síntesis UAN!");
+    }
+
+    function handleNewsletter(e) {
+      e.preventDefault();
+      document.getElementById('newsletterEmail').value = '';
+      document.getElementById('newsletterSuccess').classList.remove('hidden');
+    }
+
+    // Initialize display with default knob & prices
+    setSuperKnob(0.0);
+    updatePriceDisplays();
+  </script>
+</body>
+</html>

@@ -1,0 +1,282 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{geometry}
+\geometry{left=2.5cm, right=2.5cm, top=2.8cm, bottom=2.8cm}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+% Paleta institucional UAN
+\definecolor{uanblue}{RGB}{0, 45, 98}
+\definecolor{uancyan}{RGB}{0, 140, 200}
+\definecolor{accentgreen}{RGB}{0, 160, 120}
+\definecolor{codebg}{RGB}{246, 248, 252}
+\definecolor{bordercolor}{RGB}{205, 215, 230}
+\definecolor{darkgray}{RGB}{60, 64, 70}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=uanblue,
+    citecolor=uancyan,
+    urlcolor=uancyan,
+    pdftitle={Aurora By Juan Esteban Vera - Manual de Usuario e Interpretacion},
+    pdfauthor={Juan Esteban Vera Rodriguez}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small \textcolor{uanblue}{\textbf{Universidad Antonio Nariño}} · Sede Ibagué · Ingeniería Electrónica}
+\fancyhead[R]{\small \textcolor{gray}{Aurora By Juan Esteban Vera · Manual de Usuario}}
+\fancyfoot[L]{\small \textcolor{gray}{Anexo Técnico 03 — Manual de Operación e Interpretación}}
+\fancyfoot[R]{\small \thepage}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\lstset{
+    backgroundcolor=\color{codebg},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    captionpos=b,
+    frame=single,
+    rulecolor=\color{bordercolor},
+    keywordstyle=\color{uanblue}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{accentgreen},
+    showstringspaces=false
+}
+
+\begin{document}
+
+% =========================================================================
+% PORTADA INSTITUCIONAL
+% =========================================================================
+\begin{titlepage}
+    \centering
+    \vspace*{0.5cm}
+    
+    {\scshape\LARGE \textbf{UNIVERSIDAD ANTONIO NARIÑO}}\\[0.3cm]
+    {\scshape\large FACULTAD DE INGENIERÍA · PROGRAMA DE INGENIERÍA ELECTRÓNICA}\\[0.15cm]
+    {\small SEDE IBAGUÉ — CAPITAL MUSICAL DE COLOMBIA}\\[1.5cm]
+    
+    \rule{\linewidth}{1.8pt}\\[0.4cm]
+    {\Huge \bfseries \textcolor{uanblue}{MANUAL OFICIAL DE USUARIO}}\\[0.3cm]
+    {\Large \bfseries GUÍA COMPLETA DE OPERACIÓN, INTERPRETACIÓN Y CONTROL DSP}\\[0.25cm]
+    {\large \itshape Aurora By Juan Esteban Vera — Yamaha MONTAGE DSP Workstation}\\[0.4cm]
+    \rule{\linewidth}{1.8pt}\\[2.0cm]
+    
+    \begin{minipage}{0.85\textwidth}
+        \large
+        \textbf{Autor y Desarrollador:}\\[0.15cm]
+        \textbf{Juan Esteban Vera Rodríguez}\\
+        Código Estudiantil / Investigador Principal\\
+        Programa de Ingeniería Electrónica · Sede Ibagué\\[0.8cm]
+        
+        \textbf{Proyecto Institucional:}\\
+        Aurora By Juan Esteban Vera — DSP Workstation 2.1.0\\
+        Dedicado a la Universidad Antonio Nariño (UAN)\\[0.8cm]
+        
+        \textbf{Clasificación Documental:}\\
+        Anexo Técnico ANX-USR-003 · Distribución Abierta y Académica
+    \end{minipage}
+    
+    \vfill
+    {\large Ibagué, Tolima, Colombia · 2026}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+% =========================================================================
+\section{Introducción al Instrumento Aurora}
+% =========================================================================
+
+\textbf{Aurora By Juan Esteban Vera} es una estación de trabajo de síntesis y procesamiento digital de señales (DSP) en tiempo real, concebida para brindar la máxima fidelidad acústica, calidez analógica y versatilidad tímbrica tanto en el estudio de producción musical como en presentaciones en vivo.
+
+El instrumento fusiona la calidez del \textbf{modelado analógico sustractivo} clásico (inspirado en el legendario Yamaha CS-80) con la riqueza espectral de la \textbf{síntesis por Modulación de Frecuencia} (Yamaha DX7 / FM-X), coronado por el célebre \textbf{Motion Control System con Super Knob} del sintetizador insignia \textbf{Yamaha MONTAGE}.
+
+\subsection{Características Principales}
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Polifonía Dinámica de 8 Voces:} Cada voz dispone de 2 osciladores con formas de onda sinusoidales, triangulares, diente de sierra y cuadradas con anti-aliasing PolyBLEP, además de generador de ruido blanco estocástico.
+    \item \textbf{Motor de Frecuencia Modulada (FM-X):} Modulación de fase cruzada en tiempo real entre el Oscilador 2 (modulador) y el Oscilador 1 (portadora).
+    \item \textbf{Filtro Resonante Analógico Virtual TPT SVF:} Filtro de variable de estado de 2 polos basado en la Transformada Bilineal con preservación de topología (Topology-Preserving Transform), asegurando estabilidad absoluta sin desbordamiento numérico.
+    \item \textbf{Motion Control Super Knob:} Dial maestro central que interpola y modula simultáneamente múltiples parámetros (corte de filtro, resonancia, índice FM, drive y mezcla de efectos).
+    \item \textbf{Secuenciador por Pasos de 16 Eventos:} Sincronizado por reloj interno con memoria de patrones y persistencia en formato JSON.
+    \item \textbf{Procesador Vocal con Corrección Tonal (Autotune):} Módulo de captura por micrófono con análisis FFT y pitch-shifting en tiempo real hacia escalas musicales seleccionables.
+    \item \textbf{Osciloscopio y Vúmetros Estéreo en Vivo:} Visualización continua de la forma de onda de salida a 30 FPS y medición de nivel de pico con amortiguamiento balístico.
+\end{itemize}
+
+% =========================================================================
+\section{Requisitos del Sistema e Instalación}
+% =========================================================================
+
+\subsection{Requisitos de Hardware y Software}
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Sistema Operativo:} Windows 10 / 11 (64 bits), macOS 11+ o GNU/Linux (Ubuntu 20.04+).
+    \item \textbf{Procesador (CPU):} Intel Core i3 / AMD Ryzen 3 o superior (optimizado para SIMD AVX2/NEON vía NumPy).
+    \item \textbf{Memoria RAM:} Mínimo 2 GB (el software en ejecución consume menos de $45\text{ MB}$).
+    \item \textbf{Dispositivo de Sonido:} Dispositivo de audio estéreo estándar compatible con WASAPI, ASIO o CoreAudio para baja latencia.
+    \item \textbf{Entorno de Ejecución:} Python 3.10 o superior con dependencias oficiales instaladas.
+\end{itemize}
+
+\subsection{Puesta en Marcha Rápida}
+Para poner en marcha la estación de trabajo, siga estos sencillos pasos:
+
+\begin{enumerate}[leftmargin=1.5cm]
+    \item Abra una terminal de comandos (PowerShell, Command Prompt o Bash) en el directorio del proyecto.
+    \item Verifique e instale las dependencias del sistema mediante:
+\begin{lstlisting}[language=bash]
+python -m pip install -r requirements.txt
+\end{lstlisting}
+    \item Ejecute la aplicación principal:
+\begin{lstlisting}[language=bash]
+python main.py
+\end{lstlisting}
+    \item La interfaz gráfica se desplegará instantáneamente, inicializando el motor de audio a $44.100\text{ Hz}$ con un bloque de 256 muestras y cargando el preset de bienvenida \textit{Yamaha DX7 E-Piano}.
+\end{enumerate}
+
+% =========================================================================
+\section{Distribución del Teclado Extendido (25 Teclas)}
+% =========================================================================
+
+Aurora incorpora un teclado interactivo en pantalla de \textbf{25 teclas continuas} (15 blancas correspondientes a notas diatónicas y 10 negras para alteraciones cromáticas), abarcando dos octavas completas simultáneas:
+
+\begin{center}
+{\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{cccccccccccccccc}
+\toprule
+\textbf{Negras} & & C\#3 & D\#3 & & F\#3 & G\#3 & A\#3 & & C\#4 & D\#4 & & F\#4 & G\#4 & A\#4 & \\
+\textbf{Blancas} & C3 & D3 & E3 & F3 & G3 & A3 & B3 & C4 & D4 & E4 & F4 & G4 & A4 & B4 & C5 \\
+\bottomrule
+\end{tabular}
+}
+\end{center}
+
+\subsection{Interpretación con Ratón y Pantalla Táctil}
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Clic Individual:} Dispara la nota instantáneamente con retroalimentación visual de color aguamarina.
+    \item \textbf{Arrastre Glissando:} Manteniendo presionado el botón izquierdo mientras se arrastra el cursor por las teclas, se ejecutan barridos melódicos fluidos sin pérdidas de disparo.
+\end{itemize}
+
+\subsection{Mapeo del Teclado de la Computadora}
+Para una ejecución musical cómoda y polifónica con ambas manos:
+
+\begin{enumerate}[leftmargin=1.5cm]
+    \item \textbf{Octava Inferior (Grave / Registro C3 a B3):}
+    \begin{itemize}
+        \item Notas Blancas: \texttt{Z} (Do3), \texttt{X} (Re3), \texttt{C} (Mi3), \texttt{V} (Fa3), \texttt{B} (Sol3), \texttt{N} (La3), \texttt{M} (Si3).
+        \item Notas Negras: \texttt{S} (Do\#3), \texttt{D} (Re\#3), \texttt{G} (Fa\#3), \texttt{H} (Sol\#3), \texttt{J} (La\#3).
+    \end{itemize}
+    \item \textbf{Octava Superior (Aguda / Registro C4 a C5):}
+    \begin{itemize}
+        \item Notas Blancas: \texttt{Q} (Do4), \texttt{W} (Re4), \texttt{E} (Mi4), \texttt{R} (Fa4), \texttt{T} (Sol4), \texttt{Y} (La4), \texttt{U} (Si4), \texttt{I} (Do5).
+        \item Notas Negras: \texttt{2} (Do\#4), \texttt{3} (Re\#4), \texttt{5} (Fa\#4), \texttt{6} (Sol\#4), \texttt{7} (La\#4).
+    \end{itemize}
+    \item \textbf{Mapeo Clásico Fila Central (C4 a C5):}
+    \begin{itemize}
+        \item \texttt{A}, \texttt{W}, \texttt{S}, \texttt{E}, \texttt{D}, \texttt{F}, \texttt{T}, \texttt{G}, \texttt{Y}, \texttt{H}, \texttt{U}, \texttt{J}, \texttt{K}.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Control de Transposición de Octavas}
+Los botones \textbf{\texttt{[ < OCT - ]}} y \textbf{\texttt{[ OCT + > ]}} permiten desplazar el rango sonoro completo en pasos de una octava:
+\begin{itemize}[leftmargin=1.5cm]
+    \item Transposición hacia abajo: Permite alcanzar registros de sub-bajos profundos hasta \textbf{C1} ($\approx 32.7\text{ Hz}$).
+    \item Transposición hacia arriba: Permite alcanzar registros solistas brillantes de campana y flauta hasta \textbf{C7}.
+\end{itemize}
+
+\subsection{Botón de Pánico y Silenciado}
+En caso de notas sostenidas indeseadas, presione la tecla \textbf{\texttt{Escape (Esc)}} o haga clic sobre \textbf{\texttt{[ SILENCIAR TODO ]}} en la cabecera para liberar de inmediato todas las voces activas del buffer.
+
+% =========================================================================
+\section{Guía Detallada de Módulos y Parámetros}
+% =========================================================================
+
+\subsection{Pestaña 1: Sintetizador \& FM-X (Yamaha DX7)}
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Formas de Onda (OSC 1 y OSC 2):}
+    \begin{itemize}
+        \item \textit{Sine:} Seno matemático puro, fundamental para bajos redondos y bases de FM.
+        \item \textit{Triangle:} Onda triangular suave rica en armónicos impares que decaen con $1/n^2$.
+        \item \textit{Saw:} Diente de sierra brillante procesada con corrección PolyBLEP para eliminar aliasing.
+        \item \textit{Square:} Onda cuadrada con armónicos impares fuertes, idónea para vientos y clarinetes.
+        \item \textit{Noise:} Ruido estocástico con distribución uniforme, ideal para efectos de viento o percusión.
+    \end{itemize}
+    \item \textbf{Mezcla OSC 2 (\texttt{osc2\_mix}):} Rango $0.0$ a $1.0$. Controla la ponderación entre ambos osciladores.
+    \item \textbf{Desafinación en Cents (\texttt{detune\_cents}):} Rango $\pm 40\text{ cents}$. Introduce un batimiento orgánico de coro analógico (\textit{chorus}).
+    \item \textbf{Semitonos OSC 2 (\texttt{osc2\_semitones}):} Desplaza el segundo oscilador en intervalos de $-24$ a $+24$ semitonos (por ejemplo, $+7$ para quinta justa, $-12$ para sub-oscilador).
+    \item \textbf{Profundidad FM (\texttt{fm\_depth}):} Modulación de fase de alta velocidad del OSC 1 gobernada por la salida del OSC 2. A valores bajos genera brillo vítreo; a valores altos produce texturas agresivas y campaniformes.
+\end{itemize}
+
+\subsection{Filtro Resonante VCF (Yamaha CS-80)}
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Frecuencia de Corte (\texttt{cutoff}):} Rango $50\text{ Hz}$ a $14.000\text{ Hz}$. Atenúa armónicos por encima del umbral a una pendiente de $-12\text{ dB/octava}$.
+    \item \textbf{Resonancia Q (\texttt{resonance}):} Rango $0.0$ a $0.95$. Genera un pico de realimentación acústica en la frecuencia de corte. El algoritmo TPT SVF satura suavemente el estado evitando cualquier inestabilidad matemática.
+    \item \textbf{Vibrato LFO (\texttt{vibrato\_rate} y \texttt{vibrato\_depth}):} Modula la frecuencia de las voces entre $0.1\text{ Hz}$ y $15\text{ Hz}$ para dotar al sonido de calidez expresiva.
+\end{itemize}
+
+\subsection{Generador de Envolvente ADSR de Amplitud}
+Permite esculpir la dinámica acústica temporal de cada pulsación:
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Attack (Ataque):} Tiempo para alcanzar la amplitud máxima ($0.001\text{ s}$ a $2.5\text{ s}$).
+    \item \textbf{Decay (Decaimiento):} Tiempo de caída desde el pico hasta el nivel sostenido ($0.01\text{ s}$ a $2.5\text{ s}$).
+    \item \textbf{Sustain (Sostenimiento):} Amplitud normalizada de reposo mientras la tecla se mantenga pulsada ($0.0$ a $1.0$).
+    \item \textbf{Release (Liberación):} Tiempo de extinción acústica al soltar la tecla ($0.01\text{ s}$ a $3.5\text{ s}$).
+\end{itemize}
+
+\subsection{Pestaña 2: Motion Control Super Knob \& Efectos MONTAGE}
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{El Super Knob Central:} Dial de modulación gestual macro que permite controlar la transición tímbrica en vivo con la rueda del ratón o arrastre vertical. A medida que sube:
+    \begin{enumerate}
+        \item Abre la frecuencia de corte del filtro progresivamente.
+        \item Eleva la resonancia para mayor presencia armónica.
+        \item Incrementa el índice de modulación FM.
+        \item Aplica saturación cálida no lineal (\textit{Drive}).
+        \item Expande la espacialidad del eco y la reverberación.
+    \end{enumerate}
+    \item \textbf{Analog Drive ($\tanh$):} Emula el comportamiento térmico de los bulbos o transistores saturados, enriqueciendo la señal con armónicos pares e impares.
+    \item \textbf{Analog Stereo Delay:} Retardo estéreo con rebote ping-pong (desfase temporal de $15\%$ en el canal derecho) y realimentación protegida.
+    \item \textbf{Reverberación Schroeder:} Red multi-tap con retardos primos que crea una sensación tridimensional de recinto acústico natural.
+\end{itemize}
+
+\subsection{Pestaña 3: Secuenciador por Pasos de 16 Eventos}
+Permite la creación de arpegios, líneas de bajo y patrones rítmicos:
+\begin{enumerate}[leftmargin=1.5cm]
+    \item Ajuste el tempo de ejecución mediante el deslizador \textbf{BPM} ($50$ a $200\text{ BPM}$).
+    \item Cada uno de los 16 botones representa una semicorchea. Al hacer clic se alterna secuencialmente la nota musical deseada o un silencio (\texttt{OFF}).
+    \item Presione \textbf{\texttt{[ PLAY REPRODUCIR ]}} para iniciar la reproducción temporizada en hilo secundario.
+    \item Utilice \textbf{\texttt{[ GUARDAR SECUENCIA ]}} para exportar el patrón junto con los ajustes de síntesis a un archivo \texttt{.aurora-song.json}, y \textbf{\texttt{[ ABRIR SECUENCIA ]}} para recuperarlo en cualquier momento.
+\end{enumerate}
+
+\subsection{Pestaña 4: Procesador Vocal \& Afinador Electrónico}
+Herramienta de procesamiento de voz en vivo:
+\begin{enumerate}[leftmargin=1.5cm]
+    \item \textbf{Recomendación imprescindible:} Utilice audífonos para evitar el acople acústico (\textit{feedback}) con los altavoces.
+    \item Marque la casilla \textbf{``Activar monitorización y afinación de micrófono''}.
+    \item Seleccione la escala musical de referencia: \textit{C mayor}, \textit{C menor}, \textit{A menor} o \textit{C cromática}.
+    \item Hable o cante hacia el micrófono: el visor indicará la frecuencia fundamental detectada y ajustará automáticamente el tono a la nota más próxima dentro de la tonalidad elegida.
+    \item Gradúe el deslizador \textbf{Intensidad de Corrección} según el efecto deseado ($0.5$ para entonación natural, $1.0$ para el clásico efecto robótico de la música moderna).
+\end{enumerate}
+
+% =========================================================================
+\section{Catálogo de Presets de Fábrica (Yamaha MONTAGE Edition)}
+% =========================================================================
+
+Aurora incluye 7 programas de fábrica cuidadosamente calibrados:
+\begin{enumerate}[leftmargin=1.5cm]
+    \item \textbf{Yamaha DX7 E-Piano:} Clásico piano eléctrico de síntesis FM cristalino y dinámico.
+    \item \textbf{CS-80 Poly Brass:} Conjunto de metales analógicos majestuoso con filtro TPT cálido y amplio tiempo de ataque.
+    \item \textbf{Montage Super Lead:} Solista cortante y agresivo con FM profunda y saturación analógica.
+    \item \textbf{Ambient Space Pad:} Colchón atmosférico de texturas envolventes con retardo y reverberación expansiva.
+    \item \textbf{Analog Bass 80s:} Bajo con pegada y riqueza sub-grave, emulando los sintetizadores de bajo de estado sólido.
+    \item \textbf{Square Bell FM:} Campanas percusivas y cristalinas logradas con modulación de fase no entera.
+    \item \textbf{Vocal AutoTune FX:} Ajustes optimizados para entrada de voz en vivo con corrección tonal asistida.
+\end{enumerate}
+
+\end{document}

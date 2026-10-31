@@ -1,0 +1,261 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{geometry}
+\geometry{left=2.5cm, right=2.5cm, top=2.8cm, bottom=2.8cm}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+% Paleta institucional UAN
+\definecolor{uanblue}{RGB}{0, 45, 98}
+\definecolor{uancyan}{RGB}{0, 140, 200}
+\definecolor{accentgreen}{RGB}{0, 160, 120}
+\definecolor{codebg}{RGB}{246, 248, 252}
+\definecolor{bordercolor}{RGB}{205, 215, 230}
+\definecolor{darkgray}{RGB}{60, 64, 70}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=uanblue,
+    citecolor=uancyan,
+    urlcolor=uancyan,
+    pdftitle={Aurora By Juan Esteban Vera - Plan de Negocio y Modelo Financiero Startup},
+    pdfauthor={Juan Esteban Vera Rodriguez}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small \textcolor{uanblue}{\textbf{Universidad Antonio Nariño}} · Sede Ibagué · Ingeniería Electrónica}
+\fancyhead[R]{\small \textcolor{gray}{Aurora By Juan Esteban Vera · Plan de Negocio}}
+\fancyfoot[L]{\small \textcolor{gray}{Anexo Técnico 05 — Modelo Financiero y Comercial Startup}}
+\fancyfoot[R]{\small \thepage}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\lstset{
+    backgroundcolor=\color{codebg},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    captionpos=b,
+    frame=single,
+    rulecolor=\color{bordercolor},
+    keywordstyle=\color{uanblue}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{accentgreen},
+    showstringspaces=false
+}
+
+\begin{document}
+
+% =========================================================================
+% PORTADA INSTITUCIONAL
+% =========================================================================
+\begin{titlepage}
+    \centering
+    \vspace*{0.5cm}
+    
+    {\scshape\LARGE \textbf{UNIVERSIDAD ANTONIO NARIÑO}}\\[0.3cm]
+    {\scshape\large FACULTAD DE INGENIERÍA · PROGRAMA DE INGENIERÍA ELECTRÓNICA}\\[0.15cm]
+    {\small SEDE IBAGUÉ — CAPITAL MUSICAL DE COLOMBIA}\\[1.5cm]
+    
+    \rule{\linewidth}{1.8pt}\\[0.4cm]
+    {\Huge \bfseries \textcolor{uanblue}{PLAN DE NEGOCIO Y MODELO FINANCIERO}}\\[0.35cm]
+    {\Large \bfseries ESTRATEGIA DE CREACIÓN DE EMPRESA (\textit{SPIN-OFF}) Y COMERCIALIZACIÓN GLOBAL DE SOFTWARE DE AUDIO DSP}\\[0.25cm]
+    {\large \itshape Basado en la Tecnología del Sintetizador Aurora By Juan Esteban Vera}\\[0.4cm]
+    \rule{\linewidth}{1.8pt}\\[2.0cm]
+    
+    \begin{minipage}{0.85\textwidth}
+        \large
+        \textbf{Emprendedor y Fundador:}\\[0.15cm]
+        \textbf{Juan Esteban Vera Rodríguez}\\
+        Investigador Principal · Futuro Ingeniero Electrónico\\
+        Universidad Antonio Nariño · Sede Ibagué\\[0.8cm]
+        
+        \textbf{Entidad Patrocinadora / Académica:}\\
+        Programa de Ingeniería Electrónica · UAN Sede Ibagué\\
+        Ecosistema de Innovación, Emprendimiento y Transferencia Tecnológica\\[0.8cm]
+        
+        \textbf{Identificador Documental:}\\
+        BIZ-UAN-2026-005 · Documento de Formulación Estratégica y Financiera
+    \end{minipage}
+    
+    \vfill
+    {\large Ibagué, Tolima, Colombia · 2026}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+% =========================================================================
+\section{Resumen Ejecutivo y Visión Emprendedora}
+% =========================================================================
+
+El presente plan de negocio formula la constitución legal, estructuración operativa y modelo de rentabilidad financiera para la creación de una \textbf{Empresa de Base Tecnológica (\textit{Spin-off})} con sede en la ciudad de \textbf{Ibagué, Tolima}, reconocida como la Capital Musical de Colombia. 
+
+La compañía tiene por misión investigar, desarrollar y comercializar internacionalmente software avanzado de procesamiento digital de señales (DSP), instrumentos musicales virtuales polifónicos y soluciones algorítmicas embebidas de alta gama.
+
+El producto ancla validado como Producto Mínimo Viable (MVP) es \textbf{Aurora By Juan Esteban Vera}, una estación de trabajo que combina síntesis sustractiva analógica virtual y síntesis FM-X con el control macro gestual \textit{Super Knob}. Aurora resuelve de manera frontal los dolores más acuciantes de los músicos y productores modernos:
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Cero Sobrecarga de Hardware:} Frente a instrumentos basados en pesadas librerías de muestras (50 a 100 GB en disco), Aurora genera cada sonido mediante ecuaciones matemáticas puras en tiempo real, ocupando menos de $45\text{ MB}$ de RAM.
+    \item \textbf{Democratización del Flujo Profesional:} Lleva la expresividad táctil del teclado físico insignia Yamaha MONTAGE (\$4.500 USD) al entorno de software accesible (\$49 USD).
+    \item \textbf{Ecosistema Todo en Uno:} Integra en una sola aplicación sintetizador, secuenciador polifónico, banco de efectos analógicos y procesador autotune para voces.
+\end{itemize}
+
+% =========================================================================
+\section{Análisis de Mercado Global (TAM, SAM, SOM)}
+% =========================================================================
+
+La industria de la tecnología musical y el software de audio digital experimenta un crecimiento sostenido, impulsado por la proliferación de productores independientes, creadores de contenido, streamers y estudios caseros (\textit{home studios}).
+
+\subsection{Dimensionamiento del Mercado}
+\begin{enumerate}[leftmargin=1.5cm]
+    \item \textbf{TAM (Total Addressable Market - Mercado Total Direccionable):} 
+    El mercado global de software de producción musical, plugins e instrumentos virtuales está valorado en aproximadamente \textbf{\$1.280 Millones de USD}, con una tasa de crecimiento anual compuesto (CAGR) proyectada del $7.8\%$ hasta 2030.
+    \item \textbf{SAM (Serviceable Addressable Market - Mercado Útil Direccionable):} 
+    El segmento específico de sintetizadores virtuales de modelado analógico y FM alcanza los \textbf{\$340 Millones de USD}, integrado por más de 12 millones de creadores activos a nivel mundial.
+    \item \textbf{SOM (Serviceable Obtainable Market - Mercado Objetivo Accesible):} 
+    Meta de penetración a 3 años para la empresa: capturar el $0.5\%$ del SAM en el mercado hispanohablante y la comunidad global de productores de música electrónica, equivalente a \textbf{\$1.8 Millones de USD} en facturación agregada.
+\end{enumerate}
+
+\subsection{Segmentos de Clientes (Buyer Personas)}
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Productores Musicales y Beatmakers Independientes:} Buscan timbres profesionales listos para sonar en mezcla (\textit{mix-ready}), bajo consumo de CPU en computadoras portátiles y precios asequibles.
+    \item \textbf{Tecladistas y Músicos de Escenario:} Exigen estabilidad numérica absoluta, cambio inmediato de presets y latencia sub-10 ms en vivo sin caídas de audio.
+    \item \textbf{Estudiantes de Ingeniería y Conservatorios de Música:} Requieren herramientas transparentes con fundamentos pedagógicos claros para el estudio de la síntesis de sonido.
+    \item \textbf{Fabricantes de Hardware Musical (OEM B2B):} Compañías de pedales y cajas de ritmo interesadas en licenciar código DSP vectorizado y optimizado para microcontroladores ARM Cortex-M7 o chips DSP dedicados.
+\end{itemize}
+
+% =========================================================================
+\section{Propuesta de Valor y Análisis Comparativo}
+% =========================================================================
+
+La Tabla~\ref{tab:competitors} compara las especificaciones de Aurora frente a los tres referentes dominantes de la industria comercial de plugins (Serum de Xfer Records, Massive X de Native Instruments y Pigments de Arturia):
+
+\begin{table}[h!]
+\centering
+\caption{Matriz de Diferenciación Competitiva Frente al Mercado Global.}
+\label{tab:competitors}
+\vspace{0.2cm}
+{\footnotesize
+\begin{tabular}{lp{4.2cm}p{4.8cm}}
+\toprule
+\textbf{Variable de Negocio} & \textbf{Estándar de la Competencia} & \textbf{Aurora By Juan Esteban Vera} \\
+\midrule
+\textbf{Precio al Consumidor} & \$189 – \$249 USD & \textbf{\$49 USD (Pro) / Gratuito (UAN Edition)} \\
+\textbf{Consumo de Memoria RAM} & 500 MB – 2 GB por instancia & \textbf{$< 45\text{ MB}$ por instancia} \\
+\textbf{Protección Anticopia} & DRM invasivo / Dongle iLok obligatorio & \textbf{Activación criptográfica ligera sin conexión} \\
+\textbf{Control Gestual Macro} & Mapeo manual complejo en DAW & \textbf{Motion Control Super Knob integrado} \\
+\textbf{Procesador Vocal en Vivo} & Requiere plugin externo (\$99 - \$199 USD) & \textbf{Módulo de corrección tonal FFT incluido} \\
+\textbf{Portabilidad Embebida} & Código propietario exclusivo de PC/Mac & \textbf{Algoritmos matemáticos listos para hardware} \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+% =========================================================================
+\section{Modelo de Monetización y Canales de Ingreso}
+% =========================================================================
+
+La estrategia comercial contempla cuatro líneas de facturación diversificadas:
+
+\begin{enumerate}[leftmargin=1.5cm]
+    \item \textbf{Venta de Licencias de Software (B2C Directo):}
+    \begin{itemize}
+        \item \textit{Aurora Community / UAN Edition (Freemium):} Gratuita con 2 voces y presets esenciales para estudiantes y comunidad académica. Funciona como embudo de adquisición viral masivo.
+        \item \textit{Aurora Pro Studio (\$49 USD pago único):} Polifonía completa de 16 voces, exportación MIDI, soporte multicanal y banco íntegro de presets Yamaha MONTAGE.
+    \end{itemize}
+    \item \textbf{Expansiones Tímbricas y Soundbanks Temáticos (B2C Recurrente):}
+    Lanzamiento trimestral de bancos de presets de alta demanda (\textit{Synthwave 80s}, \textit{Cinematic Ambient}, \textit{Cyberpunk FM}) a un precio de \$15 a \$25 USD por descarga.
+    \item \textbf{Licenciamiento Tecnológico de Algoritmos DSP (B2B OEM):}
+    Venta de licencias no exclusivas del núcleo DSP de filtros TPT SVF y PolyBLEP a fabricantes internacionales de pedales y sintetizadores físicos, cobrando un royalty de \$2 a \$5 USD por unidad producida.
+    \item \textbf{Convenios Académicos Institucionales (B2G / B2Academia):}
+    Licenciamiento de paquetes para laboratorios universitarios de acústica e ingeniería electrónica, incluyendo soporte técnico y guías de laboratorio.
+\end{enumerate}
+
+% =========================================================================
+\section{Proyección Financiera a Tres Años (2027 -- 2029)}
+% =========================================================================
+
+\subsection{Supuestos Macroeconómicos y Comerciales}
+\begin{itemize}[leftmargin=1.5cm]
+    \item Tasa de conversión de usuarios gratuitos a licencia Pro de pago: $2.8\%$.
+    \item Crecimiento mensual compuesto del tráfico orgánico en el portal web: $12\%$.
+    \item Canales de distribución digital internacional: Tienda oficial propia (Shopify / FastSpring), Plugin Boutique, KVR Audio y Splice.
+\end{itemize}
+
+\subsection{Estado de Resultados Proyectado}
+
+La Tabla~\ref{tab:financials} presenta el flujo financiero proyectado en dólares estadounidenses (USD):
+
+\begin{table}[h!]
+\centering
+\caption{Proyección Financiera Consolidada a 3 Años (en USD).}
+\label{tab:financials}
+\vspace{0.2cm}
+{\small
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Rubro Financiero / Métrica} & \textbf{Año 1 (Lanzamiento)} & \textbf{Año 2 (Escalado)} & \textbf{Año 3 (Madurez)} \\
+\midrule
+\textbf{Usuarios Gratuitos Registrados} & 25.000 & 120.000 & 450.000 \\
+\textbf{Licencias Pro Vendidas (\$49 USD)} & 700 unid. & 3.360 unid. & 12.600 unid. \\
+\midrule
+Ingresos por Licencias Pro & \$34.300 & \$164.640 & \$617.400 \\
+Ingresos por Expansiones de Sonido & \$4.500 & \$32.000 & \$145.000 \\
+Ingresos por Licenciamiento B2B OEM & \$10.000 & \$45.000 & \$120.000 \\
+\midrule
+\textbf{TOTAL INGRESOS BRUTOS} & \textbf{\$48.800} & \textbf{\$241.640} & \textbf{\$882.400} \\
+\midrule
+Servidores e Infraestructura Cloud (OpEx) & \$9.500 & \$28.000 & \$75.000 \\
+Marketing Digital, Pauta y Campañas & \$12.000 & \$45.000 & \$130.000 \\
+Nómina de Ingeniería y Soporte Técnico & \$18.000 & \$65.000 & \$190.000 \\
+\midrule
+\textbf{UTILIDAD NETA ANTES DE IMPUESTOS} & \textbf{\$9.300} & \textbf{\$103.640} & \textbf{\$487.400} \\
+\textbf{Margen Operativo Neto} & \textbf{19.0\%} & \textbf{42.9\%} & \textbf{55.2\%} \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\subsection{Punto de Equilibrio (Break-Even Point)}
+El punto de equilibrio operacional se alcanza en el \textbf{mes 8 de comercialización}, requiriendo la venta de tan solo 38 licencias Pro mensuales para compensar la totalidad de los costos fijos de servidores, pasarelas de pago y soporte.
+
+% =========================================================================
+\section{Estrategia de Propiedad Intelectual (IP) en Colombia}
+% =========================================================================
+
+Para blindar contractualmente los activos intangibles de la empresa y asegurar la captación de inversión:
+
+\begin{enumerate}[leftmargin=1.5cm]
+    \item \textbf{Registro de Soporte Lógico ante la DNDA (Dirección Nacional de Derecho de Autor):}
+    Depósito formal del código fuente completo, estructura de datos y algoritmos de síntesis a nombre de \textbf{Juan Esteban Vera Rodríguez}, asegurando los derechos morales y patrimoniales con base en la Ley 23 de 1982 y la Decisión 351 de la CAN.
+    \item \textbf{Registro de Signo Distintivo ante la SIC (Superintendencia de Industria y Comercio):}
+    Protección de la marca registrada \textbf{AURORA SYNTHESIZERS} en la Clasificación Internacional de Niza:
+    \begin{itemize}
+        \item \textit{Clase 9:} Software descargable de audio e instrumentos musicales virtuales.
+        \item \textit{Clase 42:} Servicios científicos, tecnológicos y desarrollo de software especializado.
+    \end{itemize}
+    \item \textbf{Alianza de Transferencia Tecnológica con la UAN:}
+    Formalización del estatus de \textit{Spin-off Universitaria}, facilitando la postulación a convocatorias de capital semilla del Ministerio de Ciencia, Tecnología e Innovación (MinCiencias) y del Fondo Emprender del SENA (capital no reembolsable de hasta \$100.000.000 COP).
+\end{enumerate}
+
+% =========================================================================
+\section{Hoja de Ruta Estratégica a 24 Meses (Roadmap)}
+% =========================================================================
+
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Fase 1 (Meses 1 a 6) — Formalización Jurídica y Beta Privada:}
+    Constitución de la sociedad por acciones simplificada (S.A.S.) en Ibagué. Portabilidad del motor DSP hacia C++ utilizando el framework JUCE. Apertura del programa de pruebas Beta con 500 productores e ingenieros seleccionados.
+    \item \textbf{Fase 2 (Meses 7 a 12) — Despliegue Comercial Global (VST3/AU):}
+    Lanzamiento oficial en las principales plataformas mundiales (Plugin Boutique, Splice). Campaña de relaciones públicas con artistas y canales especializados de producción musical.
+    \item \textbf{Fase 3 (Meses 13 a 24) — Hardware Físico Embebido:}
+    Desarrollo del primer sintetizador físico en caja de aluminio con controles rotatorios analógicos, integrando el motor Aurora en una placa embebida ARM Cortex-M7 para distribución en tiendas de música de Colombia y Latinoamérica.
+\end{itemize}
+
+\end{document}

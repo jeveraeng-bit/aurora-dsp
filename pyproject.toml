@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aurora-synth"
+version = "1.0.0"
+description = "Sintetizador sustractivo polifónico en Python"
+requires-python = ">=3.11"
+dependencies = ["numpy>=1.26", "sounddevice>=0.4.6"]
+
+[project.scripts]
+aurora-synth = "synth.app:main"
+
+[tool.setuptools]
+packages = ["synth"]
