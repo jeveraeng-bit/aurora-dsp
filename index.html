@@ -1031,10 +1031,10 @@
   </footer>
 
   <!-- SLIDE-OVER SHOPPING CART DRAWER -->
-  <div id="cartDrawer" class="fixed inset-0 z-50 overflow-hidden pointer-events-none transition-opacity duration-300 opacity-0">
-    <div id="cartBackdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-auto"></div>
+  <div id="cartDrawer" class="fixed inset-0 z-50 overflow-hidden hidden transition-opacity duration-300 opacity-0">
+    <div id="cartBackdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer"></div>
     
-    <div class="absolute inset-y-0 right-0 max-w-full flex pl-10 pointer-events-auto">
+    <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
       <div class="w-screen max-w-md bg-brand-dark border-l border-brand-border shadow-2xl flex flex-col justify-between">
         
         <!-- Cart Header -->
@@ -1267,7 +1267,7 @@
       const voiceGain = audioCtx.createGain();
       voiceGain.gain.setValueAtTime(0.0001, now);
       // Fast attack
-      voiceGain.gain.exponentialRampToValueAtTime(0.35, now + 0.02);
+      voiceGain.gain.linearRampToValueAtTime(0.35, now + 0.02);
 
       // Carrier Oscillator (OSC 1)
       const osc1 = audioCtx.createOscillator();
@@ -1308,8 +1308,8 @@
 
       // Release curve
       voice.voiceGain.gain.cancelScheduledValues(now);
-      voice.voiceGain.gain.setValueAtTime(voice.voiceGain.gain.value, now);
-      voice.voiceGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
+      voice.voiceGain.gain.setValueAtTime(Math.max(0.0001, voice.voiceGain.gain.value), now);
+      voice.voiceGain.gain.linearRampToValueAtTime(0.00001, now + 0.28);
 
       setTimeout(() => {
         try {
@@ -1536,8 +1536,8 @@
           wKey.dataset.midi = midi;
           wKey.innerHTML = `<span>${kDef.name}</span><span class="text-[9px] text-slate-500 font-mono mt-0.5">${kDef.keyChar}</span>`;
           
-          wKey.addEventListener('mousedown', () => { playNote(midi); wKey.classList.add('active'); });
-          wKey.addEventListener('mouseup', () => { stopNote(midi); wKey.classList.remove('active'); });
+          wKey.addEventListener('pointerdown', (e) => { e.preventDefault(); playNote(midi); wKey.classList.add('active'); });
+          wKey.addEventListener('pointerup', (e) => { e.preventDefault(); stopNote(midi); wKey.classList.remove('active'); });
           wKey.addEventListener('mouseleave', () => { stopNote(midi); wKey.classList.remove('active'); });
 
           keyboardContainer.appendChild(wKey);
@@ -1564,8 +1564,8 @@
           bKey.dataset.midi = midi;
           bKey.innerHTML = `<span>${kDef.name}</span><span class="text-[8px] text-slate-400">${kDef.keyChar}</span>`;
 
-          bKey.addEventListener('mousedown', (e) => { e.stopPropagation(); playNote(midi); bKey.classList.add('active'); });
-          bKey.addEventListener('mouseup', (e) => { e.stopPropagation(); stopNote(midi); bKey.classList.remove('active'); });
+          bKey.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); playNote(midi); bKey.classList.add('active'); });
+          bKey.addEventListener('pointerup', (e) => { e.preventDefault(); e.stopPropagation(); stopNote(midi); bKey.classList.remove('active'); });
           bKey.addEventListener('mouseleave', (e) => { e.stopPropagation(); stopNote(midi); bKey.classList.remove('active'); });
 
           keyboardContainer.appendChild(bKey);
@@ -1766,11 +1766,11 @@
 
     function toggleCart(show) {
       if (show) {
-        cartDrawer.classList.remove('pointer-events-none', 'opacity-0');
+        cartDrawer.classList.remove('hidden'); requestAnimationFrame(() => { cartDrawer.classList.remove('opacity-0'); cartDrawer.classList.add('opacity-100'); });
         cartDrawer.classList.add('opacity-100');
       } else {
         cartDrawer.classList.add('opacity-0');
-        setTimeout(() => cartDrawer.classList.add('pointer-events-none'), 300);
+        setTimeout(() => cartDrawer.classList.add('hidden'), 300);
       }
     }
 
