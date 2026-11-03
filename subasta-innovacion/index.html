@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shark Tank Inverso: La Subasta de Innovación | UAN</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            display: ['Space Grotesk', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              500: '#10b981',
+              600: '#059669',
+              gold: '#f59e0b',
+              accent: '#6366f1',
+              danger: '#ef4444',
+              dark: '#0b0f19',
+              card: '#111827',
+              border: '#1f2937'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom glow & glass effects */
+    .glass-card {
+      background: rgba(17, 24, 39, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-nav {
+      background: rgba(11, 15, 25, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .glow-gold {
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.2);
+    }
+    .glow-blue {
+      box-shadow: 0 0 25px rgba(99, 102, 241, 0.2);
+    }
+    .glow-green {
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.2);
+    }
+    .glow-red {
+      box-shadow: 0 0 25px rgba(239, 68, 68, 0.2);
+    }
+    input[type=range] {
+      accent-color: #10b981;
+    }
+    .pulse-budget {
+      animation: pulse-badge 1.8s infinite;
+    }
+    @keyframes pulse-badge {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+  </style>
+</head>
+<body class="bg-brand-dark text-slate-100 min-h-screen flex flex-col font-sans selection:bg-brand-500 selection:text-white">
+
+  <!-- NAVBAR & BANNER INSTITUCIONAL -->
+  <header class="sticky top-0 z-50 glass-nav">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        
+        <!-- Logo & Titulo -->
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-600 flex items-center justify-center font-display font-black text-white text-lg shadow-lg">
+            UAN
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-mono tracking-wider uppercase text-emerald-400 font-semibold bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/40">
+                Gestión Empresarial
+              </span>
+              <span class="text-xs text-slate-400 hidden sm:inline">| Dinámica Interactiva</span>
+            </div>
+            <h1 class="text-lg sm:text-xl font-bold font-display tracking-tight text-white flex items-center gap-2">
+              Shark Tank Inverso <span class="text-brand-gold text-sm font-mono font-medium">● La Subasta de Innovación</span>
+            </h1>
+          </div>
+        </div>
+
+        <!-- Autores & Controles -->
+        <div class="flex items-center justify-between md:justify-end gap-3 flex-wrap">
+          <div class="text-left md:text-right hidden lg:block">
+            <p class="text-xs text-slate-400">Universidad Antonio Nariño • Sede Ibagué</p>
+            <p class="text-[11px] font-mono text-indigo-300">Ingeniería Electrónica</p>
+          </div>
+          
+          <button id="btnOpenTheory" class="text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition-colors flex items-center gap-1.5 shadow-sm">
+            <span>📖</span> <span class="hidden sm:inline">Guía Teórica &</span> Guion
+          </button>
+
+          <button id="btnOpenLeaderboard" class="text-xs font-medium bg-indigo-900/60 hover:bg-indigo-800/80 text-indigo-200 px-3 py-1.5 rounded-lg border border-indigo-700/50 transition-colors flex items-center gap-1.5 shadow-sm">
+            <span>🏆</span> Tabla de Comités
+          </button>
+
+          <button id="btnToggleSound" class="text-xs font-mono text-slate-400 hover:text-slate-100 p-1.5 rounded-lg border border-slate-800 hover:border-slate-700" title="Activar/Silenciar Efectos de Audio">
+            <span id="soundIcon">🔊</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- BANNER RESPONSABLES -->
+  <div class="bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border-b border-slate-800/80 py-2">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between text-xs text-slate-300 gap-2">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span class="font-semibold text-slate-200">Facilitadores / Expositores:</span>
+        <span class="text-emerald-300 font-medium">Juan Esteban Vera R.</span> • 
+        <span class="text-indigo-300 font-medium">Jhon Jairo Lugo P.</span> • 
+        <span class="text-amber-300 font-medium">Alejandro Carvajal P.</span>
+      </div>
+      <div class="font-mono text-slate-400 text-[11px]">
+        Modelo: 70/20/10 McKinsey & Oslo Manual
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full">
+
+    <!-- HERO DASHBOARD: CONTROL DE PRESUPUESTO DEL EQUIPO -->
+    <div class="glass-card rounded-2xl p-5 mb-8 border border-slate-800 shadow-2xl relative overflow-hidden">
+      <!-- Glow de fondo -->
+      <div class="absolute -right-20 -top-20 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-20 -bottom-20 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+        
+        <!-- Nombre del Equipo -->
+        <div class="md:col-span-4">
+          <label class="block text-xs font-mono uppercase text-slate-400 tracking-wider mb-1">Nombre del Comité / Equipo</label>
+          <div class="flex gap-2">
+            <input type="text" id="teamNameInput" value="Comité Innovación #1" 
+              class="w-full bg-slate-900/90 border border-slate-700 focus:border-brand-500 rounded-xl px-3 py-2 text-sm font-semibold text-white focus:outline-none transition-all shadow-inner">
+            <button id="btnNewRound" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-2 rounded-xl border border-slate-700 font-mono" title="Reiniciar para otro equipo">
+              ↻ Nuevo
+            </button>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-1">Ustedes son la Junta Directiva asignando el fondo corporativo de innovación.</p>
+        </div>
+
+        <!-- Presupuesto Disponible -->
+        <div class="md:col-span-4 text-center md:text-left flex flex-col justify-center border-y md:border-y-0 md:border-x border-slate-800/80 py-3 md:py-0 md:px-6">
+          <span class="text-xs font-mono uppercase tracking-wider text-slate-400">Presupuesto Asignado</span>
+          <div class="flex items-baseline justify-center md:justify-start gap-2">
+            <span id="remainingBudgetDisplay" class="text-3xl sm:text-4xl font-extrabold font-mono text-emerald-400 tracking-tight">
+              $100,000
+            </span>
+            <span class="text-xs font-mono text-slate-400">USD</span>
+          </div>
+          <div class="w-full bg-slate-800/80 rounded-full h-2 mt-2 overflow-hidden border border-slate-700/50">
+            <div id="budgetProgressBar" class="bg-gradient-to-r from-emerald-500 to-indigo-500 h-2 transition-all duration-300" style="width: 100%;"></div>
+          </div>
+          <div class="flex justify-between text-[11px] font-mono text-slate-400 mt-1">
+            <span>Invertido: <b id="allocatedBudgetDisplay" class="text-indigo-300">$0</b></span>
+            <span>Disponible: <b id="percentRemainingDisplay" class="text-emerald-400">100%</b></span>
+          </div>
+        </div>
+
+        <!-- Botón de Ejecución / Simulación -->
+        <div class="md:col-span-4 flex flex-col sm:flex-row md:flex-col gap-2 justify-center">
+          <button id="btnSimulateMarket" class="w-full bg-gradient-to-r from-brand-600 via-emerald-500 to-teal-500 hover:from-brand-500 hover:to-teal-400 text-white font-bold py-3 px-6 rounded-xl shadow-lg shadow-emerald-900/40 transition-all transform active:scale-95 flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed">
+            <span class="text-lg group-hover:rotate-12 transition-transform">🚀</span>
+            <span class="font-display tracking-wide uppercase text-sm">Cerrar Ronda & Simular Mercado</span>
+          </button>
+          
+          <button id="btnResetCurrentRound" class="w-full text-xs text-slate-400 hover:text-slate-200 py-1.5 transition-colors text-center">
+            Restablecer inversiones a cero
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PITCH DECK: LOS 4 PROYECTOS CANDIDATOS -->
+    <div class="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      <div>
+        <h2 class="text-xl font-bold font-display text-white flex items-center gap-2">
+          Portafolio de Oportunidades
+          <span class="text-xs bg-slate-800 text-slate-300 font-mono px-2 py-0.5 rounded border border-slate-700">4 Candidatos</span>
+        </h2>
+        <p class="text-xs text-slate-400">Analicen el perfil de riesgo, la promesa de valor y decidan cuántos fondos inyectar a cada uno.</p>
+      </div>
+      <div class="flex gap-2 text-xs font-mono">
+        <button id="btnQuickBalanced" class="bg-indigo-950/70 hover:bg-indigo-900 text-indigo-300 border border-indigo-800/60 px-3 py-1.5 rounded-lg transition-colors">
+          ⚡ Sugerencia McKinsey (70/20/10)
+        </button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="projectsContainer">
+      <!-- Generado dinámicamente o estructurado -->
+    </div>
+
+    <!-- SECCIÓN DE RESULTADOS / FEEDBACK (OCULTO INICIALMENTE) -->
+    <section id="resultsSection" class="hidden mt-12 glass-card rounded-2xl p-6 sm:p-8 border border-emerald-500/40 glow-green transition-all">
+      <div class="text-center max-w-3xl mx-auto mb-8">
+        <span class="inline-block text-xs font-mono uppercase bg-emerald-950 text-emerald-400 border border-emerald-800/80 px-3 py-1 rounded-full mb-2">
+          Simulación de Mercado Ejecutada
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold font-display text-white tracking-tight">
+          Informe de Resultados del Portafolio
+        </h2>
+        <p class="text-sm text-slate-300 mt-2">
+          Veamos cómo respondió la economía real, qué proyectos florecieron y qué lecciones estratégicas deja esta ronda.
+        </p>
+      </div>
+
+      <!-- Resumen Métricas Clave -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        <div class="bg-slate-900/90 rounded-xl p-4 border border-slate-800 text-center">
+          <p class="text-xs font-mono text-slate-400">CAPITAL INICIAL</p>
+          <p class="text-2xl font-bold font-mono text-slate-200 mt-1">$100,000</p>
+        </div>
+        <div class="bg-slate-900/90 rounded-xl p-4 border border-slate-800 text-center">
+          <p class="text-xs font-mono text-slate-400">VALOR OBTENIDO POST-MERCADO</p>
+          <p id="finalPortfolioValue" class="text-2xl font-bold font-mono text-emerald-400 mt-1">$0</p>
+        </div>
+        <div class="bg-slate-900/90 rounded-xl p-4 border border-slate-800 text-center">
+          <p class="text-xs font-mono text-slate-400">ROI TOTAL (%)</p>
+          <p id="finalRoiDisplay" class="text-2xl font-bold font-mono text-emerald-400 mt-1">+0%</p>
+        </div>
+      </div>
+
+      <!-- Desglose por Proyecto tras Simulación -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8" id="simulationBreakdownCards">
+        <!-- Rellenado por JS -->
+      </div>
+
+      <!-- Diagnóstico del Perfil de Innovación & Comparativa McKinsey -->
+      <div class="bg-slate-900/90 rounded-2xl p-6 border border-slate-800">
+        <h3 class="text-lg font-bold font-display text-white mb-2 flex items-center gap-2">
+          <span>🧠</span> Diagnóstico Ejecutivo de Gestión de la Innovación
+        </h3>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center mt-4">
+          <!-- Perfil Evaluado -->
+          <div class="lg:col-span-5 p-4 rounded-xl bg-slate-950/80 border border-slate-800">
+            <span class="text-[11px] font-mono text-indigo-400 uppercase tracking-wider">Perfil del Comité:</span>
+            <h4 id="profileTitle" class="text-xl font-bold text-white mt-1">Estratega en Evaluación</h4>
+            <p id="profileDescription" class="text-xs text-slate-300 mt-2 leading-relaxed">
+              Calculando comportamiento estratégico...
+            </p>
+            <div id="profileBadge" class="mt-3 inline-block px-2.5 py-1 rounded text-xs font-bold font-mono">
+              En proceso
+            </div>
+          </div>
+
+          <!-- Comparativa Visual vs McKinsey 70-20-10 -->
+          <div class="lg:col-span-7">
+            <p class="text-xs font-semibold text-slate-300 mb-3 flex items-center justify-between">
+              <span>Distribución Real vs. Regla de Oro (McKinsey 70 / 20 / 10)</span>
+              <span class="text-[11px] font-mono text-emerald-400">Teoría Aplicada</span>
+            </p>
+
+            <div class="space-y-3 text-xs">
+              <!-- H1 -->
+              <div>
+                <div class="flex justify-between text-slate-300 mb-1">
+                  <span>Horizonte 1 (Incremental / Core): <b id="h1Pct">0%</b></span>
+                  <span class="text-slate-400 font-mono">Meta: 70%</span>
+                </div>
+                <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden flex">
+                  <div id="h1Bar" class="bg-emerald-500 h-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <!-- H2 -->
+              <div>
+                <div class="flex justify-between text-slate-300 mb-1">
+                  <span>Horizonte 2 (Adyacente / Crecimiento): <b id="h2Pct">0%</b></span>
+                  <span class="text-slate-400 font-mono">Meta: 20%</span>
+                </div>
+                <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden flex">
+                  <div id="h2Bar" class="bg-indigo-500 h-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <!-- H3 -->
+              <div>
+                <div class="flex justify-between text-slate-300 mb-1">
+                  <span>Horizonte 3 (Disruptivo / Apuesta Futura): <b id="h3Pct">0%</b></span>
+                  <span class="text-slate-400 font-mono">Meta: 10%</span>
+                </div>
+                <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden flex">
+                  <div id="h3Bar" class="bg-amber-500 h-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <!-- Humo -->
+              <div>
+                <div class="flex justify-between text-slate-300 mb-1">
+                  <span>Proyecto Trampa (Humo / Inviable): <b id="h4Pct" class="text-red-400">0%</b></span>
+                  <span class="text-red-400 font-mono">Meta: 0%</span>
+                </div>
+                <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden flex">
+                  <div id="h4Bar" class="bg-red-500 h-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Conclusiones para la clase -->
+        <div class="mt-6 pt-4 border-t border-slate-800 flex flex-wrap gap-3 justify-between items-center">
+          <p class="text-xs text-slate-400">
+            💡 <b>Pregunta detonante para el auditorio:</b> <span id="reflectionQuestion" class="text-slate-200">¿Qué pasa si una empresa dedica el 100% de sus recursos solo a lo seguro?</span>
+          </p>
+          <div class="flex gap-2">
+            <button id="btnSaveToLeaderboard" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-xl transition-all shadow-md">
+              💾 Guardar Puntaje en Ranking
+            </button>
+            <button id="btnTryAgain" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-2 rounded-xl transition-all">
+              Jugar otra vez
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: GUÍA TEÓRICA & GUION PARA LOS EXPOSITORES (JUAN, JHON, ALEJANDRO) -->
+  <div id="theoryModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 w-full max-w-4xl rounded-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+      
+      <!-- Header Modal -->
+      <div class="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-950">
+        <div>
+          <span class="text-xs font-mono text-emerald-400 uppercase tracking-wider">Cheat Sheet para la Exposición</span>
+          <h3 class="text-lg font-bold text-white">Gestión de la Innovación: Marco Conceptual & Guion</h3>
+        </div>
+        <button id="btnCloseTheory" class="text-slate-400 hover:text-white p-2 rounded-lg text-lg">✕</button>
+      </div>
+
+      <!-- Contenido Teórico con Scroll -->
+      <div class="px-6 py-6 overflow-y-auto space-y-6 text-sm text-slate-300 leading-relaxed">
+        
+        <!-- Bloque 1: Definición Rápida -->
+        <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+          <h4 class="text-emerald-400 font-bold font-display text-base mb-2">1. ¿Qué es realmente la Gestión de la Innovación?</h4>
+          <p>
+            No es esperar a que caiga una manzana en la cabeza o tener "chispazos creativos". Es la <b>capacidad organizativa de estructurar un proceso repetible</b> que transforme ideas en valor comercial, operativo o social concreto.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 text-xs">
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+              <b class="text-amber-300">Creatividad:</b> Producir ideas originales o novedosas. (Sin valor de mercado aún).
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+              <b class="text-emerald-300">Innovación:</b> Creatividad + Ejecución + Viabilidad Comercial + Adopción.
+            </div>
+          </div>
+        </div>
+
+        <!-- Bloque 2: Los Horizontes de McKinsey -->
+        <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+          <h4 class="text-indigo-400 font-bold font-display text-base mb-2">2. El Modelo de los 3 Horizontes (McKinsey & Co.)</h4>
+          <p class="text-xs mb-3">La clave de un Director de Innovación es <b>gestionar la tensión</b> entre el presente y el futuro:</p>
+          
+          <ul class="space-y-2 text-xs">
+            <li class="p-2.5 rounded bg-slate-900/90 border-l-4 border-emerald-500">
+              <strong class="text-emerald-400">Horizonte 1 (Core - 70% del esfuerzo):</strong> Innovación incremental. Mejoras a productos existentes, optimización de costos y empaques. Financia el día a día.
+            </li>
+            <li class="p-2.5 rounded bg-slate-900/90 border-l-4 border-indigo-500">
+              <strong class="text-indigo-400">Horizonte 2 (Adyacente - 20% del esfuerzo):</strong> Llevar competencias a nuevos clientes o crear nuevos modelos de ingresos (ej. convertir venta de hardware en servicio en la nube).
+            </li>
+            <li class="p-2.5 rounded bg-slate-900/90 border-l-4 border-amber-500">
+              <strong class="text-amber-400">Horizonte 3 (Disruptivo / Moonshots - 10% del esfuerzo):</strong> Tecnologías emergentes con alto riesgo y potencial de cambiar la industria. Si fracasan, aprendes rápido; si triunfan, salvan el futuro de la empresa.
+            </li>
+            <li class="p-2.5 rounded bg-slate-900/90 border-l-4 border-red-500">
+              <strong class="text-red-400">La Falacia del Humo (0%):</strong> Proyectos que usan palabras de moda (IA, Quantum, Blockchain) sin resolver una necesidad real validada. Queman presupuesto por vanidad tecnológica (*Tech-Push* ciego).
+            </li>
+          </ul>
+        </div>
+
+        <!-- Bloque 3: Reparto de Roles para la Dinámica (Juan, Jhon, Alejandro) -->
+        <div class="bg-indigo-950/40 p-4 rounded-xl border border-indigo-800/60">
+          <h4 class="text-white font-bold font-display text-base mb-2">3. Propuesta de Roles para la Presentación</h4>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs mt-3">
+            <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
+              <span class="text-emerald-400 font-bold block mb-1">🎤 Juan Esteban Vera</span>
+              <p class="text-slate-300"><b>Apertura & Planteamiento:</b> Explica qué es gestionar la innovación y lanza el reto: <i>"Cada mesa tiene $100,000 virtuales. ¿Sabrán invertir como ejecutivos de clase mundial?"</i></p>
+            </div>
+            <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
+              <span class="text-indigo-400 font-bold block mb-1">🎤 Jhon Jairo Lugo</span>
+              <p class="text-slate-300"><b>El Pitcher de Proyectos:</b> Presenta los 4 proyectos en la pantalla, seduce a la audiencia con el proyecto humo y resalta los riesgos de cada candidato.</p>
+            </div>
+            <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
+              <span class="text-amber-400 font-bold block mb-1">🎤 Alejandro Carvajal</span>
+              <p class="text-slate-300"><b>El Juez del Mercado & Conclusión:</b> Dispara la simulación de mercado, analiza los resultados de los equipos y cierra con las conclusiones del modelo McKinsey.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bloque 4: Preguntas Clave para el Público -->
+        <div>
+          <h4 class="text-slate-200 font-bold text-sm mb-2">Preguntas para interrogar a los compañeros:</h4>
+          <ol class="list-decimal list-inside space-y-1 text-xs text-slate-400">
+            <li>¿Por qué una empresa como Kodak quebró a pesar de haber inventado la cámara digital? (<i>Respuesta: No gestionaron el portafolio; protegieron el H1 para no canibalizarse</i>).</li>
+            <li>¿Por qué no podemos invertir el 100% en ideas disruptivas? (<i>Respuesta: El flujo de caja quiebra antes de ver retornos; la tasa de fallo en H3 supera el 70%</i>).</li>
+          </ol>
+        </div>
+
+      </div>
+
+      <div class="px-6 py-3 border-t border-slate-800 bg-slate-950 text-right">
+        <button id="btnUnderstandTheory" class="bg-brand-600 hover:bg-brand-500 text-white font-semibold text-xs px-5 py-2 rounded-xl transition-all">
+          ¡Entendido, a jugar!
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL: TABLA DE LIDERAZGO / EQUIPOS -->
+  <div id="leaderboardModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 w-full max-w-2xl rounded-2xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+      
+      <div class="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-950">
+        <div>
+          <span class="text-xs font-mono text-indigo-400 uppercase tracking-wider">Historial de Comités</span>
+          <h3 class="text-lg font-bold text-white flex items-center gap-2">
+            🏆 Tabla de Posiciones de Innovación
+          </h3>
+        </div>
+        <button id="btnCloseLeaderboard" class="text-slate-400 hover:text-white p-2 rounded-lg text-lg">✕</button>
+      </div>
+
+      <div class="px-6 py-4 overflow-y-auto flex-1">
+        <div id="leaderboardList" class="space-y-2">
+          <!-- Rellenado por JS -->
+        </div>
+        <div id="emptyLeaderboardMessage" class="text-center py-10 text-slate-500 text-xs">
+          Aún no se han guardado rondas. ¡Completa una simulación y guarda los resultados!
+        </div>
+      </div>
+
+      <div class="px-6 py-3 border-t border-slate-800 bg-slate-950 flex justify-between items-center">
+        <button id="btnClearLeaderboard" class="text-xs text-red-400 hover:text-red-300">
+          Borrar Historial
+        </button>
+        <button id="btnCloseLeaderboardFooter" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-4 py-2 rounded-xl">
+          Cerrar
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="glass-nav border-t border-slate-800/80 py-4 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-400">
+      <p class="font-medium text-slate-300">
+        Universidad Antonio Nariño • Sede Ibagué • Facultad de Ingeniería Electrónica
+      </p>
+      <p class="text-[11px] text-slate-400 mt-1">
+        Desarrollado para la Cátedra de Gestión Empresarial • Tema: <b>Gestión de la Innovación</b>
+      </p>
+      <p class="text-[10px] text-slate-500 mt-1 font-mono">
+        Autores: Juan Esteban Vera R. • Jhon Jairo Lugo P. • Alejandro Carvajal P.
+      </p>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT: LOGICA DEL JUEGO, SONIDO SINTETIZADO Y MODELO MATEMATICO -->
+  <script>
+    // --- ESTADO GLOBAL ---
+    const TOTAL_BUDGET = 100000;
+    let soundEnabled = true;
+    
+    // Proyectos estructurados
+    const projects = [
+      {
+        id: "p1",
+        horizon: "H1",
+        horizonName: "Horizonte 1 (Incremental)",
+        category: "Core Business / Bajo Riesgo",
+        title: "EcoPack IoT 2.0",
+        tagline: "Rediseño de empaques biodegradables con sensor de frescura para optimizar cadena de frío.",
+        recommendedPct: 70,
+        riskLevel: "Bajo (10% fallo)",
+        returnDesc: "Retorno estable: +15% a +25%",
+        color: "emerald",
+        badgeBg: "bg-emerald-950 border-emerald-800 text-emerald-400",
+        accentColor: "#10b981",
+        icon: "📦",
+        successProb: 0.92,
+        baseRoiMin: 0.15,
+        baseRoiMax: 0.28,
+        failurePenalty: -0.10,
+        lesson: "El H1 protege y perfecciona el negocio que paga los salarios hoy. Sin un H1 saludable, no hay caja para experimentar."
+      },
+      {
+        id: "p2",
+        horizon: "H2",
+        horizonName: "Horizonte 2 (Adyacente)",
+        category: "Nuevos Mercados / Crecimiento",
+        title: "Nexus Predictivo B2B",
+        tagline: "Plataforma SaaS por suscripción que conecta sensores en maquinaria industrial para predecir averías.",
+        recommendedPct: 20,
+        riskLevel: "Medio (35% fallo)",
+        returnDesc: "Alto crecimiento: +60% a +100%",
+        color: "indigo",
+        badgeBg: "bg-indigo-950 border-indigo-800 text-indigo-400",
+        accentColor: "#6366f1",
+        icon: "⚙️",
+        successProb: 0.65,
+        baseRoiMin: 0.50,
+        baseRoiMax: 1.10,
+        failurePenalty: -0.30,
+        lesson: "El H2 toma lo que ya sabes hacer bien y lo transforma en un nuevo modelo de negocio o mercado. Es el motor del crecimiento a 2 años."
+      },
+      {
+        id: "p3",
+        horizon: "H3",
+        horizonName: "Horizonte 3 (Disruptivo)",
+        category: "Moonshot / Transformación Radical",
+        title: "BioNeuroChip Cuántico",
+        tagline: "Microprocesador neuromórfico que emula sinapsis vivas para control autónomo de enjambres robóticos.",
+        recommendedPct: 10,
+        riskLevel: "Extremo (75% fallo / pivote)",
+        returnDesc: "Astronómico potencial: +300% a +600%",
+        color: "amber",
+        badgeBg: "bg-amber-950 border-amber-800 text-amber-400",
+        accentColor: "#f59e0b",
+        icon: "⚡",
+        successProb: 0.32,
+        baseRoiMin: 2.80,
+        baseRoiMax: 6.50,
+        failurePenalty: -0.80,
+        lesson: "El H3 son las semillas del mañana. No puedes jugarte el sueldo de todos aquí, pero si inviertes cero, otra empresa te extinguirá."
+      },
+      {
+        id: "p4",
+        horizon: "Humo",
+        horizonName: "Pseudo-Innovación (Falacia)",
+        category: "Tech-Push Inviable / Buzzwords",
+        title: "CyberMeta-Chakra Web5 Cloud",
+        tagline: "\"Inteligencia holística descentralizada con tokens cuánticos para sincronizar el aura del consumidor en el Metaverso\".",
+        recommendedPct: 0,
+        riskLevel: "Inviable (100% pérdida)",
+        returnDesc: "Promesa falsa: \"¡10,000% garantizado!\"",
+        color: "red",
+        badgeBg: "bg-red-950 border-red-800 text-red-400",
+        accentColor: "#ef4444",
+        icon: "💨",
+        successProb: 0.05, // Trampa: Casi siempre colapsa
+        baseRoiMin: 0.0,
+        baseRoiMax: 0.1,
+        failurePenalty: -1.0, // Pérdida total
+        lesson: "¡Cuidado con la trampa de la moda! Innovar NO es juntar palabras tecnológicas que nadie entiende. Si no soluciona un dolor de mercado real, es humo."
+      }
+    ];
+
+    // Asignación de fondos por proyecto
+    let allocations = {
+      p1: 0,
+      p2: 0,
+      p3: 0,
+      p4: 0
+    };
+
+    // --- SINTETIZADOR DE AUDIO WEB (Sin archivos externos) ---
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new AudioContext();
+      }
+    }
+
+    function playTone(freq, type = 'sine', duration = 0.1, gainVal = 0.1) {
+      if (!soundEnabled) return;
+      try {
+        initAudio();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(gainVal, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        // Ignorar si el navegador bloquea audio antes de interacción
+      }
+    }
+
+    function soundClick() {
+      playTone(800, 'triangle', 0.04, 0.05);
+    }
+
+    function soundMoney() {
+      playTone(523.25, 'sine', 0.08, 0.08);
+      setTimeout(() => playTone(659.25, 'sine', 0.08, 0.08), 60);
+      setTimeout(() => playTone(783.99, 'sine', 0.12, 0.1), 120);
+    }
+
+    function soundBuzzer() {
+      playTone(150, 'sawtooth', 0.25, 0.15);
+      setTimeout(() => playTone(120, 'sawtooth', 0.35, 0.2), 150);
+    }
+
+    function soundFanfare() {
+      playTone(440, 'triangle', 0.1, 0.1);
+      setTimeout(() => playTone(554.37, 'triangle', 0.1, 0.1), 100);
+      setTimeout(() => playTone(659.25, 'triangle', 0.2, 0.12), 200);
+      setTimeout(() => playTone(880, 'triangle', 0.4, 0.15), 320);
+    }
+
+    // --- FORMATEADORES ---
+    function formatMoney(amount) {
+      return '$' + Math.round(amount).toLocaleString('en-US');
+    }
+
+    // --- RENDERIZADO INICIAL DE TARJETAS ---
+    function renderProjectCards() {
+      const container = document.getElementById('projectsContainer');
+      container.innerHTML = '';
+
+      projects.forEach(p => {
+        const card = document.createElement('div');
+        card.className = `glass-card rounded-2xl p-5 border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all duration-300 relative`;
+        card.id = `card_${p.id}`;
+
+        card.innerHTML = `
+          <div>
+            <div class="flex items-start justify-between gap-2 mb-3">
+              <span class="text-xs font-mono font-semibold px-2.5 py-1 rounded-md border ${p.badgeBg}">
+                ${p.horizon}
+              </span>
+              <span class="text-2xl" title="${p.category}">${p.icon}</span>
+            </div>
+
+            <h3 class="text-base font-bold text-white font-display">${p.title}</h3>
+            <p class="text-xs text-slate-400 mt-1 line-clamp-3 leading-relaxed">${p.tagline}</p>
+
+            <div class="mt-4 pt-3 border-t border-slate-800/80 space-y-1.5 text-xs">
+              <div class="flex justify-between">
+                <span class="text-slate-400">Riesgo estimado:</span>
+                <span class="font-mono font-semibold text-slate-300">${p.riskLevel}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">Retorno proyectado:</span>
+                <span class="font-mono font-semibold text-emerald-400">${p.returnDesc}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">Objetivo sugerido:</span>
+                <span class="font-mono text-indigo-300">${p.recommendedPct}% del fondo</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Control de Inversión -->
+          <div class="mt-5 pt-4 border-t border-slate-800">
+            <div class="flex justify-between items-center mb-1">
+              <label class="text-[11px] font-mono uppercase text-slate-400">Tu Inversión:</label>
+              <span id="label_val_${p.id}" class="text-sm font-bold font-mono text-emerald-400">$0</span>
+            </div>
+
+            <input type="range" id="slider_${p.id}" min="0" max="${TOTAL_BUDGET}" step="5000" value="0"
+              class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer mb-3">
+
+            <div class="grid grid-cols-4 gap-1">
+              <button class="btn-quick-add text-[10px] font-mono bg-slate-800 hover:bg-slate-700 text-slate-300 py-1 rounded border border-slate-700/60 transition-colors" data-id="${p.id}" data-val="10000">+$10k</button>
+              <button class="btn-quick-add text-[10px] font-mono bg-slate-800 hover:bg-slate-700 text-slate-300 py-1 rounded border border-slate-700/60 transition-colors" data-id="${p.id}" data-val="20000">+$20k</button>
+              <button class="btn-quick-add text-[10px] font-mono bg-slate-800 hover:bg-slate-700 text-slate-300 py-1 rounded border border-slate-700/60 transition-colors" data-id="${p.id}" data-val="50000">+$50k</button>
+              <button class="btn-quick-clear text-[10px] font-mono bg-slate-800/60 hover:bg-red-950/60 text-red-300 py-1 rounded border border-slate-700/60 transition-colors" data-id="${p.id}">0</button>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+
+      // Bind events de sliders y botones rápidos
+      projects.forEach(p => {
+        const slider = document.getElementById(`slider_${p.id}`);
+        slider.addEventListener('input', (e) => {
+          updateAllocation(p.id, parseInt(e.target.value));
+        });
+      });
+
+      document.querySelectorAll('.btn-quick-add').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = e.target.dataset.id;
+          const val = parseInt(e.target.dataset.val);
+          const current = allocations[id] || 0;
+          updateAllocation(id, current + val);
+          soundClick();
+        });
+      });
+
+      document.querySelectorAll('.btn-quick-clear').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = e.target.dataset.id;
+          updateAllocation(id, 0);
+          soundClick();
+        });
+      });
+    }
+
+    // --- ACTUALIZACIÓN DE FONDOS Y VALIDACIÓN ---
+    function updateAllocation(projectId, desiredValue) {
+      const currentOthers = Object.keys(allocations).reduce((sum, key) => {
+        return key === projectId ? sum : sum + allocations[key];
+      }, 0);
+
+      const maxPossible = Math.max(0, TOTAL_BUDGET - currentOthers);
+      const finalValue = Math.min(desiredValue, maxPossible);
+
+      allocations[projectId] = Math.max(0, finalValue);
+      
+      // Actualizar UI
+      document.getElementById(`slider_${projectId}`).value = allocations[projectId];
+      document.getElementById(`label_val_${projectId}`).textContent = formatMoney(allocations[projectId]);
+
+      refreshBudgetUI();
+    }
+
+    function refreshBudgetUI() {
+      const totalAllocated = Object.values(allocations).reduce((a, b) => a + b, 0);
+      const remaining = TOTAL_BUDGET - totalAllocated;
+      const pctUsed = (totalAllocated / TOTAL_BUDGET) * 100;
+      const pctRemaining = (remaining / TOTAL_BUDGET) * 100;
+
+      const remainingEl = document.getElementById('remainingBudgetDisplay');
+      remainingEl.textContent = formatMoney(remaining);
+      
+      if (remaining === 0) {
+        remainingEl.className = "text-3xl sm:text-4xl font-extrabold font-mono text-indigo-400 tracking-tight";
+      } else {
+        remainingEl.className = "text-3xl sm:text-4xl font-extrabold font-mono text-emerald-400 tracking-tight";
+      }
+
+      document.getElementById('allocatedBudgetDisplay').textContent = formatMoney(totalAllocated);
+      document.getElementById('percentRemainingDisplay').textContent = `${Math.round(pctRemaining)}%`;
+      document.getElementById('budgetProgressBar').style.width = `${pctRemaining}%`;
+
+      // Habilitar o resaltar simulación
+      const btnSimulate = document.getElementById('btnSimulateMarket');
+      if (totalAllocated === 0) {
+        btnSimulate.disabled = true;
+      } else {
+        btnSimulate.disabled = false;
+      }
+    }
+
+    // --- DISTRIBUCIÓN RECOMENDADA (MCKINSEY 70/20/10/0) ---
+    function applyMcKinseyRecommendation() {
+      allocations.p1 = 70000;
+      allocations.p2 = 20000;
+      allocations.p3 = 10000;
+      allocations.p4 = 0;
+
+      projects.forEach(p => {
+        document.getElementById(`slider_${p.id}`).value = allocations[p.id];
+        document.getElementById(`label_val_${p.id}`).textContent = formatMoney(allocations[p.id]);
+      });
+
+      refreshBudgetUI();
+      soundMoney();
+    }
+
+    function resetAllocations() {
+      allocations = { p1: 0, p2: 0, p3: 0, p4: 0 };
+      projects.forEach(p => {
+        document.getElementById(`slider_${p.id}`).value = 0;
+        document.getElementById(`label_val_${p.id}`).textContent = '$0';
+      });
+      refreshBudgetUI();
+      soundClick();
+    }
+
+    // --- SIMULACIÓN DE MERCADO ---
+    function simulateMarket() {
+      const totalAllocated = Object.values(allocations).reduce((a, b) => a + b, 0);
+      if (totalAllocated === 0) {
+        alert("¡Deben asignar al menos parte del presupuesto para poder simular el mercado!");
+        return;
+      }
+
+      soundMoney();
+
+      // Scroll a resultados
+      const resultsSection = document.getElementById('resultsSection');
+      resultsSection.classList.remove('hidden');
+      resultsSection.scrollIntoView({ behavior: 'smooth' });
+
+      // Calcular resultados estocásticos con base en probabilidades y parámetros
+      let totalReturn = 0;
+      const simDetails = [];
+
+      projects.forEach(p => {
+        const invested = allocations[p.id];
+        let outcomeMultiplier = 0;
+        let isSuccess = false;
+        let outcomeNote = "";
+
+        if (invested === 0) {
+          outcomeNote = "No se invirtió en este proyecto. Riesgo evitado, retorno cero.";
+        } else {
+          // Tirada de dados
+          const roll = Math.random();
+          isSuccess = roll < p.successProb;
+
+          if (isSuccess) {
+            // Éxito: calcular ROI dentro de su rango
+            const roi = p.baseRoiMin + Math.random() * (p.baseRoiMax - p.baseRoiMin);
+            outcomeMultiplier = 1 + roi;
+            outcomeNote = `¡Éxito en el mercado! Generó un rendimiento del +${Math.round(roi * 100)}%.`;
+          } else {
+            // Fracaso o contratiempo
+            outcomeMultiplier = Math.max(0, 1 + p.failurePenalty);
+            if (p.id === 'p4') {
+              outcomeNote = `💥 ¡COLAPSO TOTAL! El producto no tenía clientes reales ni viabilidad técnica. Pérdida del 100%.`;
+            } else if (p.id === 'p3') {
+              outcomeNote = `⚡ El prototipo neuromórfico requirió 2 años más de I+D antes de comercializar. Retorno recuperable a largo plazo (-80%).`;
+            } else {
+              outcomeNote = `Retraso operativo en el despliegue. Pérdida del ${Math.round(Math.abs(p.failurePenalty) * 100)}% del capital asignado.`;
+            }
+          }
+        }
+
+        const projectFinalVal = invested * outcomeMultiplier;
+        totalReturn += projectFinalVal;
+
+        simDetails.push({
+          project: p,
+          invested,
+          finalVal: projectFinalVal,
+          isSuccess,
+          note: outcomeNote
+        });
+      });
+
+      // Si sobró presupuesto no invertido en caja, se mantiene intacto
+      const unallocated = TOTAL_BUDGET - totalAllocated;
+      totalReturn += unallocated;
+
+      const netProfit = totalReturn - TOTAL_BUDGET;
+      const roiTotalPct = ((totalReturn - TOTAL_BUDGET) / TOTAL_BUDGET) * 100;
+
+      // Actualizar UI de Métricas
+      document.getElementById('finalPortfolioValue').textContent = formatMoney(totalReturn);
+      const roiEl = document.getElementById('finalRoiDisplay');
+      roiEl.textContent = `${roiTotalPct >= 0 ? '+' : ''}${roiTotalPct.toFixed(1)}%`;
+      roiEl.className = `text-2xl font-bold font-mono mt-1 ${roiTotalPct >= 0 ? 'text-emerald-400' : 'text-red-400'}`;
+
+      // Renderizar tarjetas de simulación
+      renderSimulationDetails(simDetails);
+
+      // Evaluación del Perfil del Gestor
+      evaluateManagerProfile(allocations, totalReturn, roiTotalPct);
+
+      // Efecto Confetti si fue positivo o sonido de buzzer si cayeron en el humo
+      if (allocations.p4 > 10000) {
+        soundBuzzer();
+      } else if (roiTotalPct > 15) {
+        soundFanfare();
+        if (typeof confetti === 'function') {
+          confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        }
+      }
+    }
+
+    function renderSimulationDetails(simDetails) {
+      const container = document.getElementById('simulationBreakdownCards');
+      container.innerHTML = '';
+
+      simDetails.forEach(item => {
+        const p = item.project;
+        const diff = item.finalVal - item.invested;
+        const diffClass = diff >= 0 ? 'text-emerald-400' : 'text-red-400';
+        const card = document.createElement('div');
+        card.className = "bg-slate-950/70 p-4 rounded-xl border border-slate-800 text-xs";
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-bold text-white font-display flex items-center gap-1.5">
+              <span>${p.icon}</span> ${p.title}
+            </span>
+            <span class="font-mono text-slate-400 font-semibold">${p.horizon}</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2 my-2 py-2 border-y border-slate-800/60 font-mono text-center">
+            <div>
+              <span class="text-[10px] text-slate-500 block">Invertido</span>
+              <span class="text-slate-300 font-bold">${formatMoney(item.invested)}</span>
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-500 block">Resultado</span>
+              <span class="text-slate-200 font-bold">${formatMoney(item.finalVal)}</span>
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-500 block">Balance</span>
+              <span class="${diffClass} font-bold">${diff >= 0 ? '+' : ''}${formatMoney(diff)}</span>
+            </div>
+          </div>
+          <p class="text-slate-400 text-[11px] mt-1">${item.note}</p>
+          <div class="mt-2.5 pt-2 border-t border-slate-900 text-[11px] text-indigo-300">
+            <b>Lección gerencial:</b> ${p.lesson}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // --- EVALUAR PERFIL GERENCIAL ---
+    function evaluateManagerProfile(allocs, totalReturn, roiPct) {
+      const p1Pct = Math.round((allocs.p1 / TOTAL_BUDGET) * 100);
+      const p2Pct = Math.round((allocs.p2 / TOTAL_BUDGET) * 100);
+      const p3Pct = Math.round((allocs.p3 / TOTAL_BUDGET) * 100);
+      const p4Pct = Math.round((allocs.p4 / TOTAL_BUDGET) * 100);
+
+      // Actualizar barras
+      document.getElementById('h1Pct').textContent = `${p1Pct}%`;
+      document.getElementById('h1Bar').style.width = `${p1Pct}%`;
+
+      document.getElementById('h2Pct').textContent = `${p2Pct}%`;
+      document.getElementById('h2Bar').style.width = `${p2Pct}%`;
+
+      document.getElementById('h3Pct').textContent = `${p3Pct}%`;
+      document.getElementById('h3Bar').style.width = `${p3Pct}%`;
+
+      document.getElementById('h4Pct').textContent = `${p4Pct}%`;
+      document.getElementById('h4Bar').style.width = `${p4Pct}%`;
+
+      let title = "";
+      let desc = "";
+      let badge = "";
+      let badgeClass = "";
+      let question = "";
+
+      if (p4Pct >= 15) {
+        title = "Víctima de la Falacia Tecnológica (Hype Trapper)";
+        desc = "Asignaron una porción crítica a un proyecto sin validación de problema-solución ni viabilidad técnica. En el mundo empresarial, confundir 'ruido mediático' con innovación destruye el patrimonio de los accionistas.";
+        badge = "Alerta de Gestión";
+        badgeClass = "bg-red-950 text-red-400 border border-red-800";
+        question = "¿Cómo puede una junta directiva auditar si un proyecto de IA/Blockchain realmente resuelve un dolor del cliente antes de poner dinero?";
+      } else if (p1Pct >= 80) {
+        title = "El Gerente Ultraconservador (Síndrome de Kodak)";
+        desc = "Protegieron todo el capital en mejoras marginales del negocio actual. Aunque hoy ganaron un retorno modesto y seguro, en el mediano plazo no crearon ninguna ventaja competitiva. Están a un competidor disruptivo de desaparecer.";
+        badge = "Riesgo de Obsolescencia";
+        badgeClass = "bg-amber-950 text-amber-400 border border-amber-800";
+        question = "Si una empresa solo invierte en lo que ya conoce, ¿qué pasa cuando la tecnología del mercado cambia de golpe?";
+      } else if (p3Pct >= 40) {
+        title = "El Apostador Temerario de Silicon Valley";
+        desc = "Apostaron demasiado capital a un proyecto de altísimo riesgo que requiere años de I+D. Si el proyecto falla o se retrasa, la compañía no tiene flujo de caja operativo para sobrevivir. Gestionar innovación es balancear, no apostar a la lotería.";
+        badge = "Riesgo de Quiebra Operativa";
+        badgeClass = "bg-amber-950 text-amber-400 border border-amber-800";
+        question = "¿Por qué las empresas que gestionan bien la innovación financian los Moonshots (H3) con las ganancias del Core (H1)?";
+      } else if (p1Pct >= 50 && p1Pct <= 75 && p2Pct >= 15 && p2Pct <= 30 && p3Pct >= 5 && p3Pct <= 20 && p4Pct === 0) {
+        title = "Estratega Maestro de la Innovación (Equilibrio McKinsey)";
+        desc = "¡Distribución brillante! Protegieron el core del negocio (H1), impulsaron el crecimiento en nuevos mercados (H2) y sembraron apuestas de futuro (H3), sin dejarse engañar por humo comercial. Este es el sello de una gestión empresarial de clase mundial.";
+        badge = "Gestor Élite (70-20-10)";
+        badgeClass = "bg-emerald-950 text-emerald-400 border border-emerald-800";
+        question = "¿Por qué es tan difícil en la vida real mantener este equilibrio cuando las ventas del H1 comienzan a caer?";
+      } else {
+        title = "Gestor en Exploración de Portafolio";
+        desc = "Lograron diversificar los fondos, aunque aún pueden afinar el balance entre la certeza de corto plazo y el riesgo transformador de largo plazo.";
+        badge = "Portafolio Mixto";
+        badgeClass = "bg-indigo-950 text-indigo-400 border border-indigo-800";
+        question = "¿Cómo justificarían ante los accionistas la cantidad de dinero que decidieron destinar al proyecto de mayor riesgo?";
+      }
+
+      document.getElementById('profileTitle').textContent = title;
+      document.getElementById('profileDescription').textContent = desc;
+      const bEl = document.getElementById('profileBadge');
+      bEl.textContent = badge;
+      bEl.className = `mt-3 inline-block px-2.5 py-1 rounded text-xs font-bold font-mono ${badgeClass}`;
+      document.getElementById('reflectionQuestion').textContent = question;
+    }
+
+    // --- LEADERBOARD LOCALSTORAGE ---
+    function saveCurrentToLeaderboard() {
+      const teamName = document.getElementById('teamNameInput').value.trim() || "Comité Anónimo";
+      const finalValText = document.getElementById('finalPortfolioValue').textContent;
+      const roiText = document.getElementById('finalRoiDisplay').textContent;
+      const profile = document.getElementById('profileTitle').textContent;
+
+      const record = {
+        name: teamName,
+        finalValue: finalValText,
+        roi: roiText,
+        profile: profile,
+        date: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+
+      let history = JSON.parse(localStorage.getItem('uan_innovation_leaderboard') || '[]');
+      history.unshift(record);
+      localStorage.setItem('uan_innovation_leaderboard', JSON.stringify(history));
+
+      soundMoney();
+      alert(`¡Puntaje guardado con éxito para ${teamName}!`);
+      renderLeaderboard();
+    }
+
+    function renderLeaderboard() {
+      const listEl = document.getElementById('leaderboardList');
+      const emptyEl = document.getElementById('emptyLeaderboardMessage');
+      const history = JSON.parse(localStorage.getItem('uan_innovation_leaderboard') || '[]');
+
+      listEl.innerHTML = '';
+
+      if (history.length === 0) {
+        emptyEl.classList.remove('hidden');
+        return;
+      }
+
+      emptyEl.classList.add('hidden');
+
+      history.forEach((rec, idx) => {
+        const item = document.createElement('div');
+        item.className = "flex items-center justify-between p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs";
+        item.innerHTML = `
+          <div class="flex items-center gap-3">
+            <span class="w-6 h-6 rounded-full bg-slate-800 text-indigo-300 font-mono font-bold flex items-center justify-center text-[11px]">
+              #${idx + 1}
+            </span>
+            <div>
+              <p class="font-bold text-white">${rec.name}</p>
+              <p class="text-[11px] text-slate-400">${rec.profile} • <span class="text-slate-500 font-mono">${rec.date}</span></p>
+            </div>
+          </div>
+          <div class="text-right font-mono">
+            <p class="font-bold text-emerald-400">${rec.finalValue}</p>
+            <p class="text-[11px] text-slate-400">${rec.roi}</p>
+          </div>
+        `;
+        listEl.appendChild(item);
+      });
+    }
+
+    // --- EVENT LISTENERS GENERALES ---
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProjectCards();
+      refreshBudgetUI();
+      renderLeaderboard();
+
+      // Quick buttons
+      document.getElementById('btnQuickBalanced').addEventListener('click', applyMcKinseyRecommendation);
+      document.getElementById('btnResetCurrentRound').addEventListener('click', resetAllocations);
+      document.getElementById('btnSimulateMarket').addEventListener('click', simulateMarket);
+      document.getElementById('btnTryAgain').addEventListener('click', () => {
+        resetAllocations();
+        document.getElementById('resultsSection').classList.add('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      document.getElementById('btnNewRound').addEventListener('click', () => {
+        const currentName = document.getElementById('teamNameInput').value;
+        const match = currentName.match(/\d+/);
+        const nextNum = match ? parseInt(match[0]) + 1 : 2;
+        document.getElementById('teamNameInput').value = `Comité Innovación #${nextNum}`;
+        resetAllocations();
+        document.getElementById('resultsSection').classList.add('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      document.getElementById('btnSaveToLeaderboard').addEventListener('click', saveCurrentToLeaderboard);
+
+      // Modal Teoria
+      const theoryModal = document.getElementById('theoryModal');
+      document.getElementById('btnOpenTheory').addEventListener('click', () => theoryModal.classList.remove('hidden'));
+      document.getElementById('btnCloseTheory').addEventListener('click', () => theoryModal.classList.add('hidden'));
+      document.getElementById('btnUnderstandTheory').addEventListener('click', () => theoryModal.classList.add('hidden'));
+
+      // Modal Leaderboard
+      const leaderboardModal = document.getElementById('leaderboardModal');
+      document.getElementById('btnOpenLeaderboard').addEventListener('click', () => {
+        renderLeaderboard();
+        leaderboardModal.classList.remove('hidden');
+      });
+      document.getElementById('btnCloseLeaderboard').addEventListener('click', () => leaderboardModal.classList.add('hidden'));
+      document.getElementById('btnCloseLeaderboardFooter').addEventListener('click', () => leaderboardModal.classList.add('hidden'));
+      document.getElementById('btnClearLeaderboard').addEventListener('click', () => {
+        if (confirm("¿Deseas reiniciar la tabla de comités?")) {
+          localStorage.removeItem('uan_innovation_leaderboard');
+          renderLeaderboard();
+        }
+      });
+
+      // Sound toggle
+      document.getElementById('btnToggleSound').addEventListener('click', () => {
+        soundEnabled = !soundEnabled;
+        document.getElementById('soundIcon').textContent = soundEnabled ? '🔊' : '🔇';
+      });
+    });
+  </script>
+</body>
+</html>

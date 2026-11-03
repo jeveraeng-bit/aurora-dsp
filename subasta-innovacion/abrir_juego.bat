@@ -1,0 +1,3 @@
+@echo off
+echo Iniciando Shark Tank Inverso - UAN...
+start "" "%~dp0index.html"
