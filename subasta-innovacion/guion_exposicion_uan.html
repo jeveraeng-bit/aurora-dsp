@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Guion Oficial de Exposición - Gestión de la Innovación | GRUPO #1</title>
+  <style>
+    @page {
+      size: letter portrait;
+      margin: 18mm 15mm 18mm 15mm;
+      @bottom-right {
+        content: counter(page);
+      }
+    }
+    body {
+      font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+      color: #1e293b;
+      line-height: 1.5;
+      font-size: 10.5pt;
+      margin: 0;
+      padding: 0;
+    }
+    .header-box {
+      border-bottom: 2px solid #2563eb;
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .badge-g1 {
+      background: #1e3a8a;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 8.5pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-block;
+    }
+    h1 {
+      font-size: 18pt;
+      color: #0f172a;
+      margin: 6px 0 2px 0;
+      font-weight: 800;
+    }
+    .subtitle {
+      font-size: 10pt;
+      color: #475569;
+      margin: 0;
+    }
+    .authors-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      background: #f1f5f9;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      border: 1px solid #cbd5e1;
+      font-size: 9pt;
+    }
+    .author-item {
+      text-align: center;
+    }
+    .author-name {
+      font-weight: bold;
+      color: #0f172a;
+    }
+    .author-role {
+      color: #2563eb;
+      font-weight: 600;
+      font-size: 8pt;
+    }
+    .slide-block {
+      page-break-inside: avoid;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-left: 5px solid #2563eb;
+      border-radius: 6px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+    .slide-block.jhon {
+      border-left-color: #4f46e5;
+    }
+    .slide-block.alejandro {
+      border-left-color: #059669;
+    }
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 4px;
+      margin-bottom: 8px;
+    }
+    .slide-title {
+      font-size: 11pt;
+      font-weight: bold;
+      color: #0f172a;
+    }
+    .speaker-pill {
+      font-size: 8pt;
+      font-weight: bold;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: #dbeafe;
+      color: #1e40af;
+      text-transform: uppercase;
+    }
+    .speaker-pill.jhon {
+      background: #e0e7ff;
+      color: #3730a3;
+    }
+    .speaker-pill.alejandro {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    .script-dialogue {
+      background: #f8fafc;
+      border-left: 3px solid #94a3b8;
+      padding: 6px 10px;
+      font-style: italic;
+      color: #334155;
+      margin: 6px 0;
+      font-size: 9.5pt;
+    }
+    .key-points {
+      margin: 6px 0 0 0;
+      padding-left: 18px;
+      font-size: 9pt;
+      color: #475569;
+    }
+    .key-points li {
+      margin-bottom: 3px;
+    }
+    .qa-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-left: 4px solid #d97706;
+      padding: 10px 12px;
+      border-radius: 6px;
+      margin-top: 14px;
+      font-size: 9pt;
+    }
+    .qa-title {
+      font-weight: bold;
+      color: #92400e;
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ENCABEZADO OFICIAL -->
+  <div class="header-box">
+    <div>
+      <span class="badge-g1">DOCUMENTO OFICIAL • GRUPO #1</span>
+      <h1>Guion Maestro de Exposición</h1>
+      <p class="subtitle">Gestión de la Innovación: De la Idea al Mercado • Cátedra: Gestión Empresarial</p>
+      <p class="subtitle" style="font-size: 8.5pt; color: #64748b;">Universidad Antonio Nariño • Sede Ibagué • Programa de Ingeniería Electrónica</p>
+    </div>
+    <div style="text-align: right; font-size: 8.5pt; font-family: monospace; color: #64748b;">
+      <div><b>FECHA:</b> Noviembre 2026</div>
+      <div><b>DURACIÓN:</b> 25 - 30 MIN</div>
+      <div><b>MODALIDAD:</b> Interactiva</div>
+    </div>
+  </div>
+
+  <!-- EQUIPO EXPONENTE -->
+  <div class="authors-grid">
+    <div class="author-item">
+      <div class="author-name">Juan Esteban Vera R.</div>
+      <div class="author-role">Líder & Dirección (Slides 1, 2, 4, Cierre)</div>
+    </div>
+    <div class="author-item">
+      <div class="author-name">Jhon Jairo Lugo P.</div>
+      <div class="author-role">Casos & Análisis (Slides 3, 5, 6, Quiz)</div>
+    </div>
+    <div class="author-item">
+      <div class="author-name">Alejandro Carvajal P.</div>
+      <div class="author-role">Estrategia & Simulador (Slides 7, 8, 9, 10, 11)</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 1 -->
+  <div class="slide-block">
+    <div class="slide-header">
+      <span class="slide-title">Diapositiva 1: Portada Oficial GRUPO #1</span>
+      <span class="speaker-pill">Juan Esteban Vera (Minuto 0:00 - 1:30)</span>
+    </div>
+    <div class="script-dialogue">
+      "Buenos días, profesor y compañeros. Sean todos bienvenidos. Con frecuencia, a nosotros como ingenieros nos forman para diseñar hardware y software de alta complejidad. Sin embargo, en el mundo real, el 84% de los ejecutivos mundiales reconocen que sus empresas dependen de la innovación, pero menos del 6% están satisfechos con los resultados. ¿Por qué tantas ideas brillantes fracasan?
+      Hoy el GRUPO #1, conformado por Jhon Jairo Lugo, Alejandro Carvajal y mi persona, Juan Esteban Vera, no venimos a recitar diapositivas de memoria. Venimos a presentarles los modelos cuantitativos que aplican empresas como Apple, Google y McKinsey, y al finalizar entraremos todos a nuestro laboratorio web para competir en vivo."
+    </div>
+    <ul class="key-points">
+      <li><b>Acción en pantalla:</b> Mostrar la portada oficial con el logo del Grupo #1 y las fotos de los tres facilitadores.</li>
+      <li><b>Objetivo:</b> Captar la atención inmediata del docente rompiendo el esquema tradicional de exposición pasiva.</li>
+    </ul>
+  </div>
+
+  <!-- SLIDE 2 -->
+  <div class="slide-block">
+    <div class="slide-header">
+      <span class="slide-title">Diapositiva 2: El Gran Mito — Creatividad vs. Invención vs. Innovación</span>
+      <span class="speaker-pill">Juan Esteban Vera (Minuto 1:30 - 3:30)</span>
+    </div>
+    <div class="script-dialogue">
+      "Empecemos destruyendo el primer mito: la creatividad NO es innovación.
+      La creatividad es la chispa mental de idear algo original; una idea en una servilleta es creatividad. La invención es la materialización en laboratorio, construir el prototipo funcional. Pero la INNOVACIÓN, según el Manual de Oslo de la OCDE, ocurre únicamente cuando esa invención es ejecutada con un modelo de negocio viable y es ADOPTADA por el mercado.
+      Miren la fórmula en pantalla: Innovación es igual a Idea por Viabilidad Técnica por Adopción en el Mercado. Es una multiplicación: si la adopción de mercado es cero, toda la innovación es CERO.
+      Un caso histórico demoledor es Xerox PARC en 1979: ellos inventaron el ratón, las ventanas y la red Ethernet, pero su junta directiva dijo que su negocio eran las fotocopiadoras. Tuvo que ir Steve Jobs, ver la tecnología y lanzarla con Apple. Quien innovó fue quien creó el mercado."
+    </div>
+    <ul class="key-points">
+      <li><b>Pista para el auditorio:</b> "Compañeros, memoricen esta fórmula porque la preguntaremos en el primer caso del Quiz".</li>
+    </ul>
+  </div>
+
+  <!-- SLIDE 3 -->
+  <div class="slide-block jhon">
+    <div class="slide-header">
+      <span class="slide-title">Diapositiva 3: La Curva en 'S' y el Salto Tecnológico (Richard Foster)</span>
+      <span class="speaker-pill jhon">Jhon Jairo Lugo (Minuto 3:30 - 6:00)</span>
+    </div>
+    <div class="script-dialogue">
+      "Continuando con el análisis, ¿cómo sabemos cuándo una tecnología va a morir? Richard Foster, socio de McKinsey, diseñó la famosa 'Curva en S' que ven proyectada en tiempo real.
+      Toda tecnología pasa por tres fases: Nacimiento con avance lento, Crecimiento Exponencial donde se captura el mercado, y la Meseta de Madurez. En esta meseta ocurre la tragedia: la tecnología llega a su límite físico, y mejorarla un 2% cuesta millones de dólares. Justo ahí nace una curva disruptiva por debajo.
+      El ejemplo perfecto ocurrió en el año 2000: Reed Hastings le ofreció vender Netflix a Blockbuster por solo 50 millones de dólares. El CEO de Blockbuster se rió en su cara porque el 16% de las ganancias de Blockbuster venían de cobrarle multas a los clientes por entregar tarde los VHS. Por proteger esa meseta madura, en 2010 Blockbuster quebró con 9,000 tiendas cerradas; hoy Netflix vale más de 250 mil millones."
+    </div>
+    <ul class="key-points">
+      <li><b>Acción en pantalla:</b> Mostrar el gráfico interactivo de Chart.js con el punto de adelantamiento de curvas.</li>
+    </ul>
+  </div>
+
+  <!-- SLIDE 4 -->
+  <div class="slide-block">
+    <div class="slide-header">
+      <span class="slide-title">Diapositiva 4: El Modelo de los 3 Horizontes de McKinsey (70 / 20 / 10)</span>
+      <span class="speaker-pill">Juan Esteban Vera (Minuto 6:00 - 8:30)</span>
+    </div>
+    <div class="script-dialogue">
+      "Ahora bien: como gerentes, ¿dónde metemos el dinero? McKinsey demostró que una corporación exitosa debe gestionar tres horizontes simultáneos:
+      El 70% debe ir al Horizonte 1: el negocio del día a día, optimización de costos y empaques que pagan los sueldos y la nómina de hoy.
+      El 20% debe ir al Horizonte 2: innovación adyacente, llevar lo que ya sabemos hacer a nuevos clientes o crear servicios digitales a 2 años.
+      Y el 10% restante debe reservarse para el Horizonte 3: apuestas científicas radicales de alto riesgo. Si fallan, aprendemos rápido; si triunfan, salvan el futuro de la empresa.
+      Casos reales: la regla del 15% de 3M permitió a sus científicos inventar por accidente los Post-it, y la regla del 20% de Google dio origen a Gmail y Google Maps. Quien invierte el 95% en lo seguro sufre de miopía estratégica."
+    </div>
+    <ul class="key-points">
+      <li><b>Acción en pantalla:</b> Señalar la gráfica de dona interactiva con el reparto 70/20/10.</li>
+    </ul>
+  </div>
+
+  <!-- SLIDE 5 -->
+  <div class="slide-block jhon">
+    <div class="slide-header">
+      <span class="slide-title">Diapositiva 5: Autopsia Corporativa — El Caso Kodak y la Canibalización</span>
+      <span class="speaker-pill jhon">Jhon Jairo Lugo (Minuto 8:30 - 11:00)</span>
+    </div>
+    <div class="script-dialogue">
+      "Hablemos de una de las mayores quiebras de la historia: Eastman Kodak.
+      Miren la paradoja: en 1975, el ingeniero de Kodak, Steve Sasson, construyó la primera cámara digital de la historia. Cuando la llevó a la junta directiva, la respuesta de los ejecutivos fue: 'Es una curiosidad técnica simpática, pero no se la muestres a nadie porque nuestro negocio es vender rollos de película química'.
+      Eso se llama en administración 'Miedo a la Canibalización': no querer lanzar un producto nuevo por miedo a bajar las ventas del viejo. Kodak creyó que guardando el secreto detendría el futuro. Sony, Canon y Apple lanzaron la fotografía digital y en 2012 Kodak quebró.
+      Recuerden esta ley gerencial: Si tú no canibalizas tu propio producto con innovación, un competidor vendrá y lo hará por ti."
+    </div>
+  </div>
+
+  <!-- SLIDE 6 -->
+  <div class="slide-block jhon">
+    <div class="slide-header">
+      <span class="slide-title">Diapositiva 6: La Curva de Adopción de Rogers y 'El Abismo' (The Chasm)</span>
+      <span class="speaker-pill jhon">Jhon Jairo Lugo (Minuto 11:00 - 13:00)</span>
+    </div>
+    <div class="script-dialogue">
+      "Muchos emprendedores de ingeniería caen en una ilusión: creen que porque a 10 amigos ingenieros les encantó su prototipo ya conquistaron el mercado. Everett Rogers y Geoffrey Moore demostraron que existe una grieta mortal llamada 'El Abismo'.
+      Los primeros clientes, los Early Adopters, toleran fallos, les gusta probar cosas raras. Pero la Mayoría Temprana, que representa el 34% del mercado, son pragmáticos: no compran promesas técnicas, exigen lo que Moore llama el 'Whole Product': garantías, manuales, soporte técnico 24/7 y repuestos. Si un proyecto de ingeniería no cruza el abismo con respaldo comercial, muere en la barra roja."
+    </div>
+  </div>
+
+  <!-- SLIDE 7 -->
+  <div class="slide-block alejandro">
+    <div class="slide-header">
+      <span class="slide-title">Diapositiva 7: La Falacia del 'Tech-Push' vs. 'Market-Pull'</span>
+      <span class="speaker-pill alejandro">Alejandro Carvajal (Minuto 13:00 - 15:30)</span>
+    </div>
+    <div class="script-dialogue">
+      "Pasemos ahora al sesgo más peligroso para nosotros como ingenieros: el Tech-Push ciego.
+      Ocurre cuando nos enamoramos de la tecnología y salimos a buscar a quién vendérsela a la fuerza, llenando el producto de palabras de moda: 'Le pusimos Inteligencia Artificial cuántica y blockchain a este vaso de café, ¿por qué nadie paga 3,000 dólares?'.
+      Eso le pasó a Steve Jobs con el Segway en 2001, y a Google con las Google Glass en 2013: obras de arte de la ingeniería que nadie compró porque no resolvían un dolor real de la gente.
+      La innovación con tracción nace del Market-Pull: encontrar un dolor de cabeza costoso de un cliente en una planta o en la sociedad, y luego buscar la tecnología más sencilla y económica para resolverlo."
+    </div>
+  </div>
+
+  <!-- SLIDE 8 -->
+  <div class="slide-block alejandro">
+    <div class="slide-header">
+      <span class="slide-title">Diapositiva 8: Servitización (H2) — El Caso Rolls-Royce</span>
+      <span class="speaker-pill alejandro">Alejandro Carvajal (Minuto 15:30 - 17:30)</span>
+    </div>
+    <div class="script-dialogue">
+      "En el Horizonte 2 encontramos una de las mayores tendencias de la industria moderna: la Servitización.
+      ¿Qué es? Dejar de vender cajas de metal para pasar a vender servicios continuos por suscripción.
+      El caso de oro es Rolls-Royce Aviation con su programa 'Power-by-the-Hour': ellos no le venden las turbinas a las aerolíneas; se las entregan y les cobran únicamente por hora de vuelo en que la turbina opere a la perfección. Mediante sensores IoT y telemetría por satélite, monitorean la vibración y cambian los componentes antes de que fallen. El cliente se olvida del mantenimiento y Rolls-Royce convirtió una venta volátil en un ingreso multimillonario mensual recurrente."
+    </div>
+  </div>
+
+  <!-- SLIDE 9 -->
+  <div class="slide-block alejandro">
+    <div class="slide-header">
+      <span class="slide-title">Diapositiva 9: El Milagro de LEGO (Disciplina y Filtros Stage-Gate)</span>
+      <span class="speaker-pill alejandro">Alejandro Carvajal (Minuto 17:30 - 19:30)</span>
+    </div>
+    <div class="script-dialogue">
+      "Cuidado: innovar no es hacer locuras sin control. Miren lo que le pasó a LEGO en 2003: estuvieron a semanas de la quiebra con 300 millones de pérdidas porque empezaron a abrir parques temáticos gigantes, líneas de ropa y piezas que no encajaban con los bloques.
+      El nuevo CEO aplicó filtros de innovación: 'Toda innovación debe girar en torno a nuestro bloque central'. Crearon LEGO Ideas, donde la comunidad diseña y vota los sets. Hoy LEGO es la juguetera más rentable del planeta. Innovar requiere disciplina para descartar ideas que no aportan al negocio."
+    </div>
+  </div>
+
+  <!-- SLIDE 10 -->
+  <div class="slide-block alejandro">
+    <div class="slide-header">
+      <span class="slide-title">Diapositiva 10: Cultura del Fracaso Inteligente ('Fail Fast, Fail Cheap')</span>
+      <span class="speaker-pill alejandro">Alejandro Carvajal (Minuto 19:30 - 21:00)</span>
+    </div>
+    <div class="script-dialogue">
+      "En Horizonte 3, 7 de cada 10 proyectos van a fallar. Si en una empresa se castiga el error, nadie volverá a arriesgarse.
+      Por eso la metodología Lean Startup enseña a 'fallar rápido y fallar barato'. Diseñamos un Prototipo Mínimo Viable (MVP) para validar si el cliente tiene el problema. Si la hipótesis falla en 3 semanas tras gastar mil dólares, cambiamos el rumbo antes de gastar un millón. Esa es la velocidad de aprendizaje."
+    </div>
+  </div>
+
+  <!-- SLIDE 11 & 12: LANZAMIENTO -->
+  <div class="slide-block">
+    <div class="slide-header">
+      <span class="slide-title">Diapositivas 11 y 12: Misión ElectroTech S.A.S. y Lanzamiento al Taller</span>
+      <span class="speaker-pill">Juan Esteban Vera (Minuto 21:00 - 23:00)</span>
+    </div>
+    <div class="script-dialogue">
+      "Ha llegado el momento de la verdad. En la pantalla ven el caso que van a resolver: la empresa 'ElectroTech Colombia S.A.S.' ha perdido el 35% de sus ventas y tiene 80 familias de operarios en riesgo. Ustedes son la nueva Junta Directiva con $100,000 USD de presupuesto.
+      Por favor, saquen sus teléfonos móviles o ingresen desde sus computadores al enlace oficial en pantalla:
+      https://jeveraeng-bit.github.io/aurora-dsp/subasta-innovacion/
+      Regístrense con su nombre y el de su mesa, respondan el Quiz de 7 preguntas con las pistas que acabamos de darles, tomen las decisiones del simulador y compitan por el primer puesto del Podio. Quienes aprueben recibirán el Certificado Oficial emitido por el GRUPO #1 con sus firmas oficiales. ¡Muchos éxitos y que empiece la competencia!"
+    </div>
+  </div>
+
+  <!-- BANCO DE PREGUNTAS DEL DOCENTE (CÓMO DEFENDERSE) -->
+  <div class="qa-box">
+    <div class="qa-title">PREGUNTAS COMPLEJAS DEL DOCENTE Y CÓMO RESPONDERLAS CON AUTORIDAD:</div>
+    <p><b>1. Si el docente pregunta:</b> <i>"¿Por qué el modelo de McKinsey sugiere 70% en H1 y no 50% para arriesgar más?"</i><br>
+    <b>Respuesta de Juan Esteban:</b> "Porque el Horizonte 1 es el que genera el flujo de caja operativo indispensable para pagar los sueldos y financiar los experimentos de H2 y H3. Sin un H1 del 70%, la compañía entra en insolvencia de liquidez antes de ver los frutos de sus proyectos a largo plazo."</p>
+
+    <p style="margin-top: 8px;"><b>2. Si el docente pregunta:</b> <i>"¿Cuál es la diferencia entre innovación incremental y disruptiva según Clayton Christensen?"</i><br>
+    <b>Respuesta de Jhon Jairo:</b> "La innovación incremental o sustentadora mejora el rendimiento para los clientes actuales más exigentes. La disruptiva, en cambio, arranca en la parte baja del mercado ofreciendo una solución más simple, barata o accesible que los líderes desprecian, hasta que madura y los expulsa del mercado, como hizo Netflix con Blockbuster."</p>
+
+    <p style="margin-top: 8px;"><b>3. Si el docente pregunta:</b> <i>"¿Cómo se mide el éxito de la innovación en una empresa de ingeniería?"</i><br>
+    <b>Respuesta de Alejandro:</b> "Mediante el Índice de Vitalidad de Nuevos Productos (porcentaje de ingresos provenientes de productos lanzados en los últimos 3 años), el tiempo de ciclo desde la idea hasta el mercado (Time-to-Market) y la tasa de conversión del embudo de innovación."</p>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,3 @@
+@echo off
+echo Abriendo Guion Oficial de Exposicion en PDF...
+start "" "%~dp0GUION_EXPOSICION_GRUPO1_UAN.pdf"
