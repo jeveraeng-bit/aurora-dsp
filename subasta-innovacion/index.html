@@ -66,6 +66,80 @@
     .glow-logo {
       box-shadow: 0 0 25px rgba(59, 130, 246, 0.35);
     }
+    
+    /* Estilos personalizados para Deslizadores (Sliders) Dark Mode */
+    input[type=range] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 10px;
+      background: #1e293b !important;
+      border-radius: 9999px;
+      outline: none;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+      cursor: pointer;
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.8);
+      border: 2px solid #ffffff !important;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 18px rgba(59, 130, 246, 1);
+    }
+    input[type=range]::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+      cursor: pointer;
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.8);
+      border: 2px solid #ffffff !important;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      background: #1e293b !important;
+      height: 10px;
+      border-radius: 9999px;
+    }
+    input[type=range]::-moz-range-track {
+      background: #1e293b !important;
+      height: 10px;
+      border-radius: 9999px;
+    }
+    /* Thumb de color específico para cada horizonte */
+    #sliderH1::-webkit-slider-thumb {
+      background: linear-gradient(135deg, #10b981, #059669) !important;
+      box-shadow: 0 0 14px rgba(16, 185, 129, 0.9) !important;
+    }
+    #sliderH1::-moz-range-thumb {
+      background: linear-gradient(135deg, #10b981, #059669) !important;
+      box-shadow: 0 0 14px rgba(16, 185, 129, 0.9) !important;
+    }
+    #sliderH2::-webkit-slider-thumb {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+      box-shadow: 0 0 14px rgba(59, 130, 246, 0.9) !important;
+    }
+    #sliderH2::-moz-range-thumb {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+      box-shadow: 0 0 14px rgba(59, 130, 246, 0.9) !important;
+    }
+    #sliderH3::-webkit-slider-thumb {
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9) !important;
+      box-shadow: 0 0 14px rgba(139, 92, 246, 0.9) !important;
+    }
+    #sliderH3::-moz-range-thumb {
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9) !important;
+      box-shadow: 0 0 14px rgba(139, 92, 246, 0.9) !important;
+    }
+
     /* Estilo de impresión para el Certificado */
     @media print {
       body * {
@@ -301,6 +375,119 @@
           </form>
         </div>
 
+      </div>
+
+      <!-- APARTADO DE DESARROLLADORES (EN LA PARTE INFERIOR DE REGISTRO & AVATAR) -->
+      <div class="mt-12 pt-10 border-t border-slate-800/80">
+        <div class="text-center mb-8">
+          <div class="inline-flex items-center gap-2 bg-blue-950/80 text-blue-400 border border-blue-800/80 px-3.5 py-1 rounded-full text-xs font-mono mb-2 shadow-sm">
+            <img src="logo_grupo1.png" alt="Grupo 1" class="w-4 h-4 rounded-full">
+            <span class="font-bold">FACILITADORES DEL TALLER — GRUPO #1</span>
+          </div>
+          <h3 class="text-xl sm:text-3xl font-extrabold font-display text-white">
+            Equipo Desarrollador & Ponentes Oficiales
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-xl mx-auto">
+            Estudiantes de <b>Ingeniería Electrónica</b> de la <b>Universidad Antonio Nariño (Sede Ibagué)</b> responsables del diseño, marco conceptual y facilitación del taller.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <!-- Juan Esteban Vera Rodríguez -->
+          <div class="glass-card rounded-3xl p-6 border-slate-800 hover:border-blue-500/60 transition-all flex flex-col items-center text-center shadow-xl relative overflow-hidden group">
+            <div class="relative mb-4">
+              <img src="juan_esteban.jpg" alt="Juan Esteban Vera Rodríguez" 
+                   class="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-blue-500/80 shadow-xl ring-4 ring-blue-500/20 group-hover:scale-105 transition-transform duration-300">
+              <span class="absolute bottom-1 right-1 bg-blue-600 text-white text-[10px] font-mono px-2 py-0.5 rounded-full border border-slate-900 font-bold">
+                LÍDER
+              </span>
+            </div>
+
+            <h4 class="text-base sm:text-lg font-bold font-display text-white">
+              Juan Esteban Vera Rodríguez
+            </h4>
+            <p class="text-xs font-mono text-blue-400 font-semibold mt-0.5">
+              Ingeniería Electrónica • UAN Ibagué
+            </p>
+            
+            <div class="my-3 py-1 px-3 bg-blue-950/60 rounded-xl border border-blue-800/60 text-[11px] font-mono text-blue-300">
+              Arquitectura Tecnológica & Dirección
+            </div>
+
+            <p class="text-xs text-slate-300 leading-relaxed mt-1">
+              Dirección del taller, formulación conceptual de la innovación (<span class="font-mono text-emerald-300">Idea × Viabilidad × Mercado</span>) y diseño del motor web.
+            </p>
+
+            <div class="mt-4 pt-3 border-t border-slate-800/80 w-full flex justify-between text-[10px] font-mono text-slate-400">
+              <span>Cátedra: Gestión Emp.</span>
+              <span class="text-blue-400 font-bold">Grupo #1</span>
+            </div>
+          </div>
+
+          <!-- Jhon Jairo Lugo Peralta -->
+          <div class="glass-card rounded-3xl p-6 border-slate-800 hover:border-indigo-500/60 transition-all flex flex-col items-center text-center shadow-xl relative overflow-hidden group">
+            <div class="relative mb-4">
+              <img src="jhon_jairo.png" alt="Jhon Jairo Lugo Peralta" 
+                   class="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-indigo-500/80 shadow-xl ring-4 ring-indigo-500/20 group-hover:scale-105 transition-transform duration-300">
+              <span class="absolute bottom-1 right-1 bg-indigo-600 text-white text-[10px] font-mono px-2 py-0.5 rounded-full border border-slate-900 font-bold">
+                CASOS
+              </span>
+            </div>
+
+            <h4 class="text-base sm:text-lg font-bold font-display text-white">
+              Jhon Jairo Lugo Peralta
+            </h4>
+            <p class="text-xs font-mono text-indigo-400 font-semibold mt-0.5">
+              Ingeniería Electrónica • UAN Ibagué
+            </p>
+            
+            <div class="my-3 py-1 px-3 bg-indigo-950/60 rounded-xl border border-indigo-800/60 text-[11px] font-mono text-indigo-300">
+              Moderación de Casos & Análisis Cuantitativo
+            </div>
+
+            <p class="text-xs text-slate-300 leading-relaxed mt-1">
+              Diseño del Quiz Estratégico, análisis cuantitativo de curvas en S de salto tecnológico y desmontaje de las falacias del 'Tech-Push'.
+            </p>
+
+            <div class="mt-4 pt-3 border-t border-slate-800/80 w-full flex justify-between text-[10px] font-mono text-slate-400">
+              <span>Cátedra: Gestión Emp.</span>
+              <span class="text-indigo-400 font-bold">Grupo #1</span>
+            </div>
+          </div>
+
+          <!-- Alejandro Carvajal Paniagua -->
+          <div class="glass-card rounded-3xl p-6 border-slate-800 hover:border-emerald-500/60 transition-all flex flex-col items-center text-center shadow-xl relative overflow-hidden group">
+            <div class="relative mb-4">
+              <img src="alejandro_carvajal.png" alt="Alejandro Carvajal Paniagua" 
+                   class="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-emerald-500/80 shadow-xl ring-4 ring-emerald-500/20 group-hover:scale-105 transition-transform duration-300">
+              <span class="absolute bottom-1 right-1 bg-emerald-600 text-white text-[10px] font-mono px-2 py-0.5 rounded-full border border-slate-900 font-bold">
+                SIMULADOR
+              </span>
+            </div>
+
+            <h4 class="text-base sm:text-lg font-bold font-display text-white">
+              Alejandro Carvajal Paniagua
+            </h4>
+            <p class="text-xs font-mono text-emerald-400 font-semibold mt-0.5">
+              Ingeniería Electrónica • UAN Ibagué
+            </p>
+            
+            <div class="my-3 py-1 px-3 bg-emerald-950/60 rounded-xl border border-emerald-800/60 text-[11px] font-mono text-emerald-300">
+              Simulador de Decisiones & Estrategia
+            </div>
+
+            <p class="text-xs text-slate-300 leading-relaxed mt-1">
+              Moderación de la simulación de ElectroTech S.A.S., balance de portafolio McKinsey (70/20/10) y evaluación del podio de ganadores.
+            </p>
+
+            <div class="mt-4 pt-3 border-t border-slate-800/80 w-full flex justify-between text-[10px] font-mono text-slate-400">
+              <span>Cátedra: Gestión Emp.</span>
+              <span class="text-emerald-400 font-bold">Grupo #1</span>
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
 
