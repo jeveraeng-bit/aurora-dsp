@@ -6,15 +6,17 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>Portal Interactivo: Gestión de la Innovación | UAN Ibagué</title>
+  <title>Portal Interactivo: Gestión de la Innovación | GRUPO #1</title>
   
-  <!-- Tipografías -->
+  <!-- Tipografías Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN para gráficas dinámicas -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -30,14 +32,12 @@
           },
           colors: {
             brand: {
-              50: '#f0fdf4',
-              500: '#10b981',
-              600: '#059669',
               primary: '#3b82f6',
               accent: '#8b5cf6',
               gold: '#f59e0b',
-              dark: '#090d16',
-              card: '#111827',
+              emerald: '#10b981',
+              dark: '#080c14',
+              card: '#0f172a',
               border: '#1e293b'
             }
           }
@@ -48,37 +48,41 @@
 
   <style>
     .glass-nav {
-      background: rgba(9, 13, 22, 0.92);
+      background: rgba(8, 12, 20, 0.94);
       backdrop-filter: blur(14px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
     .glass-card {
-      background: rgba(17, 24, 39, 0.85);
+      background: rgba(15, 23, 42, 0.88);
       backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
     .tab-active {
-      background-color: #3b82f6 !important;
+      background-color: #2563eb !important;
       color: #ffffff !important;
       border-color: #3b82f6 !important;
-      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
     }
-    /* Estilo de impresión para el certificado */
+    .glow-logo {
+      box-shadow: 0 0 25px rgba(59, 130, 246, 0.35);
+    }
+    /* Estilo de impresión para el Certificado */
     @media print {
       body * {
-        visibility: hidden;
+        visibility: hidden !important;
       }
       #certificateCard, #certificateCard * {
-        visibility: visible;
+        visibility: visible !important;
       }
       #certificateCard {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        background: white !important;
-        color: black !important;
-        border: 2px solid #333 !important;
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        background: #ffffff !important;
+        color: #0f172a !important;
+        border: 4px double #d97706 !important;
+        box-shadow: none !important;
       }
     }
   </style>
@@ -87,35 +91,37 @@
 
   <!-- TOP HEADER INSTITUCIONAL -->
   <header class="sticky top-0 z-50 glass-nav">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
         
-        <!-- Identidad Institucional -->
+        <!-- Logo Oficial Grupo #1 & Titulo -->
         <div class="flex items-center space-x-3">
-          <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-emerald-500 flex items-center justify-center font-display font-black text-white text-xl shadow-lg ring-2 ring-white/10">
-            UAN
+          <div class="relative shrink-0">
+            <img src="logo_grupo1.png" alt="Logo Grupo #1 UAN" 
+                 class="w-12 h-12 rounded-full object-contain glow-logo ring-2 ring-blue-500/50 bg-slate-900 p-0.5">
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <span class="text-[11px] font-mono tracking-wider uppercase text-blue-400 font-semibold bg-blue-950/70 px-2 py-0.5 rounded border border-blue-800/50">
-                Gestión Empresarial
+              <span class="text-[11px] font-mono tracking-wider uppercase text-blue-400 font-bold bg-blue-950/80 px-2.5 py-0.5 rounded border border-blue-800/60">
+                GRUPO #1
               </span>
-              <span class="text-xs text-slate-400 hidden sm:inline">● Sede Ibagué</span>
+              <span class="text-xs text-slate-400 hidden sm:inline">● Gestión Empresarial</span>
+              <span class="text-xs text-amber-400/90 font-mono hidden md:inline">● UAN Ibagué</span>
             </div>
-            <h1 class="text-base sm:text-lg font-bold font-display text-white">
-              Gestión de la Innovación <span class="text-slate-400 text-xs font-normal">| Plataforma de Aprendizaje Interactivo</span>
+            <h1 class="text-base sm:text-lg font-bold font-display text-white flex items-center gap-1.5">
+              Gestión de la Innovación <span class="text-slate-400 text-xs font-normal hidden lg:inline">| Masterclass & Laboratorio Interactivo</span>
             </h1>
           </div>
         </div>
 
-        <!-- Usuario Activo & Puntuación -->
+        <!-- Usuario Activo & Puntuación en Vivo -->
         <div class="flex items-center gap-3 justify-between md:justify-end">
-          <div id="userBadgeHeader" class="hidden sm:flex items-center gap-2.5 bg-slate-900/90 px-3 py-1.5 rounded-xl border border-slate-700/80">
+          <div id="userBadgeHeader" class="flex items-center gap-2.5 bg-slate-900/90 px-3 py-1.5 rounded-xl border border-slate-700/80">
             <span class="text-lg" id="headerAvatar">👤</span>
             <div class="text-left">
               <p class="text-xs font-bold text-white leading-none" id="headerUserName">Invitado</p>
               <p class="text-[10px] font-mono text-emerald-400 leading-tight mt-0.5">
-                Puntaje: <span id="headerUserScore" class="font-bold">0 pts</span>
+                Score: <span id="headerUserScore" class="font-bold">0 pts</span>
               </p>
             </div>
           </div>
@@ -133,126 +139,148 @@
     </div>
   </header>
 
-  <!-- BANNER RESPONSABLES -->
-  <div class="bg-gradient-to-r from-slate-900 via-blue-950/40 to-slate-900 border-b border-slate-800/80 py-2">
+  <!-- BANNER EXPOSITORES GRUPO #1 -->
+  <div class="bg-gradient-to-r from-slate-950 via-blue-950/50 to-slate-950 border-b border-slate-800/80 py-2">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between text-xs text-slate-300 gap-2">
       <div class="flex items-center gap-2 flex-wrap">
-        <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
-        <span class="font-semibold text-slate-200">Expositores (Ing. Electrónica):</span>
-        <span class="text-blue-300 font-medium">Juan Esteban Vera R.</span> • 
-        <span class="text-indigo-300 font-medium">Jhon Jairo Lugo P.</span> • 
-        <span class="text-emerald-300 font-medium">Alejandro Carvajal P.</span>
+        <span class="w-2.5 h-2.5 rounded-full bg-blue-400 animate-ping"></span>
+        <span class="font-bold text-white uppercase tracking-wider text-[11px] bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
+          Emitido por Grupo #1:
+        </span>
+        <span class="text-blue-300 font-semibold">Juan Esteban Vera R.</span> • 
+        <span class="text-indigo-300 font-semibold">Jhon Jairo Lugo P.</span> • 
+        <span class="text-emerald-300 font-semibold">Alejandro Carvajal P.</span>
       </div>
       <div class="font-mono text-slate-400 text-[11px] hidden sm:block">
-        Taller Formativo Dinámico • 2026
+        Ingeniería Electrónica • Universidad Antonio Nariño
       </div>
     </div>
   </div>
 
   <!-- NAVEGACIÓN POR SUBMENÚS (TABS) -->
-  <div class="bg-slate-950/80 border-b border-slate-800 sticky top-[69px] z-40 backdrop-blur-md">
+  <div class="bg-slate-950/90 border-b border-slate-800 sticky top-[65px] z-40 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6">
       <nav class="flex space-x-1 sm:space-x-2 py-2 overflow-x-auto no-scrollbar text-xs font-semibold" id="mainNavigationTabs">
         <button class="nav-tab tab-active px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap" data-tab="tab-welcome">
-          <span>👋</span> 1. Bienvenida & Registro
+          <span>👋</span> 1. Registro & Avatar
         </button>
         <button class="nav-tab px-3.5 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all flex items-center gap-1.5 whitespace-nowrap" data-tab="tab-quiz">
-          <span>📝</span> 2. Quiz Diagnóstico
+          <span>📝</span> 2. Quiz con Gráficas (7 Casos)
         </button>
         <button class="nav-tab px-3.5 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all flex items-center gap-1.5 whitespace-nowrap" data-tab="tab-learn">
-          <span>💡</span> 3. Micro-Clase Visual
+          <span>📊</span> 3. Micro-Clase & Curvas Interactivas
         </button>
         <button class="nav-tab px-3.5 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all flex items-center gap-1.5 whitespace-nowrap" data-tab="tab-simulator">
           <span>🎮</span> 4. Simulador de Decisiones
         </button>
         <button class="nav-tab px-3.5 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all flex items-center gap-1.5 whitespace-nowrap" data-tab="tab-leaderboard">
-          <span>🏆</span> 5. Marcador en Vivo
+          <span>🏆</span> 5. Podio en Vivo
         </button>
         <button class="nav-tab px-3.5 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all flex items-center gap-1.5 whitespace-nowrap" data-tab="tab-certificate">
-          <span>🎓</span> 6. Certificado UAN
+          <span>🎓</span> 6. Certificado Grupo #1
         </button>
       </nav>
     </div>
   </div>
 
-  <!-- CONTENEDOR PRINCIPAL DE PESTAÑAS -->
+  <!-- CONTENEDOR PRINCIPAL -->
   <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full">
 
     <!-- ========================================== -->
-    <!-- TAB 1: BIENVENIDA & REGISTRO DE USUARIO    -->
+    <!-- TAB 1: REGISTRO Y BIENVENIDA               -->
     <!-- ========================================== -->
     <section id="tab-welcome" class="tab-content block">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         
-        <!-- Tarjeta de Explicación y Contexto -->
-        <div class="lg:col-span-7 glass-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between border-slate-800 shadow-xl">
+        <!-- Tarjeta de Bienvenida con Emblema Grupo #1 -->
+        <div class="lg:col-span-7 glass-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between border-slate-800 shadow-2xl relative overflow-hidden">
+          <div class="absolute -right-20 -bottom-20 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
           <div>
-            <div class="inline-flex items-center gap-2 bg-blue-950/80 text-blue-400 px-3 py-1 rounded-full text-xs font-mono border border-blue-800 mb-4">
-              <span>🚀</span> Universidad Antonio Nariño - Ingeniería Electrónica
+            <div class="flex items-center gap-3 mb-4">
+              <img src="logo_grupo1.png" alt="Logo Grupo 1" class="w-14 h-14 object-contain rounded-full shadow-lg border border-blue-500/40">
+              <div>
+                <span class="text-xs font-mono uppercase bg-blue-950 text-blue-400 border border-blue-800 px-2.5 py-0.5 rounded font-bold">
+                  GRUPO #1 PRESENTA
+                </span>
+                <p class="text-xs text-slate-400 mt-0.5">Cátedra de Gestión Empresarial • UAN Sede Ibagué</p>
+              </div>
             </div>
+
             <h2 class="text-2xl sm:text-4xl font-extrabold font-display text-white leading-tight">
-              Bienvenido al Taller de <br>
+              Taller Práctico de <br>
               <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-emerald-400">
                 Gestión de la Innovación
               </span>
             </h2>
             <p class="text-sm text-slate-300 mt-4 leading-relaxed">
-              Hoy no vamos a dormirte con una aburrida exposición de diapositivas llenas de texto. Este portal fue diseñado para que <b>tú y tu equipo participen, tomen decisiones gerenciales y compitan</b> por el primer lugar del salón.
+              La innovación no es azar ni inspiración divina: es una <b>disciplina de ingeniería y gerencia</b>. A través de este portal interactivo, analizaremos curvas de salto tecnológico, evaluaremos portafolios de riesgo y pondremos a prueba tu juicio gerencial.
             </p>
 
-            <!-- Pasos del Recorrido -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6">
-              <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800">
-                <span class="text-xl">📝</span>
-                <p class="font-bold text-white text-xs mt-1">1. Diagnóstico</p>
-                <p class="text-[11px] text-slate-400 mt-0.5">Pon a prueba qué tanto sabes sobre innovación.</p>
+              <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                <div>
+                  <span class="text-2xl">📝</span>
+                  <p class="font-bold text-white text-xs mt-2">1. Quiz con Gráficas</p>
+                  <p class="text-[11px] text-slate-400 mt-1">7 casos estratégicos con retroalimentación inmediata.</p>
+                </div>
+                <span class="text-[10px] font-mono text-blue-400 mt-2 font-bold">+700 pts max</span>
               </div>
-              <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800">
-                <span class="text-xl">💡</span>
-                <p class="font-bold text-white text-xs mt-1">2. Micro-Clase</p>
-                <p class="text-[11px] text-slate-400 mt-0.5">Aprende los modelos reales (McKinsey, Oslo, Funnel).</p>
+
+              <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                <div>
+                  <span class="text-2xl">📊</span>
+                  <p class="font-bold text-white text-xs mt-2">2. Curvas Interactivas</p>
+                  <p class="text-[11px] text-slate-400 mt-1">Curva en S de Foster, Adopción de Rogers y McKinsey 70/20/10.</p>
+                </div>
+                <span class="text-[10px] font-mono text-indigo-400 mt-2 font-bold">Modelos Visuales</span>
               </div>
-              <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800">
-                <span class="text-xl">🎮</span>
-                <p class="font-bold text-white text-xs mt-1">3. Simulador</p>
-                <p class="text-[11px] text-slate-400 mt-0.5">Salva a una empresa tecnológica en 3 trimestres.</p>
+
+              <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                <div>
+                  <span class="text-2xl">🎮</span>
+                  <p class="font-bold text-white text-xs mt-2">3. Simulador & Diploma</p>
+                  <p class="text-[11px] text-slate-400 mt-1">Salva a la empresa y recibe el certificado emitido por Grupo #1.</p>
+                </div>
+                <span class="text-[10px] font-mono text-emerald-400 mt-2 font-bold">+450 pts max</span>
               </div>
             </div>
           </div>
 
           <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
-            <span>Cátedra: Gestión Empresarial</span>
-            <span class="font-mono text-emerald-400">Gana hasta 1,000 puntos</span>
+            <span>Facilitadores: Vera, Lugo & Carvajal</span>
+            <span class="font-mono text-emerald-400 font-bold">1,150 pts en juego</span>
           </div>
         </div>
 
-        <!-- Tarjeta de Registro de Participante / Equipo -->
-        <div class="lg:col-span-5 glass-card rounded-2xl p-6 sm:p-8 flex flex-col justify-center border-slate-800 shadow-xl relative overflow-hidden">
-          <div class="absolute -right-16 -top-16 w-44 h-44 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
-
-          <h3 class="text-xl font-bold font-display text-white mb-2">Ingresa al Marcador Oficial</h3>
-          <p class="text-xs text-slate-400 mb-6">Regístrate para que tus puntos queden grabados y aparezcas en el podio final del salón.</p>
+        <!-- Formulario de Registro de Usuario -->
+        <div class="lg:col-span-5 glass-card rounded-3xl p-6 sm:p-8 flex flex-col justify-center border-slate-800 shadow-2xl relative">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-amber-400">⚡</span>
+            <h3 class="text-xl font-bold font-display text-white">Registro de Participante</h3>
+          </div>
+          <p class="text-xs text-slate-400 mb-5">Ingresa tus datos para figurar en el podio oficial y personalizar tu diploma.</p>
 
           <form id="registrationForm" class="space-y-4">
             <div>
-              <label class="block text-xs font-mono uppercase text-slate-300 mb-1.5">Tu Nombre o Alias:</label>
-              <input type="text" id="regNameInput" required placeholder="Ej: Laura Gómez / Grupo Alfa"
-                class="w-full bg-slate-900 border border-slate-700 focus:border-blue-500 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none transition-all">
+              <label class="block text-xs font-mono uppercase text-slate-300 mb-1.5">Nombre y Apellido / Equipo:</label>
+              <input type="text" id="regNameInput" required placeholder="Ej: Camilo Torres / Grupo Beta"
+                class="w-full bg-slate-900/90 border border-slate-700 focus:border-blue-500 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none transition-all shadow-inner">
             </div>
 
             <div>
-              <label class="block text-xs font-mono uppercase text-slate-300 mb-1.5">Tu Equipo / Mesa de Trabajo:</label>
-              <select id="regTeamSelect" class="w-full bg-slate-900 border border-slate-700 focus:border-blue-500 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none transition-all">
-                <option value="Comité Innovación 1">Mesa 1 - Estrategia Alpha</option>
-                <option value="Comité Innovación 2">Mesa 2 - Innovadores Disruptivos</option>
-                <option value="Comité Innovación 3">Mesa 3 - Gerencia Tecnológica</option>
-                <option value="Comité Innovación 4">Mesa 4 - Startups & Venture</option>
-                <option value="Participante Libre">Participante Individual</option>
+              <label class="block text-xs font-mono uppercase text-slate-300 mb-1.5">Tu Mesa o Comité de Innovación:</label>
+              <select id="regTeamSelect" class="w-full bg-slate-900/90 border border-slate-700 focus:border-blue-500 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none transition-all">
+                <option value="Mesa 1 - Estrategas Alpha">Mesa 1 - Estrategas Alpha</option>
+                <option value="Mesa 2 - Innovadores Disruptivos">Mesa 2 - Innovadores Disruptivos</option>
+                <option value="Mesa 3 - I+D Avanzado">Mesa 3 - I+D Avanzado</option>
+                <option value="Mesa 4 - Venture Capital">Mesa 4 - Venture Capital</option>
+                <option value="Participante Libre">Participante Libre / Auditor</option>
               </select>
             </div>
 
             <div>
-              <label class="block text-xs font-mono uppercase text-slate-300 mb-1.5">Elige tu Avatar de Gerente:</label>
+              <label class="block text-xs font-mono uppercase text-slate-300 mb-1.5">Elige tu Avatar de Ingeniero / Gerente:</label>
               <div class="grid grid-cols-6 gap-2" id="avatarSelector">
                 <button type="button" class="avatar-btn p-2 rounded-xl bg-slate-900 border-2 border-blue-500 text-xl text-center" data-avatar="👨‍💼">👨‍💼</button>
                 <button type="button" class="avatar-btn p-2 rounded-xl bg-slate-900 border border-slate-700 text-xl text-center" data-avatar="👩‍💼">👩‍💼</button>
@@ -263,8 +291,8 @@
               </div>
             </div>
 
-            <button type="submit" class="w-full mt-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-500 hover:from-blue-500 hover:to-emerald-400 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all transform active:scale-95 flex items-center justify-center gap-2">
-              <span>Comenzar Taller</span>
+            <button type="submit" class="w-full mt-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-500 hover:from-blue-500 hover:to-emerald-400 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg transition-all transform active:scale-95 flex items-center justify-center gap-2">
+              <span class="font-display tracking-wide uppercase text-sm">Ingresar al Taller y Empezar</span>
               <span>➔</span>
             </button>
           </form>
@@ -274,37 +302,36 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- TAB 2: QUIZ DIAGNÓSTICO (PREGUNTAS ACTIVAS)-->
+    <!-- TAB 2: QUIZ CON GRÁFICAS (7 CASOS REALES)  -->
     <!-- ========================================== -->
     <section id="tab-quiz" class="tab-content hidden">
-      <div class="max-w-3xl mx-auto">
+      <div class="max-w-4xl mx-auto">
         
-        <!-- Header del Quiz -->
         <div class="text-center mb-6">
           <span class="inline-block text-xs font-mono uppercase bg-blue-950 text-blue-400 border border-blue-800 px-3 py-1 rounded-full mb-2">
-            Módulo 1: Diagnóstico de Intuición Empresarial
+            Módulo 1: Diagnóstico con Casos & Gráficas Interactivas
           </span>
           <h2 class="text-2xl sm:text-3xl font-extrabold font-display text-white">
-            ¿Qué tanto sabes sobre Innovación?
+            Desafío Estratégico de Innovación
           </h2>
-          <p class="text-xs sm:text-sm text-slate-300 mt-2">
-            Responde 4 preguntas cruciales. Cada respuesta correcta te otorga <b>100 puntos</b> para el marcador del salón.
+          <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl mx-auto">
+            7 preguntas con gráficas reales de mercado. Cada respuesta correcta suma <b>100 puntos</b> al marcador general.
           </p>
         </div>
 
-        <!-- Barra de Progreso del Quiz -->
-        <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 mb-6 flex items-center justify-between">
+        <!-- Barra de Progreso y Marcador del Quiz -->
+        <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 mb-6 flex items-center justify-between">
           <div class="flex items-center gap-3">
             <span class="text-xs font-mono text-slate-400">Progreso:</span>
-            <span id="quizStepText" class="text-xs font-mono font-bold text-blue-400">Pregunta 1 de 4</span>
+            <span id="quizStepText" class="text-xs font-mono font-bold text-blue-400">Pregunta 1 de 7</span>
           </div>
           <div class="text-xs font-mono">
             Puntos Ganados: <b id="quizScoreDisplay" class="text-emerald-400 font-bold">0 pts</b>
           </div>
         </div>
 
-        <!-- Contenedor Dinámico de Pregunta -->
-        <div id="quizCardContainer" class="glass-card rounded-2xl p-6 sm:p-8 border-slate-800 shadow-xl">
+        <!-- Contenedor Dinámico del Quiz -->
+        <div id="quizCardContainer" class="glass-card rounded-3xl p-6 sm:p-8 border-slate-800 shadow-2xl">
           <!-- Inyectado por JS -->
         </div>
 
@@ -312,127 +339,159 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- TAB 3: MICRO-CLASE VISUAL E INTERACTIVA    -->
+    <!-- TAB 3: MICRO-CLASE & CURVAS INTERACTIVAS   -->
     <!-- ========================================== -->
     <section id="tab-learn" class="tab-content hidden">
-      <div class="max-w-5xl mx-auto">
+      <div class="max-w-6xl mx-auto space-y-8">
         
-        <div class="text-center mb-8">
+        <div class="text-center max-w-3xl mx-auto">
           <span class="inline-block text-xs font-mono uppercase bg-emerald-950 text-emerald-400 border border-emerald-800 px-3 py-1 rounded-full mb-2">
-            Módulo 2: Fundamentos de Gestión de la Innovación
+            Módulo 2: Fundamentos Teóricos & Curvas de Comparación
           </span>
-          <h2 class="text-2xl sm:text-3xl font-extrabold font-display text-white">
-            Lo que un Ingeniero y Gerente debe dominar
+          <h2 class="text-2xl sm:text-4xl font-extrabold font-display text-white">
+            Modelos Cuantitativos de Innovación
           </h2>
-          <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl mx-auto">
-            Explora las 4 tarjetas interactivas. Haz clic en cada concepto para ver cómo las grandes corporaciones aplican la teoría en el mundo real.
+          <p class="text-xs sm:text-sm text-slate-300 mt-2">
+            Interactúa con las gráficas fundamentales que enseñan en Stanford, Harvard y McKinsey sobre gestión tecnológica.
           </p>
         </div>
 
-        <!-- Grid de los 4 Conceptos Clave -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
-          <!-- Concepto 1 -->
-          <div class="glass-card rounded-2xl p-6 border-slate-800 hover:border-blue-500/50 transition-all flex flex-col justify-between">
+        <!-- GRÁFICA 1: LA CURVA EN S DE LA INNOVACIÓN (FOSTER) -->
+        <div class="glass-card rounded-3xl p-6 sm:p-8 border-slate-800">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-4">
             <div>
-              <div class="flex items-center justify-between mb-3">
-                <span class="text-2xl">🧠</span>
-                <span class="text-[11px] font-mono uppercase bg-blue-950 text-blue-400 border border-blue-800 px-2.5 py-0.5 rounded">Pilar #1</span>
-              </div>
-              <h3 class="text-lg font-bold font-display text-white">Creatividad ≠ Innovación</h3>
-              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-                Tener una idea revolucionaria no sirve de nada si se queda guardada en un cuaderno. La innovación ocurre <b>únicamente cuando la idea se ejecuta y crea valor comercial o social adoptado por el usuario</b>.
+              <span class="text-xs font-mono uppercase bg-blue-950 text-blue-400 border border-blue-800 px-2.5 py-0.5 rounded font-bold">
+                Modelo 1: Richard Foster (McKinsey)
+              </span>
+              <h3 class="text-xl font-bold font-display text-white mt-1">
+                La Curva en "S" y el Salto Tecnológico
+              </h3>
+              <p class="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
+                Toda tecnología nace lenta, explota en crecimiento y luego se estanca en su <b>límite físico o de mercado</b>. El peligro mortal para un gerente es seguir invirtiendo millones en la tecnología madura mientras una nueva tecnología disruptiva, aunque al inicio parezca inferior, la superará exponencialmente.
               </p>
-              <div class="mt-4 p-3 bg-slate-900 rounded-xl border border-slate-800 text-xs font-mono text-emerald-300">
-                Fórmula: Innovación = Idea × Viabilidad Técnica × Adopción de Mercado
-              </div>
             </div>
-            <div class="mt-4 pt-3 border-t border-slate-800/80 text-[11px] text-slate-400">
-              💡 <b>Ejemplo:</b> Xerox inventó la interfaz gráfica y el mouse, pero Apple y Microsoft la comercializaron. Quien innovó fue quien creó el mercado.
-            </div>
-          </div>
-
-          <!-- Concepto 2 -->
-          <div class="glass-card rounded-2xl p-6 border-slate-800 hover:border-indigo-500/50 transition-all flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-3">
-                <span class="text-2xl">📐</span>
-                <span class="text-[11px] font-mono uppercase bg-indigo-950 text-indigo-400 border border-indigo-800 px-2.5 py-0.5 rounded">Pilar #2</span>
-              </div>
-              <h3 class="text-lg font-bold font-display text-white">Los 3 Tipos de Innovación</h3>
-              <ul class="text-xs text-slate-300 mt-2 space-y-2">
-                <li class="flex items-start gap-2">
-                  <b class="text-emerald-400 whitespace-nowrap">Incremental:</b> Pequeñas mejoras continuas (ej. una cámara mejor en el celular).
-                </li>
-                <li class="flex items-start gap-2">
-                  <b class="text-blue-400 whitespace-nowrap">Adyacente:</b> Llevar lo que sabes hacer a un nuevo mercado (ej. Uber pasando a Uber Eats).
-                </li>
-                <li class="flex items-start gap-2">
-                  <b class="text-purple-400 whitespace-nowrap">Disruptiva:</b> Cambia las reglas y reemplaza la industria previa (ej. Netflix frente a videoclubes).
-                </li>
-              </ul>
-            </div>
-            <div class="mt-4 pt-3 border-t border-slate-800/80 text-[11px] text-slate-400">
-              💡 <b>Lección:</b> Si solo haces incremental, tarde o temprano una disruptiva te extinguirá.
+            <div class="flex gap-2">
+              <button id="btnToggleSCurveTech" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-1.5 rounded-xl font-mono">
+                ⚡ Alternar Caso: Kodak vs Digital
+              </button>
             </div>
           </div>
 
-          <!-- Concepto 3 -->
-          <div class="glass-card rounded-2xl p-6 border-slate-800 hover:border-amber-500/50 transition-all flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-3">
-                <span class="text-2xl">⚖️</span>
-                <span class="text-[11px] font-mono uppercase bg-amber-950 text-amber-400 border border-amber-800 px-2.5 py-0.5 rounded">Pilar #3</span>
-              </div>
-              <h3 class="text-lg font-bold font-display text-white">Regla de Oro McKinsey (70 / 20 / 10)</h3>
-              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-                ¿Cómo reparte su presupuesto una empresa inteligente?
-              </p>
-              <div class="space-y-1.5 mt-3 text-xs font-mono">
-                <div class="flex justify-between bg-slate-900 p-2 rounded">
-                  <span class="text-emerald-400">70% Horizonte 1:</span>
-                  <span class="text-slate-300">Negocio actual (Caja y nómina)</span>
-                </div>
-                <div class="flex justify-between bg-slate-900 p-2 rounded">
-                  <span class="text-blue-400">20% Horizonte 2:</span>
-                  <span class="text-slate-300">Nuevos mercados a 2 años</span>
-                </div>
-                <div class="flex justify-between bg-slate-900 p-2 rounded">
-                  <span class="text-purple-400">10% Horizonte 3:</span>
-                  <span class="text-slate-300">Apuestas radicales y riesgo</span>
-                </div>
-              </div>
-            </div>
-            <div class="mt-4 pt-3 border-t border-slate-800/80 text-[11px] text-slate-400">
-              💡 <b>Equilibrio:</b> El 70% paga los sueldos hoy; el 10% asegura que la empresa viva dentro de 10 años.
-            </div>
+          <!-- Canvas Chart.js para Curva en S -->
+          <div class="relative h-72 sm:h-80 w-full bg-slate-950/70 p-3 rounded-2xl border border-slate-800/80">
+            <canvas id="sCurveChart"></canvas>
           </div>
 
-          <!-- Concepto 4 -->
-          <div class="glass-card rounded-2xl p-6 border-slate-800 hover:border-red-500/50 transition-all flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-3">
-                <span class="text-2xl">🚫</span>
-                <span class="text-[11px] font-mono uppercase bg-red-950 text-red-400 border border-red-800 px-2.5 py-0.5 rounded">Pilar #4</span>
-              </div>
-              <h3 class="text-lg font-bold font-display text-white">La Trampa del "Humo" Tecnológico</h3>
-              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-                El error más común de los ingenieros y gerentes novatos es enamorarse de una tecnología de moda (IA, Blockchain, Metaverso) e inventar un producto que nadie necesita ni quiere comprar (*Tech-Push* ciego).
-              </p>
-              <div class="mt-4 p-3 bg-red-950/40 rounded-xl border border-red-900/60 text-xs text-red-300">
-                ⚠️ El 80% de las startups fracasan por no validar si el problema del cliente era real antes de construir la solución.
-              </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4 text-xs">
+            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+              <b class="text-blue-400 block mb-1">Fase 1: Nacimiento (I+D)</b>
+              <p class="text-slate-400">Mucho esfuerzo e inversión, avances lentos. Altos costos de investigación.</p>
             </div>
-            <div class="mt-4 pt-3 border-t border-slate-800/80 text-[11px] text-slate-400">
-              💡 <b>Regla:</b> Primero encuentra el dolor del cliente, luego busca la tecnología adecuada.
+            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+              <b class="text-emerald-400 block mb-1">Fase 2: Crecimiento Exponencial</b>
+              <p class="text-slate-400">El mercado adopta el estándar. Rápido retorno y optimización de escala.</p>
+            </div>
+            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+              <b class="text-amber-400 block mb-1">Fase 3: Madurez & Disrupción</b>
+              <p class="text-slate-400">Rendimientos decrecientes. Punto crítico donde nace la nueva curva en S que reemplaza a la vieja.</p>
             </div>
           </div>
-
         </div>
 
-        <div class="mt-8 text-center">
-          <button id="btnGoToSimulatorFromLearn" class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm px-6 py-3 rounded-xl shadow-lg transition-all inline-flex items-center gap-2">
-            <span>¡Listo! Ahora pon a prueba la teoría en el Simulador</span>
+        <!-- GRÁFICA 2: SIMULADOR INTERACTIVO MCKINSEY 70/20/10 -->
+        <div class="glass-card rounded-3xl p-6 sm:p-8 border-slate-800">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+            <div>
+              <span class="text-xs font-mono uppercase bg-indigo-950 text-indigo-400 border border-indigo-800 px-2.5 py-0.5 rounded font-bold">
+                Modelo 2: Portafolio Estratégico
+              </span>
+              <h3 class="text-xl font-bold font-display text-white mt-1">
+                Simulador Dinámico de los 3 Horizontes
+              </h3>
+              <p class="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
+                Mueve los controles deslizantes para ajustar el presupuesto de una corporación y observa en tiempo real cómo cambia el perfil de riesgo, la probabilidad de supervivencia y la sostenibilidad futura.
+              </p>
+            </div>
+            <button id="btnResetSlidersMcKinsey" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-1.5 rounded-xl font-mono">
+              ↻ Resetear a 70/20/10 Ideal
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            
+            <!-- Sliders de Control -->
+            <div class="lg:col-span-5 space-y-4">
+              <div>
+                <div class="flex justify-between text-xs font-mono mb-1">
+                  <span class="text-emerald-400 font-bold">Horizonte 1 (Core / Incremental):</span>
+                  <span id="labelH1Slider" class="text-white font-bold">70%</span>
+                </div>
+                <input type="range" id="sliderH1" min="0" max="100" value="70" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer">
+                <span class="text-[10px] text-slate-400">Mantiene las ventas del día a día y financia la nómina.</span>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs font-mono mb-1">
+                  <span class="text-blue-400 font-bold">Horizonte 2 (Adyacente / Escala):</span>
+                  <span id="labelH2Slider" class="text-white font-bold">20%</span>
+                </div>
+                <input type="range" id="sliderH2" min="0" max="100" value="20" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer">
+                <span class="text-[10px] text-slate-400">Nuevos clientes y modelos de negocio en 1 a 3 años.</span>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs font-mono mb-1">
+                  <span class="text-purple-400 font-bold">Horizonte 3 (Disruptivo / Radical):</span>
+                  <span id="labelH3Slider" class="text-white font-bold">10%</span>
+                </div>
+                <input type="range" id="sliderH3" min="0" max="100" value="10" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer">
+                <span class="text-[10px] text-slate-400">Apuestas tecnológicas de alto riesgo que salvan el futuro.</span>
+              </div>
+
+              <!-- Diagnóstico en Vivo -->
+              <div id="mckinseyLiveDiagnosis" class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs">
+                <b class="text-emerald-400 block mb-1">Diagnóstico: Portafolio Equilibrado</b>
+                <p class="text-slate-300 text-[11px]">Distribución ideal según McKinsey: genera suficiente caja operativa hoy sin descuidar el futuro a 5 años.</p>
+              </div>
+            </div>
+
+            <!-- Gráfica de Dona Chart.js -->
+            <div class="lg:col-span-7 flex flex-col items-center">
+              <div class="relative h-64 sm:h-72 w-full max-w-md">
+                <canvas id="mckinseyDoughnutChart"></canvas>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- GRÁFICA 3: CURVA DE ADOPCIÓN DE ROGERS & EL ABISMO DE MOORE -->
+        <div class="glass-card rounded-3xl p-6 sm:p-8 border-slate-800">
+          <div class="mb-4">
+            <span class="text-xs font-mono uppercase bg-purple-950 text-purple-400 border border-purple-800 px-2.5 py-0.5 rounded font-bold">
+              Modelo 3: Everett Rogers & Geoffrey Moore
+            </span>
+            <h3 class="text-xl font-bold font-display text-white mt-1">
+              Campana de Difusión de Innovaciones y "El Abismo" (The Chasm)
+            </h3>
+            <p class="text-xs text-slate-300 mt-1 max-w-3xl leading-relaxed">
+              ¿Por qué el 90% de los proyectos tecnológicos que triunfan con los entusiastas fracasan comercialmente? Porque existe una grieta mortal entre los <b>Early Adopters</b> (dispuestos a tolerar errores) y la <b>Mayoría Temprana</b> (que exige soluciones probadas y sin fallas).
+            </p>
+          </div>
+
+          <!-- Canvas Rogers Chart -->
+          <div class="relative h-72 sm:h-80 w-full bg-slate-950/70 p-3 rounded-2xl border border-slate-800/80">
+            <canvas id="rogersAdoptionChart"></canvas>
+          </div>
+
+          <div class="mt-4 p-4 rounded-xl bg-purple-950/30 border border-purple-900/60 text-xs text-purple-200">
+            💡 <b>Cruzar el Abismo:</b> Para pasar de los entusiastas al mercado masivo, la empresa debe ofrecer el "Producto Completo" (Whole Product): soporte, garantías, integraciones y casos de éxito reales, no solo un prototipo ingenieril.
+          </div>
+        </div>
+
+        <div class="text-center pt-2">
+          <button onclick="switchTab('tab-simulator')" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs sm:text-sm px-7 py-3 rounded-xl shadow-lg transition inline-flex items-center gap-2">
+            <span>¡Excelente! Ahora demuestra tu dominio en el Simulador</span>
             <span>➔</span>
           </button>
         </div>
@@ -446,35 +505,35 @@
     <section id="tab-simulator" class="tab-content hidden">
       <div class="max-w-4xl mx-auto">
         
-        <!-- Contexto de la Misión -->
-        <div class="glass-card rounded-2xl p-6 sm:p-7 border-slate-800 mb-6 relative overflow-hidden">
+        <!-- Contexto Misión ElectroTech -->
+        <div class="glass-card rounded-3xl p-6 sm:p-7 border-slate-800 mb-6 relative overflow-hidden">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <span class="text-xs font-mono uppercase bg-blue-950 text-blue-400 border border-blue-800 px-2.5 py-0.5 rounded">
-                Caso Empresarial Vivo
+              <span class="text-xs font-mono uppercase bg-blue-950 text-blue-400 border border-blue-800 px-2.5 py-0.5 rounded font-bold">
+                Misión Ejecutiva Grupo #1
               </span>
               <h2 class="text-xl sm:text-2xl font-bold font-display text-white mt-1">
-                Misión: Salvar a "ElectroTech Colombia S.A.S."
+                Salvar a "ElectroTech Colombia S.A.S."
               </h2>
-              <p class="text-xs text-slate-300 mt-1 leading-relaxed">
-                Eres el nuevo Director de Innovación. La empresa lleva 15 años fabricando hardware de control industrial, pero sus ventas cayeron 35% por competidores asiáticos y software en la nube. Tienes 3 trimestres para salvarla.
+              <p class="text-xs text-slate-300 mt-1 leading-relaxed max-w-xl">
+                La empresa lleva 15 años fabricando hardware de control industrial, pero la competencia china y la digitalización le quitaron el 35% de sus clientes. Tienes 3 trimestres de mandato.
               </p>
             </div>
 
-            <!-- Caja de Estado / Salud de la Empresa -->
-            <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 min-w-[210px] text-center font-mono">
+            <!-- Panel de Indicadores de la Empresa -->
+            <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 min-w-[210px] text-center font-mono shadow-inner">
               <span class="text-[11px] text-slate-400 block uppercase">Salud de la Empresa</span>
               <div class="text-2xl font-extrabold text-emerald-400 mt-0.5" id="companyHealthDisplay">100%</div>
               <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden mt-2">
                 <div id="companyHealthBar" class="bg-emerald-500 h-full transition-all duration-500" style="width: 100%;"></div>
               </div>
-              <span class="text-[10px] text-slate-400 mt-1 block">Presupuesto I+D: <b id="companyBudgetDisplay" class="text-blue-300">$100,000</b></span>
+              <span class="text-[10px] text-slate-400 mt-1 block">Fondo I+D: <b id="companyBudgetDisplay" class="text-blue-300">$100,000</b></span>
             </div>
           </div>
         </div>
 
-        <!-- Escenario / Ronda Activa del Simulador -->
-        <div id="simScenarioContainer" class="glass-card rounded-2xl p-6 sm:p-8 border-slate-800 shadow-xl">
+        <!-- Escenario Activo -->
+        <div id="simScenarioContainer" class="glass-card rounded-3xl p-6 sm:p-8 border-slate-800 shadow-2xl">
           <!-- Inyectado por JS -->
         </div>
 
@@ -489,23 +548,23 @@
         
         <div class="text-center mb-6">
           <span class="inline-block text-xs font-mono uppercase bg-indigo-950 text-indigo-400 border border-indigo-800 px-3 py-1 rounded-full mb-2">
-            Resultados del Taller en Vivo
+            Clasificación Oficial del Taller
           </span>
           <h2 class="text-2xl sm:text-3xl font-extrabold font-display text-white">
-            🏆 Tabla de Posiciones de Innovación
+            🏆 Podio de Campeones de Innovación
           </h2>
           <p class="text-xs sm:text-sm text-slate-300 mt-1">
-            Revisa cómo quedó tu puntuación frente a los demás comités y compañeros del aula.
+            Los mejores gerentes del aula clasificados por su puntaje acumulado en el Quiz y el Simulador.
           </p>
         </div>
 
-        <!-- Podio Top 3 Visual -->
+        <!-- Podio Top 3 -->
         <div class="grid grid-cols-3 gap-3 sm:gap-4 mb-8 text-center items-end" id="podiumContainer">
           <!-- Inyectado por JS -->
         </div>
 
-        <!-- Lista Completa de Clasificación -->
-        <div class="glass-card rounded-2xl p-5 border-slate-800">
+        <!-- Lista Completa -->
+        <div class="glass-card rounded-3xl p-5 sm:p-6 border-slate-800 shadow-xl">
           <div class="flex items-center justify-between pb-3 border-b border-slate-800 text-xs text-slate-400 font-mono">
             <span>Rango & Participante</span>
             <div class="flex gap-6">
@@ -518,12 +577,12 @@
           </div>
         </div>
 
-        <!-- Controles del Marcador -->
+        <!-- Controles -->
         <div class="mt-6 flex flex-wrap justify-between items-center gap-3 text-xs">
-          <p class="text-slate-400">Los datos se guardan en el navegador para la sesión de hoy.</p>
+          <p class="text-slate-400 font-mono">Plataforma avalada por Grupo #1 • UAN Sede Ibagué</p>
           <div class="flex gap-2">
             <button id="btnSimulateClassmates" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-xl border border-slate-700">
-              ⚡ Añadir datos de prueba del salón
+              ⚡ Cargar datos de prueba del aula
             </button>
             <button id="btnClearLeaderboardData" class="text-red-400 hover:text-red-300 px-2 py-1.5">
               Reiniciar Marcador
@@ -535,53 +594,67 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- TAB 6: CERTIFICADO UAN PERSONALIZADO       -->
+    <!-- TAB 6: CERTIFICADO EMITIDO POR EL GRUPO #1 -->
     <!-- ========================================== -->
     <section id="tab-certificate" class="tab-content hidden">
       <div class="max-w-3xl mx-auto">
         
         <div class="text-center mb-6">
-          <span class="inline-block text-xs font-mono uppercase bg-emerald-950 text-emerald-400 border border-emerald-800 px-3 py-1 rounded-full mb-2">
-            Reconocimiento Académico
+          <span class="inline-block text-xs font-mono uppercase bg-amber-950 text-amber-400 border border-amber-800 px-3 py-1 rounded-full mb-2">
+            Reconocimiento de Competencias
           </span>
           <h2 class="text-2xl sm:text-3xl font-extrabold font-display text-white">
-            🎓 Tu Certificado de Participación
+            🎓 Tu Certificado Oficial
           </h2>
           <p class="text-xs text-slate-300 mt-1">
-            Al completar las dinámicas, puedes imprimir o guardar tu diploma firmado simbólicamente por los expositores.
+            Emitido y otorgado formalmente por el <b>GRUPO #1</b> al completar las pruebas del taller.
           </p>
         </div>
 
-        <!-- CERTIFICADO IMPRIMIBLE -->
-        <div id="certificateCard" class="bg-gradient-to-b from-slate-900 to-slate-950 border-4 border-double border-amber-500/60 rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden text-center">
+        <!-- CERTIFICADO OFICIAL EMITIDO POR EL GRUPO #1 -->
+        <div id="certificateCard" class="bg-gradient-to-b from-slate-900 to-slate-950 border-4 border-double border-amber-500/70 rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden text-center">
           
-          <!-- Marca de Agua y Adornos -->
-          <div class="absolute -right-24 -bottom-24 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
-          
-          <div class="flex justify-between items-center border-b border-amber-500/30 pb-4 mb-6">
-            <div class="text-left">
-              <span class="text-xs font-bold font-display tracking-widest text-amber-400 block">UNIVERSIDAD ANTONIO NARIÑO</span>
-              <span class="text-[10px] text-slate-400 font-mono">SEDE IBAGUÉ • FACULTAD DE INGENIERÍA</span>
+          <!-- Encabezado con Logo Oficial de Grupo #1 -->
+          <div class="flex justify-between items-center border-b border-amber-500/30 pb-5 mb-6">
+            <div class="flex items-center gap-3 text-left">
+              <img src="logo_grupo1.png" alt="Emblema Grupo 1" class="w-16 h-16 object-contain rounded-full ring-2 ring-amber-500/80 bg-slate-900 p-1">
+              <div>
+                <span class="text-sm font-extrabold font-display tracking-wider text-amber-400 block">
+                  GRUPO #1
+                </span>
+                <span class="text-[11px] text-slate-400 font-mono">
+                  FACILITADORES DE GESTIÓN DE LA INNOVACIÓN
+                </span>
+                <span class="text-[10px] text-blue-400 font-mono block">
+                  Universidad Antonio Nariño • Sede Ibagué
+                </span>
+              </div>
             </div>
-            <div class="w-10 h-10 rounded-full bg-amber-500/20 border border-amber-500 flex items-center justify-center font-display font-bold text-amber-400 text-sm">
-              UAN
+            
+            <div class="text-right">
+              <span class="text-[10px] font-mono text-slate-400 block uppercase">Registro:</span>
+              <span class="text-xs font-mono font-bold text-amber-400">G1-INNOV-2026</span>
             </div>
           </div>
 
-          <h3 class="text-sm uppercase font-mono tracking-widest text-slate-400">CERTIFICA QUE:</h3>
+          <!-- Título del Certificado -->
+          <h3 class="text-xs uppercase font-mono tracking-widest text-slate-400">
+            EL COMITÉ EJECUTIVO DEL GRUPO #1 CERTIFICA QUE:
+          </h3>
           
-          <p id="certUserName" class="text-2xl sm:text-4xl font-extrabold font-display text-white my-3 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-white to-amber-400">
+          <p id="certUserName" class="text-2xl sm:text-4xl font-extrabold font-display text-white my-4 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-white to-amber-400">
             [Nombre del Participante]
           </p>
 
           <p class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
-            Ha participado exitosamente en el taller práctico interactivo sobre <b>Gestión de la Innovación</b>, demostrando competencias en análisis de portafolios (McKinsey 70/20/10), tipos de innovación y toma de decisiones estratégicas.
+            Ha aprobado satisfactoriamente el taller interactivo de <b>Gestión de la Innovación</b>, demostrando dominio en análisis de curvas en S, el modelo de 3 Horizontes de McKinsey (70/20/10), difusión de tecnologías y toma de decisiones estratégicas.
           </p>
 
-          <div class="grid grid-cols-2 gap-4 max-w-md mx-auto my-6 p-3 bg-slate-950/80 rounded-xl border border-slate-800 text-xs font-mono">
+          <!-- Resumen de Métricas de Certificación -->
+          <div class="grid grid-cols-2 gap-4 max-w-md mx-auto my-6 p-3.5 bg-slate-950/80 rounded-2xl border border-slate-800 text-xs font-mono">
             <div>
-              <span class="text-slate-400 block text-[10px]">Puntaje Obtenido:</span>
-              <b id="certFinalScore" class="text-emerald-400 text-sm">0 pts</b>
+              <span class="text-slate-400 block text-[10px]">Puntaje Acreditado:</span>
+              <b id="certFinalScore" class="text-emerald-400 text-base">0 pts</b>
             </div>
             <div>
               <span class="text-slate-400 block text-[10px]">Fecha de Emisión:</span>
@@ -589,37 +662,41 @@
             </div>
           </div>
 
-          <!-- Firmas de los Tres Estudiantes -->
-          <div class="mt-8 pt-6 border-t border-slate-800/80 grid grid-cols-3 gap-2 text-center">
+          <!-- Firmas Oficiales de los 3 Estudiantes del Grupo #1 -->
+          <div class="mt-8 pt-6 border-t border-slate-800/90 grid grid-cols-3 gap-2 text-center">
             <div>
-              <div class="h-8 border-b border-slate-700/80 mb-1 flex items-end justify-center font-mono text-[10px] text-blue-300">
+              <div class="h-9 border-b border-slate-700/80 mb-1 flex items-end justify-center font-mono text-xs text-blue-300 italic font-semibold">
                 Juan E. Vera
               </div>
-              <p class="text-[10px] font-bold text-slate-300">Juan Esteban Vera</p>
-              <p class="text-[9px] text-slate-500">Expositor / Ing. Electrónica</p>
+              <p class="text-[11px] font-bold text-slate-200">Juan Esteban Vera</p>
+              <p class="text-[9px] text-slate-400">Facilitador / Grupo #1</p>
             </div>
             <div>
-              <div class="h-8 border-b border-slate-700/80 mb-1 flex items-end justify-center font-mono text-[10px] text-indigo-300">
+              <div class="h-9 border-b border-slate-700/80 mb-1 flex items-end justify-center font-mono text-xs text-indigo-300 italic font-semibold">
                 Jhon J. Lugo
               </div>
-              <p class="text-[10px] font-bold text-slate-300">Jhon Jairo Lugo</p>
-              <p class="text-[9px] text-slate-500">Expositor / Ing. Electrónica</p>
+              <p class="text-[11px] font-bold text-slate-200">Jhon Jairo Lugo</p>
+              <p class="text-[9px] text-slate-400">Facilitador / Grupo #1</p>
             </div>
             <div>
-              <div class="h-8 border-b border-slate-700/80 mb-1 flex items-end justify-center font-mono text-[10px] text-emerald-300">
+              <div class="h-9 border-b border-slate-700/80 mb-1 flex items-end justify-center font-mono text-xs text-emerald-300 italic font-semibold">
                 Alejandro C.
               </div>
-              <p class="text-[10px] font-bold text-slate-300">Alejandro Carvajal</p>
-              <p class="text-[9px] text-slate-500">Expositor / Ing. Electrónica</p>
+              <p class="text-[11px] font-bold text-slate-200">Alejandro Carvajal</p>
+              <p class="text-[9px] text-slate-400">Facilitador / Grupo #1</p>
             </div>
+          </div>
+
+          <div class="mt-6 text-[10px] font-mono text-slate-500">
+            Documento emitido y validado por el Grupo #1 • Ingeniería Electrónica • UAN Ibagué
           </div>
 
         </div>
 
         <!-- Botones de Acción -->
         <div class="mt-6 flex justify-center gap-3">
-          <button onclick="window.print()" class="bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-lg transition flex items-center gap-2">
-            <span>🖨️</span> Imprimir o Guardar en PDF
+          <button onclick="window.print()" class="bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs px-6 py-3 rounded-xl shadow-lg transition flex items-center gap-2">
+            <span>🖨️</span> Imprimir / Descargar Certificado en PDF
           </button>
         </div>
 
@@ -628,43 +705,46 @@
 
   </main>
 
-  <!-- MODAL: GUÍA DE EXPOSICIÓN PARA JUAN, JHON Y ALEJANDRO -->
+  <!-- MODAL: GUÍA DE EXPOSICIÓN PARA EL GRUPO #1 -->
   <div id="teacherGuideModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-700 w-full max-w-4xl rounded-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+    <div class="bg-slate-900 border border-slate-700 w-full max-w-4xl rounded-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
       
       <div class="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-950">
-        <div>
-          <span class="text-xs font-mono text-blue-400 uppercase tracking-wider">Plan de Clase & Guion del Docente</span>
-          <h3 class="text-lg font-bold text-white">Guía Maestra para los 3 Expositores</h3>
+        <div class="flex items-center gap-2.5">
+          <img src="logo_grupo1.png" alt="Logo Grupo 1" class="w-8 h-8 rounded-full">
+          <div>
+            <span class="text-xs font-mono text-blue-400 uppercase tracking-wider font-bold">GRUPO #1 • GUION DE FACILITACIÓN</span>
+            <h3 class="text-base sm:text-lg font-bold text-white">Guía Maestra para los 3 Expositores</h3>
+          </div>
         </div>
         <button id="btnCloseTeacherGuide" class="text-slate-400 hover:text-white p-2 rounded-lg text-lg">✕</button>
       </div>
 
       <div class="px-6 py-6 overflow-y-auto space-y-6 text-xs text-slate-300 leading-relaxed">
         
-        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-          <h4 class="text-sm font-bold text-blue-400 font-display mb-2">Estructura de la Sesión en Clase (25 a 30 minutos)</h4>
-          <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
-            <li><b>Min 0 a 3 (Juan Esteban):</b> Abre la plataforma en pantalla gigante, explica la dinámica e invita a los compañeros a registrarse en sus celulares o por mesas.</li>
-            <li><b>Min 3 a 10 (Jhon Jairo):</b> Dirige el <b>Quiz Diagnóstico</b>. Lee cada pregunta en voz alta, pide que voten a mano alzada y revela la explicación conceptual.</li>
-            <li><b>Min 10 a 16 (Juan Esteban & Alejandro):</b> Explican la <b>Micro-Clase Visual</b> (Creatividad vs Innovación, Tipos de Innovación y McKinsey 70/20/10).</li>
-            <li><b>Min 16 a 24 (Alejandro Carvajal):</b> Lidera el <b>Simulador de Decisiones</b> de ElectroTech S.A.S. Hace que la clase debata cada decisión antes de hacer clic.</li>
-            <li><b>Min 24 a 30 (Equipo Completo):</b> Muestran el <b>Marcador Final</b>, felicitan al ganador y entregan las conclusiones ejecutivas al profesor.</li>
+        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+          <h4 class="text-sm font-bold text-blue-400 font-display mb-2">Cronograma de Intervención en Clase (25 a 30 min)</h4>
+          <ol class="list-decimal list-inside space-y-2 text-slate-300">
+            <li><b>Min 0 a 4 (Juan Esteban Vera):</b> Abre la plataforma con el logo del Grupo #1 en proyector. Explica por qué la innovación no es suerte y pide a los compañeros registrarse en sus teléfonos.</li>
+            <li><b>Min 4 a 12 (Jhon Jairo Lugo):</b> Lidera las <b>7 preguntas del Quiz</b>. Pide votación de las mesas, analiza la gráfica de la Curva en S y revela la respuesta correcta con su justificación.</li>
+            <li><b>Min 12 a 20 (Juan Esteban & Alejandro):</b> Exponen la <b>Micro-Clase Visual</b>. Mueven en vivo los sliders de McKinsey para mostrar cómo cambia el riesgo de la empresa e interactúan con la curva de Rogers.</li>
+            <li><b>Min 20 a 26 (Alejandro Carvajal):</b> Dirige el <b>Simulador de ElectroTech</b>. Toma las decisiones con los compañeros y muestra cómo varía la salud de la empresa.</li>
+            <li><b>Min 26 a 30 (Grupo #1 Completo):</b> Muestran el <b>Podio de Ganadores</b>, entregan los certificados simbólicos emitidos por el Grupo #1 y concluyen con el docente.</li>
           </ol>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
             <span class="font-bold text-blue-400 block mb-1">🎤 Juan Esteban Vera</span>
-            <p>Apertura de la clase, explicación de la fórmula de innovación y mediación del debate conceptual.</p>
+            <p>Apertura ejecutiva, fórmula matemática de la innovación ($\text{Idea} \times \text{Viabilidad} \times \text{Mercado}$) y síntesis final.</p>
           </div>
-          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
             <span class="font-bold text-indigo-400 block mb-1">🎤 Jhon Jairo Lugo</span>
-            <p>Moderador del Quiz interactivo, lectura de las justificaciones y retroalimentación técnica.</p>
+            <p>Moderador del Quiz interactivo, análisis de datos de las preguntas y explicación de los errores conceptuales.</p>
           </div>
-          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
             <span class="font-bold text-emerald-400 block mb-1">🎤 Alejandro Carvajal</span>
-            <p>Facilitador del Simulador de casos empresariales y análisis de las métricas de supervivencia.</p>
+            <p>Dirección del caso del simulador, gestión de los 3 horizontes y análisis de la supervivencia empresarial.</p>
           </div>
         </div>
 
@@ -681,27 +761,27 @@
 
   <!-- FOOTER -->
   <footer class="glass-nav border-t border-slate-800/80 py-4 mt-auto">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center text-xs text-slate-400">
-      <p class="font-medium text-slate-300">
-        Universidad Antonio Nariño • Sede Ibagué • Facultad de Ingeniería Electrónica
-      </p>
-      <p class="text-[11px] text-slate-400 mt-1">
-        Cátedra de Gestión Empresarial • <b>Gestión de la Innovación</b>
-      </p>
-      <p class="text-[10px] text-slate-500 mt-1 font-mono">
-        Desarrollado por: Juan Esteban Vera R. • Jhon Jairo Lugo P. • Alejandro Carvajal P.
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-2">
+      <div class="flex items-center gap-2">
+        <img src="logo_grupo1.png" alt="Grupo 1" class="w-6 h-6 rounded-full">
+        <p class="font-medium text-slate-300">
+          Emitido por <b>GRUPO #1</b> • Universidad Antonio Nariño (Sede Ibagué)
+        </p>
+      </div>
+      <p class="text-[11px] text-slate-400 font-mono">
+        Juan Esteban Vera • Jhon Jairo Lugo • Alejandro Carvajal
       </p>
     </div>
   </footer>
 
   <!-- ========================================== -->
-  <!-- JAVASCRIPT: LÓGICA COMPLETA DEL PORTAL     -->
+  <!-- JAVASCRIPT: LÓGICA DEL PORTAL & CHART.JS   -->
   <!-- ========================================== -->
   <script>
-    // --- ESTADO GLOBAL DE LA APLICACIÓN ---
+    // --- ESTADO GLOBAL ---
     let currentUser = {
       name: "Invitado",
-      team: "Comité 1",
+      team: "Mesa 1",
       avatar: "👨‍💼",
       quizScore: 0,
       simulatorScore: 0,
@@ -711,7 +791,7 @@
 
     let soundEnabled = true;
 
-    // --- SINTETIZADOR DE AUDIO PROCEDURAL (Web Audio API) ---
+    // --- SINTETIZADOR DE AUDIO PROCEDURAL ---
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     let audioContext = null;
 
@@ -747,153 +827,205 @@
       playTone(850, 0.03, 'triangle');
     }
 
-    // --- BANCO DE PREGUNTAS DEL QUIZ ---
+    // --- BANCO EXPANDIDO: 7 PREGUNTAS ESTRATÉGICAS CON GRÁFICAS ---
     const quizQuestions = [
       {
         id: 1,
-        question: "¿Cuál es la diferencia fundamental entre 'Creatividad' e 'Innovación' en el ámbito empresarial?",
+        title: "Caso 1: La Ecuación del Valor Empresarial",
+        question: "¿Cuál de las siguientes afirmaciones define con exactitud la diferencia entre 'Creatividad' e 'Innovación'?",
+        hasChart: false,
         options: [
-          "No hay diferencia, son exactamente sinónimos en administración.",
-          "La creatividad es generar ideas nuevas; la innovación es implementarlas con éxito para crear valor real en el mercado.",
-          "La creatividad solo aplica para artistas, mientras que la innovación es exclusiva de ingenieros de software.",
-          "La creatividad es más costosa y arriesgada que la innovación."
+          "Son términos idénticos en administración moderna.",
+          "La creatividad es concebir una idea novedosa; la innovación es la ejecución técnica y su validación comercial adoptada por el mercado.",
+          "La creatividad pertenece a las áreas de diseño y la innovación solo al departamento financiero.",
+          "La innovación es más barata porque no requiere investigación previa."
         ],
         correct: 1,
-        explanation: "¡Exacto! Según la OCDE y la teoría empresarial, la creatividad es el chispazo de originalidad, pero la innovación exige ejecución, viabilidad económica y adopción por parte de clientes."
+        explanation: "¡Exacto! Según el Manual de Oslo de la OCDE, la creatividad genera novedad conceptual, pero no es innovación hasta que se introduce con éxito en el mercado o en los procesos operativos de la empresa."
       },
       {
         id: 2,
-        question: "¿Por qué quebró Kodak si fueron sus propios ingenieros quienes inventaron la primera cámara digital en 1975?",
+        title: "Caso 2: Análisis de la Curva en 'S' Tecnológica",
+        question: "Observa el concepto de la Curva en S. Cuando una tecnología líder alcanza su límite de madurez (meseta plana superior) y emerge una tecnología disruptiva por debajo, ¿cuál es el error fatal más frecuente de las empresas dominantes?",
+        hasChart: true,
+        chartType: "sCurveQuiz",
         options: [
-          "Porque la tecnología digital no funcionaba y producía fallos de hardware.",
-          "Porque los ingenieros renunciaron y vendieron las patentes a Sony.",
-          "Porque la gerencia protegió su negocio tradicional de rollos de película (H1) por miedo a canibalizarse, frenando la innovación.",
-          "Porque no tenían dinero para publicidad en televisión."
+          "Invertir demasiado en la nueva tecnología y quebrar por exceso de I+D.",
+          "Desestimar la nueva tecnología porque al inicio tiene peor rendimiento o menor margen, enfocándose únicamente en exprimir la tecnología madura (Caso Kodak / Blockbuster).",
+          "Bajar los sueldos de los ingenieros inmediatamente.",
+          "Vender la empresa al gobierno para evitar competir."
         ],
-        correct: 2,
-        explanation: "¡Correcto! Es el caso clásico de ceguera gerencial: por proteger el producto seguro del presente (los rollos de película), ignoraron la disrupción del futuro hasta que fue demasiado tarde."
+        correct: 1,
+        explanation: "¡Brillante! Clayton Christensen lo bautizó como 'El Dilema del Innovador': las grandes corporaciones rechazan la tecnología disruptiva inicial porque sus mejores clientes aún usan la vieja, hasta que el salto tecnológico las devora."
       },
       {
         id: 3,
-        question: "De acuerdo con el modelo de los 3 Horizontes de McKinsey, ¿cómo debe repartir una empresa promedio su esfuerzo de innovación?",
+        title: "Caso 3: Portafolio Desbalanceado de Inversión",
+        question: "Un comité de innovación aprueba la siguiente distribución presupuestal: 95% en optimizar empaques del producto actual (H1) y 5% en publicidad en redes sociales. 0% en nuevas tecnologías (H2 y H3). ¿Qué diagnóstico recibe esta empresa?",
+        hasChart: true,
+        chartType: "doughnutQuiz",
         options: [
-          "100% en ideas disruptivas y locuras científicas.",
-          "70% en el negocio actual (H1), 20% en nuevos mercados (H2) y 10% en apuestas radicales (H3).",
-          "50% en marketing y 50% en reducción de salarios.",
-          "80% en proyectos de Blockchain e Inteligencia Artificial sin importar si tienen clientes."
+          "Estrategia de clase mundial, minimiza riesgos al 100%.",
+          "Síndrome de Miopía Estratégica: La empresa tiene asegurado su flujo de caja de este trimestre, pero está garantizando su obsolescencia a mediano plazo frente a competidores ágiles.",
+          "La empresa debería cerrar de inmediato porque el H1 es una pérdida de tiempo.",
+          "El 95% en H1 es la recomendación oficial de McKinsey."
         ],
         correct: 1,
-        explanation: "¡Brillante! El 70% asegura la nómina de hoy (H1), el 20% construye los nuevos ingresos de mediano plazo (H2), y el 10% siembra las semillas contra la obsolescencia futura (H3)."
+        explanation: "¡Correcto! Una empresa que solo hace innovación incremental (H1) es el líder más eficiente de un mercado en vías de extinción."
       },
       {
         id: 4,
-        question: "¿Qué es un 'Tech-Push' y por qué es peligroso para los ingenieros?",
+        title: "Caso 4: El Cruce del Abismo (The Chasm)",
+        question: "En la curva de difusión de innovaciones de Rogers, ¿qué ocurre en 'El Abismo' (The Chasm) identificado por Geoffrey Moore?",
+        hasChart: false,
         options: [
-          "Es una herramienta de Git para subir código a producción sin pruebas.",
-          "Es empujar un producto al mercado solo porque la tecnología es llamativa, sin verificar si existe una necesidad real del cliente.",
-          "Es obligar a los clientes a comprar hardware con descuento.",
-          "Es una técnica de marketing digital en redes sociales."
+          "Es el momento en que se acaban los fondos del gobierno.",
+          "Es la brecha crítica entre los 'Early Adopters' (entusiastas visionarios) y la 'Mayoría Temprana' (pragmáticos que exigen un producto completo sin fallos). Muchos productos mueren aquí.",
+          "Es cuando los ingenieros se cansan de programar y renuncian.",
+          "Es una caída de la bolsa de valores que ocurre cada 10 años."
         ],
         correct: 1,
-        explanation: "¡Muy bien! El 'Tech-Push' ciego ocurre cuando un ingeniero se obsesiona con una tecnología (ej: 'Pongámosle IA y blockchain a un termo') sin que a nadie le solucione un dolor de cabeza real."
+        explanation: "¡Muy bien! Los 'Early Adopters' compran promesas y soportan bugs; la 'Mayoría Temprana' solo compra soluciones robustas con soporte y garantías. Si no cierras esa brecha, el producto se estrella."
+      },
+      {
+        id: 5,
+        title: "Caso 5: La Trampa del 'Tech-Push' Ciego",
+        question: "Una startup de ingeniería electrónica diseña una cafetera con chips neuromórficos de IA, antena 5G y tokens cuánticos descentralizados que cuesta $3,500 USD. Las ventas son nulas tras 6 meses. ¿Cuál fue el error metodológico?",
+        hasChart: false,
+        options: [
+          "Faltó agregarle conexión a Bluetooth para sincronizar con audífonos.",
+          "Cometieron 'Tech-Push': intentaron empujar una tecnología llamativa sin resolver un dolor de mercado real que un cliente estuviera dispuesto a pagar.",
+          "El precio debió ser de $10,000 USD para que pareciera más exclusiva.",
+          "El problema fue no contratar influenciadores en TikTok."
+        ],
+        correct: 1,
+        explanation: "¡Totalmente acertado! Innovar no es meter palabras de moda (*buzzwords*). La verdadera gestión de la innovación arranca con el 'Market-Pull' (encontrar un problema real no resuelto) antes de escribir una sola línea de código."
+      },
+      {
+        id: 6,
+        title: "Caso 6: La Cultura del Fracaso en Horizonte 3",
+        question: "Si la tasa de fallo de los proyectos de Horizonte 3 (apuestas disruptivas) ronda entre el 70% y 80%, ¿cómo debe actuar una gerencia de innovación moderna?",
+        hasChart: false,
+        options: [
+          "Despedir al equipo responsable de cada proyecto que no genere ganancias en 3 meses.",
+          "Implementar metodologías ágiles (Lean Startup / Design Thinking) para 'fallar rápido y barato' mediante prototipos mínimos viables (MVP) antes de quemar grandes capitales.",
+          "Prohibir la experimentación radical y hacer solo lo que apruebe el sindicato.",
+          "Ocultar los fracasos a los accionistas para que no baje la acción."
+        ],
+        correct: 1,
+        explanation: "¡Excelente! Si castigas el error, matas la innovación. La clave está en diseñar experimentos pequeños y económicos que validen hipótesis rápido antes de escalar la inversión."
+      },
+      {
+        id: 7,
+        title: "Caso 7: Servitización como Innovación Adyacente (H2)",
+        question: "Una fábrica de compresores de aire pasa de vender la máquina física ($20,000 USD pago único) a cobrar por 'metro cúbico de aire comprimido garantizado' mediante sensores IoT por suscripción. ¿Qué tipo de innovación representa?",
+        hasChart: false,
+        options: [
+          "Innovación en Modelo de Negocio / Servitización (Horizonte 2), transformando ingresos volátiles en flujo recurrente y fidelización a largo plazo.",
+          "Un simple descuento financiero sin impacto en la estrategia.",
+          "Una estafa comercial porque el cliente no es dueño del metal.",
+          "Innovación pública estatal."
+        ],
+        correct: 0,
+        explanation: "¡Brillante! Esto es 'Servitización': tomar una competencia existente y transformarla en un servicio continuo digital. Rolls-Royce hace lo mismo con sus turbinas de avión cobrando por horas de vuelo."
       }
     ];
 
     let currentQuizIndex = 0;
     let quizAnswered = false;
 
-    // --- BANCO DE ESCENARIOS DEL SIMULADOR ---
+    // --- BANCO DE ESCENARIOS DEL SIMULADOR ELECTROTECH ---
     const simRounds = [
       {
         round: 1,
-        title: "Trimestre 1: La Caída del Producto Estrella",
-        context: "Nuestros controladores lógicos programables tradicionales (PLC) están perdiendo cuota frente a marcas extranjeras un 40% más baratas. La junta directiva te pide una propuesta inmediata.",
+        title: "Trimestre 1: La Pérdida de Cuota en PLCs Industriales",
+        context: "Nuestros controladores tradicionales están perdiendo mercado frente a fabricantes asiáticos un 40% más baratos. La fábrica tiene 80 empleados cuya nómina depende de esta decisión.",
         options: [
           {
-            label: "Opción A: Bajar precios un 30% reduciendo calidad de componentes.",
+            label: "Opción A: Guerra de Precios: Rebajar un 35% los costos usando componentes de baja calidad.",
             type: "Mala Gestión",
-            healthChange: -25,
-            budgetChange: -10000,
+            healthChange: -30,
+            budgetChange: -15000,
             points: 20,
-            feedback: "Grave error: Inicias una guerra de precios que no puedes ganar, dañas la reputación de la marca y dejas a la empresa sin margen para investigar."
+            feedback: "Grave error: Destruiste el margen de utilidad y las quejas por garantías se triplicaron. Tu marca perdió reputación."
           },
           {
-            label: "Opción B: Innovación Incremental (H1) en ensamble + garantía extendida con IoT de monitoreo.",
+            label: "Opción B: Innovación Incremental (H1): Rediseño modular de ensamble + telemetría IoT básica incluida.",
             type: "Estrategia Sólida",
-            healthChange: +15,
-            budgetChange: +20000,
-            points: 120,
-            feedback: "¡Excelente decisión! Optimizas costos de producción y agregas un diferencial de servicio que los competidores baratos no pueden ofrecer."
+            healthChange: +20,
+            budgetChange: +25000,
+            points: 150,
+            feedback: "¡Excelente! Optimizaste un 18% los tiempos de producción y ofreciste un valor agregado técnico que los competidores baratos no pueden imitar."
           },
           {
-            label: "Opción C: Abandonar los PLC de golpe y fundar una empresa de tokens en el metaverso.",
+            label: "Opción C: Cerrar la línea de PLCs inmediatamente y apostar todo a criptomonedas industriales.",
             type: "Fiebre de Humo",
-            healthChange: -40,
-            budgetChange: -40000,
+            healthChange: -50,
+            budgetChange: -50000,
             points: 0,
-            feedback: "¡Desastre total! Mataste el producto que pagaba los salarios de la fábrica para perseguir una moda sin clientes."
+            feedback: "¡Catástrofe! Dejaste a la empresa sin ingresos operativos por perseguir una moda sin mercado."
           }
         ]
       },
       {
         round: 2,
-        title: "Trimestre 2: El Dilema del Nuevo Mercado",
-        context: "Los clientes industriales actuales piden supervisión remota de sus plantas desde cualquier celular. Tu equipo de ingeniería propone dos caminos.",
+        title: "Trimestre 2: El Dilema de la Nube y el Mantenimiento Predictivo",
+        context: "Los clientes de plantas de manufactura exigen saber con anticipación cuándo fallará un motor para evitar paradas de planta millonarias.",
         options: [
           {
-            label: "Opción A: Crear una plataforma SaaS adyacente (H2) que cobra mensualidad por predecir fallas en motores.",
+            label: "Opción A: Lanzar Nexus SaaS (H2): Plataforma por suscripción mensual con algoritmos de predicción de vibración.",
             type: "Estrategia Sólida",
-            healthChange: +25,
+            healthChange: +30,
             budgetChange: +45000,
-            points: 150,
-            feedback: "¡Magistral! Aplicaste Innovación Adyacente: transformaste una venta única de hardware en ingresos recurrentes por software de alto valor."
+            points: 160,
+            feedback: "¡Magistral! Aplicaste Innovación Adyacente: ahora la empresa no solo vende hardware, sino contratos de software recurrente de altísimo margen."
           },
           {
-            label: "Opción B: Contratar 20 técnicos más para que viajen en moto a revisar los motores manualmente.",
-            type: "Mala Gestión",
+            label: "Opción B: Comprar 15 camionetas y contratar más técnicos para hacer visitas presenciales cada semana.",
+            type: "Sobrecostos",
             healthChange: -15,
-            budgetChange: -25000,
+            budgetChange: -30000,
             points: 40,
-            feedback: "Aumentaste los costos fijos al infinito en lugar de escalar tecnológicamente. En dos meses estarás saturado."
+            feedback: "Aumentaste los costos fijos al infinito. Es un modelo analógico que no escala."
           },
           {
-            label: "Opción C: No hacer nada, decir que 'a los ingenieros de planta no les gustan los celulares'.",
+            label: "Opción C: Ignorar la solicitud argumentando que 'a los jefes de planta no les gusta la tecnología'.",
             type: "Resistencia al Cambio",
-            healthChange: -30,
-            budgetChange: -15000,
+            healthChange: -25,
+            budgetChange: -20000,
             points: 10,
-            feedback: "El síndrome de la negación. Tus tres mejores clientes acaban de migrar a un competidor digital."
+            feedback: "El síndrome de la ceguera: tus tres clientes más grandes cancelaron sus contratos y se fueron con la competencia digital."
           }
         ]
       },
       {
         round: 3,
-        title: "Trimestre 3: La Amenaza de la Inteligencia Artificial",
-        context: "Aparecen microprocesadores con IA en el borde (Edge AI) capaces de autorreparar maquinaria. Es una tecnología cara y experimental de Horizonte 3.",
+        title: "Trimestre 3: La Disrupción de la Inteligencia Artificial en el Borde",
+        context: "Aparecen chips de procesamiento neuronal en tiempo real capaces de autocorregir fallos mecánicos de forma autónoma. Es una tecnología experimental de Horizonte 3.",
         options: [
           {
-            label: "Opción A: Prohibir la IA en la empresa porque 'es una burbuja'.",
+            label: "Opción A: Alianza con la Universidad (H3): Desarrollar un Prototipo Mínimo Viable (MVP) con el 10% del fondo de I+D.",
+            type: "Estrategia Sólida",
+            healthChange: +35,
+            budgetChange: +65000,
+            points: 180,
+            feedback: "¡Estrategia perfecta de Horizonte 3! Inversión controlada, patentes registradas, transferencia tecnológica y liderazgo frente a competidores globales."
+          },
+          {
+            label: "Opción B: Prohibir el uso de IA en la fábrica porque 'es una moda pasajera'.",
             type: "Negación",
-            healthChange: -35,
+            healthChange: -40,
             budgetChange: 0,
             points: 0,
-            feedback: "Acabas de cometer el mismo error que Blockbuster frente al streaming. En 4 años nadie recordará tu empresa."
+            feedback: "Acabas de repetir el caso Blockbuster. En 3 años tus productos serán piezas de museo."
           },
           {
-            label: "Opción B: Invertir el 10% del fondo en una alianza universitaria para un prototipo rápido (MVP).",
-            type: "Estrategia Sólida",
-            healthChange: +30,
-            budgetChange: +60000,
-            points: 180,
-            feedback: "¡Estrategia perfecta de Horizonte 3! Arriesgas un porcentaje controlado, aprendes rápido, desarrollas patentes y no arriesgas la quiebra."
-          },
-          {
-            label: "Opción C: Pedir un préstamo multimillonario para comprar la patente más cara sin saber usarla.",
+            label: "Opción C: Endeudar a la empresa por $500,000 USD para comprar patentes que el equipo aún no sabe operar.",
             type: "Apostador Temerario",
             healthChange: -20,
-            budgetChange: -50000,
+            budgetChange: -60000,
             points: 50,
-            feedback: "La tecnología era buena, pero el endeudamiento asfixió a la compañía antes de terminar el desarrollo."
+            feedback: "La tecnología era buena, pero la asfixia financiera por intereses ahogó el flujo de caja antes de llegar al mercado."
           }
         ]
       }
@@ -903,13 +1035,19 @@
     let companyHealth = 100;
     let companyBudget = 100000;
 
-    // --- BASE DE DATOS LOCAL DE CLASIFICACIÓN ---
+    // --- LEADERBOARD ---
     let leaderboardData = [
-      { name: "Mesa 1 (Alpha)", team: "Comité 1", avatar: "🚀", score: 450 },
-      { name: "Carlos & Mariana", team: "Comité 3", avatar: "🧠", score: 410 },
-      { name: "Tech Innovators", team: "Comité 2", avatar: "👨‍💼", score: 380 },
-      { name: "Santiago P.", team: "Individual", avatar: "⚡", score: 290 }
+      { name: "Mesa 1 (Alpha)", team: "Mesa 1", avatar: "🚀", score: 850 },
+      { name: "Carlos & Mariana", team: "Mesa 3", avatar: "🧠", score: 790 },
+      { name: "Laura & Sofía", team: "Mesa 2", avatar: "👩‍💼", score: 720 },
+      { name: "Santiago P.", team: "Individual", avatar: "⚡", score: 610 }
     ];
+
+    // --- CHART.JS INSTANCES ---
+    let sCurveChartInst = null;
+    let mckinseyDoughnutInst = null;
+    let rogersChartInst = null;
+    let quizMiniChartInst = null;
 
     // --- INICIALIZACIÓN ---
     document.addEventListener('DOMContentLoaded', () => {
@@ -925,17 +1063,12 @@
 
       // Selector de Avatar
       document.querySelectorAll('.avatar-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
+        btn.addEventListener('click', () => {
           document.querySelectorAll('.avatar-btn').forEach(b => b.classList.replace('border-blue-500', 'border-slate-700'));
           btn.classList.replace('border-slate-700', 'border-blue-500');
           currentUser.avatar = btn.dataset.avatar;
           soundClick();
         });
-      });
-
-      // Botón pasar de Microclase a Simulador
-      document.getElementById('btnGoToSimulatorFromLearn').addEventListener('click', () => {
-        switchTab('tab-simulator');
       });
 
       // Modales Guía
@@ -944,18 +1077,21 @@
       document.getElementById('btnCloseTeacherGuide').addEventListener('click', () => modal.classList.add('hidden'));
       document.getElementById('btnCloseTeacherGuideBtn').addEventListener('click', () => modal.classList.add('hidden'));
 
-      // Botón Sonido
+      // Sonido
       document.getElementById('btnSoundToggle').addEventListener('click', () => {
         soundEnabled = !soundEnabled;
         document.getElementById('soundIcon').textContent = soundEnabled ? '🔊' : '🔇';
       });
 
-      // Datos de prueba y limpiar
+      // Controles Leaderboard
       document.getElementById('btnSimulateClassmates').addEventListener('click', addSampleClassmates);
       document.getElementById('btnClearLeaderboardData').addEventListener('click', clearLeaderboard);
+
+      // Inicializar Gráficas en Micro-Clase
+      initCharts();
     });
 
-    // --- NAVEGACIÓN ENTRE PESTAÑAS ---
+    // --- NAVEGACIÓN ---
     function initNavigation() {
       document.querySelectorAll('.nav-tab').forEach(tabBtn => {
         tabBtn.addEventListener('click', () => {
@@ -978,6 +1114,15 @@
         }
       });
 
+      // Redibujar gráficas al cambiar a pestaña Learn para asegurar el tamaño
+      if (tabId === 'tab-learn') {
+        setTimeout(() => {
+          if (sCurveChartInst) sCurveChartInst.resize();
+          if (mckinseyDoughnutInst) mckinseyDoughnutInst.resize();
+          if (rogersChartInst) rogersChartInst.resize();
+        }, 100);
+      }
+
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -997,33 +1142,27 @@
       updateUserUI();
       soundSuccess();
 
-      // Confetti de bienvenida
       if (typeof confetti === 'function') {
-        confetti({ particleCount: 70, spread: 60, origin: { y: 0.7 } });
+        confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
       }
 
-      // Pasar a la pestaña de Quiz automáticamente
-      setTimeout(() => {
-        switchTab('tab-quiz');
-      }, 400);
+      setTimeout(() => switchTab('tab-quiz'), 400);
     }
 
     function updateUserUI() {
       document.getElementById('headerUserName').textContent = currentUser.name;
       document.getElementById('headerAvatar').textContent = currentUser.avatar;
       document.getElementById('headerUserScore').textContent = `${currentUser.totalScore} pts`;
-      document.getElementById('userBadgeHeader').classList.remove('hidden');
 
-      // Actualizar datos en certificado
       document.getElementById('certUserName').textContent = currentUser.name;
-      document.getElementById('certFinalScore').textContent = `${currentUser.totalScore} Puntos`;
-      
+      document.getElementById('certFinalScore').textContent = `${currentUser.totalScore} Puntos Oficiales`;
+
       const today = new Date();
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       document.getElementById('certDateDisplay').textContent = today.toLocaleDateString('es-ES', options);
     }
 
-    // --- LÓGICA DEL QUIZ DIAGNÓSTICO ---
+    // --- QUIZ LOGIC & MINICHARTS ---
     function renderQuizQuestion() {
       const q = quizQuestions[currentQuizIndex];
       const container = document.getElementById('quizCardContainer');
@@ -1044,37 +1183,127 @@
         `;
       });
 
+      let chartContainerHtml = '';
+      if (q.hasChart) {
+        chartContainerHtml = `
+          <div class="my-4 p-3 bg-slate-950/80 rounded-2xl border border-slate-800">
+            <div class="text-[11px] font-mono text-slate-400 mb-2 flex items-center justify-between">
+              <span>Gráfica de Apoyo del Caso:</span>
+              <span class="text-blue-400">Análisis Cuantitativo</span>
+            </div>
+            <div class="relative h-48 sm:h-56 w-full">
+              <canvas id="quizCanvasElement"></canvas>
+            </div>
+          </div>
+        `;
+      }
+
       container.innerHTML = `
         <div class="space-y-4">
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-blue-950 text-blue-400 border border-blue-800">
-              Caso #${q.id}
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono font-semibold px-2.5 py-0.5 rounded bg-blue-950 text-blue-400 border border-blue-800">
+              ${q.title}
             </span>
+            <span class="text-xs font-mono text-emerald-400 font-bold">+100 pts</span>
           </div>
-          <h3 class="text-base sm:text-lg font-bold text-white font-display">${q.question}</h3>
-          
-          <div class="space-y-2.5 pt-2" id="quizOptionsList">
+
+          <h3 class="text-base sm:text-lg font-bold text-white font-display leading-snug">${q.question}</h3>
+
+          ${chartContainerHtml}
+
+          <div class="space-y-2.5 pt-1" id="quizOptionsList">
             ${optionsHtml}
           </div>
 
           <div id="quizFeedbackBox" class="hidden mt-4 p-4 rounded-xl border text-xs leading-relaxed"></div>
 
           <div id="quizNextBtnContainer" class="hidden text-right pt-3">
-            <button id="btnNextQuiz" class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-lg transition">
+            <button id="btnNextQuiz" class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-6 py-2.5 rounded-xl shadow-lg transition">
               ${currentQuizIndex < quizQuestions.length - 1 ? 'Siguiente Pregunta ➔' : 'Ver Puntuación del Quiz ➔'}
             </button>
           </div>
         </div>
       `;
 
-      // Event listeners para opciones
+      // Render mini chart if needed
+      if (q.hasChart) {
+        renderQuizChart(q.chartType);
+      }
+
       document.querySelectorAll('.quiz-opt-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
+        btn.addEventListener('click', () => {
           if (quizAnswered) return;
           const selectedIdx = parseInt(btn.dataset.idx);
           handleQuizAnswer(selectedIdx);
         });
       });
+    }
+
+    function renderQuizChart(type) {
+      const ctx = document.getElementById('quizCanvasElement');
+      if (!ctx) return;
+
+      if (quizMiniChartInst) {
+        quizMiniChartInst.destroy();
+      }
+
+      if (type === 'sCurveQuiz') {
+        quizMiniChartInst = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ['Año 1', 'Año 2', 'Año 3', 'Año 4', 'Año 5', 'Año 6'],
+            datasets: [
+              {
+                label: 'Tecnología Tradicional (Madura)',
+                data: [40, 68, 85, 92, 94, 95],
+                borderColor: '#94a3b8',
+                backgroundColor: 'rgba(148, 163, 184, 0.1)',
+                tension: 0.4,
+                borderDash: [5, 5]
+              },
+              {
+                label: 'Tecnología Disruptiva (Emergente)',
+                data: [10, 22, 45, 78, 115, 150],
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59, 130, 246, 0.15)',
+                tension: 0.4,
+                fill: true
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { labels: { color: '#cbd5e1', font: { size: 10 } } }
+            },
+            scales: {
+              x: { ticks: { color: '#64748b' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+              y: { ticks: { color: '#64748b' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+            }
+          }
+        });
+      } else if (type === 'doughnutQuiz') {
+        quizMiniChartInst = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['H1: Empaque Actual (95%)', 'Publicidad (5%)', 'H2/H3 Nuevas Tecnologías (0%)'],
+            datasets: [{
+              data: [95, 5, 0],
+              backgroundColor: ['#ef4444', '#f59e0b', '#3b82f6'],
+              borderWidth: 2,
+              borderColor: '#0f172a'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom', labels: { color: '#cbd5e1', font: { size: 10 } } }
+            }
+          }
+        });
+      }
     }
 
     function handleQuizAnswer(selectedIdx) {
@@ -1084,7 +1313,6 @@
       const feedbackBox = document.getElementById('quizFeedbackBox');
       const nextBtnContainer = document.getElementById('quizNextBtnContainer');
 
-      // Colorear opciones
       document.querySelectorAll('.quiz-opt-btn').forEach(btn => {
         const idx = parseInt(btn.dataset.idx);
         if (idx === q.correct) {
@@ -1092,7 +1320,7 @@
         } else if (idx === selectedIdx && !isCorrect) {
           btn.className = "quiz-opt-btn w-full text-left p-3.5 sm:p-4 rounded-xl bg-red-950/70 border-2 border-red-500 text-xs sm:text-sm text-red-200 flex items-start gap-3";
         } else {
-          btn.className = "quiz-opt-btn w-full text-left p-3.5 sm:p-4 rounded-xl bg-slate-900/40 border border-slate-800 text-xs sm:text-sm text-slate-500 opacity-60 flex items-start gap-3";
+          btn.className = "quiz-opt-btn w-full text-left p-3.5 sm:p-4 rounded-xl bg-slate-900/40 border border-slate-800 text-xs sm:text-sm text-slate-500 opacity-50 flex items-start gap-3";
         }
       });
 
@@ -1100,12 +1328,12 @@
         currentUser.quizScore += 100;
         currentUser.totalScore = currentUser.quizScore + currentUser.simulatorScore;
         soundSuccess();
-        feedbackBox.className = "mt-4 p-4 rounded-xl border bg-emerald-950/50 border-emerald-800 text-emerald-300 text-xs leading-relaxed";
+        feedbackBox.className = "mt-4 p-4 rounded-xl border bg-emerald-950/60 border-emerald-800 text-emerald-200 text-xs leading-relaxed";
         feedbackBox.innerHTML = `<b>✅ ¡Respuesta Correcta (+100 pts)!</b><p class="mt-1">${q.explanation}</p>`;
       } else {
         soundError();
-        feedbackBox.className = "mt-4 p-4 rounded-xl border bg-red-950/50 border-red-800 text-red-300 text-xs leading-relaxed";
-        feedbackBox.innerHTML = `<b>❌ No exactamente:</b><p class="mt-1">${q.explanation}</p>`;
+        feedbackBox.className = "mt-4 p-4 rounded-xl border bg-red-950/60 border-red-800 text-red-200 text-xs leading-relaxed";
+        feedbackBox.innerHTML = `<b>❌ Respuesta Incorrecta:</b><p class="mt-1">${q.explanation}</p>`;
       }
 
       feedbackBox.classList.remove('hidden');
@@ -1120,7 +1348,6 @@
           renderQuizQuestion();
           soundClick();
         } else {
-          // Fin del Quiz
           showQuizSummary();
         }
       });
@@ -1130,16 +1357,16 @@
       const container = document.getElementById('quizCardContainer');
       container.innerHTML = `
         <div class="text-center py-6 space-y-4">
-          <div class="w-16 h-16 rounded-2xl bg-blue-600/20 text-blue-400 border border-blue-500 flex items-center justify-center text-3xl mx-auto">
+          <div class="w-16 h-16 rounded-full bg-blue-600/20 text-blue-400 border border-blue-500 flex items-center justify-center text-3xl mx-auto shadow-lg">
             🎯
           </div>
-          <h3 class="text-xl font-bold text-white font-display">¡Completaste el Quiz Diagnóstico!</h3>
+          <h3 class="text-xl font-bold text-white font-display">¡Completaste las 7 Preguntas Estratégicas!</h3>
           <p class="text-sm text-slate-300">
-            Lograste <b>${currentUser.quizScore} de 400 puntos posibles</b> en intuición de innovación.
+            Lograste <b>${currentUser.quizScore} de 700 puntos posibles</b> en el diagnóstico inicial.
           </p>
-          <div class="pt-2 flex justify-center gap-3">
-            <button onclick="switchTab('tab-learn')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-lg transition">
-              Pasar a la Micro-Clase Visual ➔
+          <div class="pt-3 flex justify-center gap-3">
+            <button onclick="switchTab('tab-learn')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-6 py-2.5 rounded-xl shadow-lg transition">
+              Explorar Micro-Clase con Gráficas ➔
             </button>
           </div>
         </div>
@@ -1147,7 +1374,197 @@
       saveToLeaderboard();
     }
 
-    // --- LÓGICA DEL SIMULADOR DE CASO ---
+    // --- CHART.JS INITIALIZATIONS EN MICRO-CLASE ---
+    function initCharts() {
+      // 1. Curva en S de Foster
+      const ctxSCurve = document.getElementById('sCurveChart');
+      if (ctxSCurve) {
+        sCurveChartInst = new Chart(ctxSCurve, {
+          type: 'line',
+          data: {
+            labels: ['T1: I+D', 'T2: Prototipo', 'T3: Despegue', 'T4: Escala Masiva', 'T5: Madurez', 'T6: Límite Físico'],
+            datasets: [
+              {
+                label: 'Tecnología A (Tradicional / Analógica)',
+                data: [15, 30, 65, 88, 95, 96],
+                borderColor: '#f59e0b',
+                backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                tension: 0.45,
+                fill: true,
+                pointRadius: 5
+              },
+              {
+                label: 'Tecnología B (Disruptiva / Digital)',
+                data: [5, 12, 28, 70, 120, 160],
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                tension: 0.45,
+                fill: true,
+                pointRadius: 5
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { labels: { color: '#cbd5e1', font: { family: 'Space Grotesk', size: 11 } } },
+              tooltip: {
+                callbacks: {
+                  afterLabel: function(context) {
+                    if (context.datasetIndex === 0 && context.dataIndex >= 4) {
+                      return '⚠️ Meseta de Rendimientos Decrecientes';
+                    }
+                    if (context.datasetIndex === 1 && context.dataIndex >= 3) {
+                      return '🚀 Punto de Salto y Adelantamiento';
+                    }
+                  }
+                }
+              }
+            },
+            scales: {
+              x: { title: { display: true, text: 'Esfuerzo Acumulado / Tiempo', color: '#94a3b8' }, ticks: { color: '#64748b' }, grid: { color: 'rgba(255,255,255,0.06)' } },
+              y: { title: { display: true, text: 'Rendimiento Tecnológico', color: '#94a3b8' }, ticks: { color: '#64748b' }, grid: { color: 'rgba(255,255,255,0.06)' } }
+            }
+          }
+        });
+
+        document.getElementById('btnToggleSCurveTech').addEventListener('click', () => {
+          if (sCurveChartInst.data.datasets[0].label.includes('Analógica')) {
+            sCurveChartInst.data.datasets[0].label = 'Videoclubes Físicos (Blockbuster)';
+            sCurveChartInst.data.datasets[1].label = 'Streaming Cloud (Netflix)';
+          } else {
+            sCurveChartInst.data.datasets[0].label = 'Tecnología A (Tradicional / Analógica)';
+            sCurveChartInst.data.datasets[1].label = 'Tecnología B (Disruptiva / Digital)';
+          }
+          sCurveChartInst.update();
+          soundClick();
+        });
+      }
+
+      // 2. Simulador McKinsey Doughnut
+      const ctxMcKinsey = document.getElementById('mckinseyDoughnutChart');
+      if (ctxMcKinsey) {
+        mckinseyDoughnutInst = new Chart(ctxMcKinsey, {
+          type: 'doughnut',
+          data: {
+            labels: ['Horizonte 1 (Core)', 'Horizonte 2 (Adyacente)', 'Horizonte 3 (Disruptivo)'],
+            datasets: [{
+              data: [70, 20, 10],
+              backgroundColor: ['#10b981', '#3b82f6', '#8b5cf6'],
+              borderColor: '#0f172a',
+              borderWidth: 3
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom', labels: { color: '#cbd5e1', font: { size: 11 } } }
+            }
+          }
+        });
+
+        // Sliders vinculados
+        const s1 = document.getElementById('sliderH1');
+        const s2 = document.getElementById('sliderH2');
+        const s3 = document.getElementById('sliderH3');
+
+        function updateMcKinseySliders() {
+          const v1 = parseInt(s1.value);
+          const v2 = parseInt(s2.value);
+          const v3 = parseInt(s3.value);
+
+          document.getElementById('labelH1Slider').textContent = `${v1}%`;
+          document.getElementById('labelH2Slider').textContent = `${v2}%`;
+          document.getElementById('labelH3Slider').textContent = `${v3}%`;
+
+          mckinseyDoughnutInst.data.datasets[0].data = [v1, v2, v3];
+          mckinseyDoughnutInst.update();
+
+          // Diagnóstico en vivo
+          const diagBox = document.getElementById('mckinseyLiveDiagnosis');
+          if (v1 >= 85) {
+            diagBox.className = "p-3.5 rounded-xl bg-amber-950/70 border border-amber-800 text-xs";
+            diagBox.innerHTML = "<b class='text-amber-400 block mb-1'>Alerta: Exceso de Conservadurismo</b><p class='text-slate-300 text-[11px]'>Estás ordeñando la vaca lechera sin sembrar nada nuevo. Estás a un paso de la obsolescencia.</p>";
+          } else if (v3 >= 40) {
+            diagBox.className = "p-3.5 rounded-xl bg-red-950/70 border border-red-800 text-xs";
+            diagBox.innerHTML = "<b class='text-red-400 block mb-1'>Alerta: Riesgo de Quiebra Operativa</b><p class='text-slate-300 text-[11px]'>Demasiado dinero en apuestas radicales de alto riesgo. Si tardan en comercializar, no habrá caja para nóminas.</p>";
+          } else if (v1 >= 60 && v1 <= 75 && v2 >= 15 && v2 <= 25 && v3 >= 5 && v3 <= 15) {
+            diagBox.className = "p-3.5 rounded-xl bg-emerald-950/70 border border-emerald-800 text-xs";
+            diagBox.innerHTML = "<b class='text-emerald-400 block mb-1'>Excelente: Distribución Élite (McKinsey 70-20-10)</b><p class='text-slate-300 text-[11px]'>Máxima solvencia: financias las nóminas hoy, preparas el relevo a 2 años y aseguras la supervivencia a 10 años.</p>";
+          } else {
+            diagBox.className = "p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs";
+            diagBox.innerHTML = "<b class='text-blue-400 block mb-1'>Portafolio Mixto</b><p class='text-slate-300 text-[11px]'>Distribución personalizada. Revisa que el H1 sea suficiente para sostener los costos fijos.</p>";
+          }
+        }
+
+        s1.addEventListener('input', updateMcKinseySliders);
+        s2.addEventListener('input', updateMcKinseySliders);
+        s3.addEventListener('input', updateMcKinseySliders);
+
+        document.getElementById('btnResetSlidersMcKinsey').addEventListener('click', () => {
+          s1.value = 70;
+          s2.value = 20;
+          s3.value = 10;
+          updateMcKinseySliders();
+          soundClick();
+        });
+      }
+
+      // 3. Curva de Difusión de Rogers
+      const ctxRogers = document.getElementById('rogersAdoptionChart');
+      if (ctxRogers) {
+        rogersChartInst = new Chart(ctxRogers, {
+          type: 'bar',
+          data: {
+            labels: [
+              'Innovadores (2.5%)',
+              'Early Adopters (13.5%)',
+              '⚡ EL ABISMO (The Chasm)',
+              'Mayoría Temprana (34%)',
+              'Mayoría Tardía (34%)',
+              'Rezagados (16%)'
+            ],
+            datasets: [{
+              label: 'Distribución de Adopción de Mercado',
+              data: [2.5, 13.5, 0.5, 34, 34, 16],
+              backgroundColor: [
+                '#38bdf8',
+                '#3b82f6',
+                '#ef4444', // El abismo
+                '#10b981',
+                '#f59e0b',
+                '#64748b'
+              ],
+              borderRadius: 8
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  afterLabel: function(context) {
+                    if (context.dataIndex === 2) {
+                      return '⚠️ Foso donde mueren el 90% de las startups';
+                    }
+                  }
+                }
+              }
+            },
+            scales: {
+              x: { ticks: { color: '#cbd5e1', font: { size: 10 } }, grid: { display: false } },
+              y: { title: { display: true, text: '% Población / Mercado', color: '#94a3b8' }, ticks: { color: '#64748b' }, grid: { color: 'rgba(255,255,255,0.06)' } }
+            }
+          }
+        });
+      }
+    }
+
+    // --- SIMULADOR DE CASO ELECTROTECH ---
     function renderSimulatorRound() {
       const roundData = simRounds[currentSimRound];
       const container = document.getElementById('simScenarioContainer');
@@ -1166,11 +1583,11 @@
         <div>
           <div class="flex items-center justify-between mb-2">
             <span class="text-xs font-mono font-bold text-indigo-400">Ronda ${roundData.round} de 3</span>
-            <span class="text-xs font-mono text-emerald-400">Puntaje Simulador: <b>${currentUser.simulatorScore} pts</b></span>
+            <span class="text-xs font-mono text-emerald-400">Puntaje Caso: <b>${currentUser.simulatorScore} pts</b></span>
           </div>
 
           <h3 class="text-lg font-bold text-white font-display">${roundData.title}</h3>
-          <p class="text-xs text-slate-300 mt-2 leading-relaxed bg-slate-950 p-3.5 rounded-xl border border-slate-800">
+          <p class="text-xs text-slate-300 mt-2 leading-relaxed bg-slate-950 p-4 rounded-xl border border-slate-800">
             ${roundData.context}
           </p>
 
@@ -1182,7 +1599,7 @@
           <div id="simFeedbackBox" class="hidden mt-5 p-4 rounded-xl border text-xs leading-relaxed"></div>
 
           <div id="simNextBtnContainer" class="hidden text-right pt-4">
-            <button id="btnNextSimRound" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-lg transition">
+            <button id="btnNextSimRound" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs px-6 py-2.5 rounded-xl shadow-lg transition">
               ${currentSimRound < simRounds.length - 1 ? 'Siguiente Trimestre ➔' : 'Ver Evaluación Final de la Empresa ➔'}
             </button>
           </div>
@@ -1203,18 +1620,15 @@
       const feedbackBox = document.getElementById('simFeedbackBox');
       const nextContainer = document.getElementById('simNextBtnContainer');
 
-      // Aplicar impactos en la empresa
       companyHealth = Math.max(0, Math.min(100, companyHealth + opt.healthChange));
       companyBudget = Math.max(0, companyBudget + opt.budgetChange);
       currentUser.simulatorScore += opt.points;
       currentUser.totalScore = currentUser.quizScore + currentUser.simulatorScore;
 
-      // Actualizar UI del caso
       document.getElementById('companyHealthDisplay').textContent = `${companyHealth}%`;
       document.getElementById('companyHealthBar').style.width = `${companyHealth}%`;
       document.getElementById('companyBudgetDisplay').textContent = `$${companyBudget.toLocaleString('en-US')}`;
 
-      // Deshabilitar botones de opción
       document.querySelectorAll('.sim-opt-btn').forEach((b, i) => {
         b.disabled = true;
         if (i === selectedIdx) {
@@ -1227,11 +1641,11 @@
       if (opt.healthChange >= 0) {
         soundSuccess();
         feedbackBox.className = "mt-5 p-4 rounded-xl border bg-emerald-950/60 border-emerald-800 text-emerald-200 text-xs leading-relaxed";
-        feedbackBox.innerHTML = `<b>📈 Impacto Positivo (+${opt.points} pts):</b><p class="mt-1">${opt.feedback}</p>`;
+        feedbackBox.innerHTML = `<b>📈 Decisión Estratégica Positiva (+${opt.points} pts):</b><p class="mt-1">${opt.feedback}</p>`;
       } else {
         soundError();
         feedbackBox.className = "mt-5 p-4 rounded-xl border bg-amber-950/60 border-amber-800 text-amber-200 text-xs leading-relaxed";
-        feedbackBox.innerHTML = `<b>⚠️ Impacto Difícil (+${opt.points} pts):</b><p class="mt-1">${opt.feedback}</p>`;
+        feedbackBox.innerHTML = `<b>⚠️ Decisión Riesgosa (+${opt.points} pts):</b><p class="mt-1">${opt.feedback}</p>`;
       }
 
       feedbackBox.classList.remove('hidden');
@@ -1255,21 +1669,21 @@
       const container = document.getElementById('simScenarioContainer');
       let statusMsg = "";
       if (companyHealth >= 70) {
-        statusMsg = "¡Felicidades! Lograste modernizar a ElectroTech Colombia sin quebrar la empresa y creando ventajas competitivas sostenibles.";
+        statusMsg = "¡Excelente gestión ejecutiva! Lograste modernizar la empresa, diversificar hacia software SaaS y proteger los empleos de la fábrica.";
       } else if (companyHealth >= 40) {
-        statusMsg = "La empresa sobrevivió pero quedó débil. Faltó balancear mejor los riesgos entre el corto y largo plazo.";
+        statusMsg = "La empresa sobrevivió pero quedó en condición vulnerable. Faltó balancear mejor el portafolio.";
       } else {
-        statusMsg = "La empresa entró en quiebra técnica. Demasiado gasto en ocurrencias sin validar o excesiva resistencia al cambio.";
+        statusMsg = "La empresa quebró por exceso de rigidez o por apostar dinero a proyectos sin validación de clientes.";
       }
 
       container.innerHTML = `
         <div class="text-center py-6 space-y-4">
           <div class="text-4xl">🏁</div>
-          <h3 class="text-xl font-bold text-white font-display">¡Misión de los 3 Trimestres Concluida!</h3>
+          <h3 class="text-xl font-bold text-white font-display">¡Misión de ElectroTech S.A.S. Concluida!</h3>
           <p class="text-xs sm:text-sm text-slate-300 max-w-lg mx-auto leading-relaxed">
             ${statusMsg}
           </p>
-          <div class="grid grid-cols-2 gap-3 max-w-sm mx-auto p-3 bg-slate-950 rounded-xl border border-slate-800 font-mono text-xs">
+          <div class="grid grid-cols-2 gap-3 max-w-sm mx-auto p-3.5 bg-slate-950 rounded-2xl border border-slate-800 font-mono text-xs">
             <div>
               <span class="text-slate-400 block">Salud Final:</span>
               <b class="${companyHealth >= 50 ? 'text-emerald-400' : 'text-red-400'} text-base">${companyHealth}%</b>
@@ -1280,11 +1694,11 @@
             </div>
           </div>
           <div class="pt-3 flex justify-center gap-3">
-            <button onclick="switchTab('tab-leaderboard')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-lg transition">
-              Ver Marcador y Podio en Vivo ➔
+            <button onclick="switchTab('tab-leaderboard')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs px-6 py-2.5 rounded-xl shadow-lg transition">
+              Ver Podio de Ganadores ➔
             </button>
-            <button onclick="switchTab('tab-certificate')" class="bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-lg transition">
-              Generar mi Certificado UAN 🎓
+            <button onclick="switchTab('tab-certificate')" class="bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs px-6 py-2.5 rounded-xl shadow-lg transition">
+              Generar mi Certificado Grupo #1 🎓
             </button>
           </div>
         </div>
@@ -1295,7 +1709,7 @@
       }
     }
 
-    // --- MARCADOR Y CLASIFICACIÓN ---
+    // --- PODIO Y CLASIFICACIÓN ---
     function saveToLeaderboard() {
       if (!currentUser.name || currentUser.name === "Invitado") return;
       
@@ -1314,7 +1728,7 @@
       }
 
       leaderboardData.sort((a, b) => b.score - a.score);
-      localStorage.setItem('uan_innovation_leaderboard_v2', JSON.stringify(leaderboardData));
+      localStorage.setItem('uan_leaderboard_grupo1', JSON.stringify(leaderboardData));
       renderLeaderboard();
     }
 
@@ -1324,13 +1738,11 @@
 
       leaderboardData.sort((a, b) => b.score - a.score);
 
-      // Render Podio Top 3
       const top1 = leaderboardData[0] || { name: "-", score: 0, avatar: "👑" };
       const top2 = leaderboardData[1] || { name: "-", score: 0, avatar: "🥈" };
       const top3 = leaderboardData[2] || { name: "-", score: 0, avatar: "🥉" };
 
       podium.innerHTML = `
-        <!-- Segundo Lugar -->
         <div class="bg-slate-900/90 p-3 sm:p-4 rounded-2xl border border-slate-700/80 flex flex-col items-center">
           <span class="text-2xl">${top2.avatar}</span>
           <span class="text-xs font-bold text-slate-300 mt-1 truncate max-w-[100px]">${top2.name}</span>
@@ -1338,7 +1750,6 @@
           <div class="mt-2 w-full bg-slate-800 text-[10px] font-mono text-slate-400 py-1 rounded">2° Lugar</div>
         </div>
 
-        <!-- Primer Lugar -->
         <div class="bg-gradient-to-b from-blue-900/60 to-slate-900 p-4 sm:p-5 rounded-2xl border-2 border-amber-500/80 shadow-lg shadow-amber-500/10 flex flex-col items-center -translate-y-2">
           <span class="text-3xl">${top1.avatar}</span>
           <span class="text-xs sm:text-sm font-bold text-amber-300 mt-1 truncate max-w-[120px]">${top1.name}</span>
@@ -1346,7 +1757,6 @@
           <div class="mt-2 w-full bg-amber-500 text-[11px] font-mono font-bold text-black py-1 rounded">1° Campeón</div>
         </div>
 
-        <!-- Tercer Lugar -->
         <div class="bg-slate-900/90 p-3 sm:p-4 rounded-2xl border border-slate-700/80 flex flex-col items-center">
           <span class="text-2xl">${top3.avatar}</span>
           <span class="text-xs font-bold text-slate-300 mt-1 truncate max-w-[100px]">${top3.name}</span>
@@ -1355,7 +1765,6 @@
         </div>
       `;
 
-      // Render Lista Completa
       list.innerHTML = '';
       leaderboardData.forEach((user, index) => {
         const item = document.createElement('div');
@@ -1371,7 +1780,7 @@
                 ${user.name}
                 ${isCurrent ? '<span class="text-[9px] bg-blue-500 text-white px-1.5 py-0.2 rounded font-mono font-normal">TÚ</span>' : ''}
               </p>
-              <p class="text-[10px] text-slate-400 font-mono">${user.team || 'Comité'}</p>
+              <p class="text-[10px] text-slate-400 font-mono">${user.team || 'Mesa'}</p>
             </div>
           </div>
           <div class="text-right font-mono">
@@ -1384,10 +1793,10 @@
 
     function addSampleClassmates() {
       leaderboardData = [
-        { name: "Mesa 1 (Alpha)", team: "Comité 1", avatar: "🚀", score: 580 },
-        { name: "Laura & Camilo", team: "Comité 2", avatar: "👩‍💼", score: 510 },
-        { name: "Julián Castro", team: "Comité 3", avatar: "⚡", score: 470 },
-        { name: "Equipo Startups", team: "Comité 4", avatar: "🤖", score: 430 },
+        { name: "Mesa 1 (Alpha)", team: "Mesa 1", avatar: "🚀", score: 980 },
+        { name: "Laura & Camilo", team: "Mesa 2", avatar: "👩‍💼", score: 870 },
+        { name: "Julián Castro", team: "Mesa 3", avatar: "⚡", score: 790 },
+        { name: "Equipo Startups", team: "Mesa 4", avatar: "🤖", score: 740 },
         { name: currentUser.name || "Tú", team: currentUser.team, avatar: currentUser.avatar, score: currentUser.totalScore }
       ];
       saveToLeaderboard();
@@ -1395,35 +1804,31 @@
     }
 
     function clearLeaderboard() {
-      if (confirm("¿Deseas reiniciar todos los puntajes del marcador?")) {
+      if (confirm("¿Deseas reiniciar la tabla del salón?")) {
         leaderboardData = [];
         currentUser.quizScore = 0;
         currentUser.simulatorScore = 0;
         currentUser.totalScore = 0;
-        localStorage.removeItem('uan_innovation_leaderboard_v2');
+        localStorage.removeItem('uan_leaderboard_grupo1');
         updateUserUI();
         renderLeaderboard();
         soundClick();
       }
     }
 
-    // --- PERSISTENCIA LOCAL ---
+    // --- PERSISTENCIA ---
     function saveState() {
-      localStorage.setItem('uan_current_user_state', JSON.stringify(currentUser));
+      localStorage.setItem('uan_grupo1_user_state', JSON.stringify(currentUser));
     }
 
     function loadSavedState() {
-      const saved = localStorage.getItem('uan_current_user_state');
+      const saved = localStorage.getItem('uan_grupo1_user_state');
       if (saved) {
-        try {
-          currentUser = JSON.parse(saved);
-        } catch (e) {}
+        try { currentUser = JSON.parse(saved); } catch (e) {}
       }
-      const savedLb = localStorage.getItem('uan_innovation_leaderboard_v2');
+      const savedLb = localStorage.getItem('uan_leaderboard_grupo1');
       if (savedLb) {
-        try {
-          leaderboardData = JSON.parse(savedLb);
-        } catch (e) {}
+        try { leaderboardData = JSON.parse(savedLb); } catch (e) {}
       }
     }
   </script>
