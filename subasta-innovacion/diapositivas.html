@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Diapositivas Interactivas: Gestión de la Innovación | GRUPO #1</title>
+  
+  <!-- Tipografías Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            display: ['Space Grotesk', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              primary: '#3b82f6',
+              accent: '#8b5cf6',
+              gold: '#f59e0b',
+              emerald: '#10b981',
+              dark: '#080c14',
+              card: '#0f172a',
+              border: '#1e293b'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #080c14;
+      color: #f8fafc;
+      overflow: hidden;
+      user-select: none;
+    }
+    .slide {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.35s ease-in-out, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: scale(0.98);
+      height: calc(100vh - 120px);
+    }
+    .slide.active {
+      display: flex;
+      opacity: 1;
+      transform: scale(1);
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glow-gold {
+      box-shadow: 0 0 30px rgba(245, 158, 11, 0.25);
+    }
+    .glow-blue {
+      box-shadow: 0 0 30px rgba(59, 130, 246, 0.25);
+    }
+    /* Scrollbar ultra-fino para notas */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #080c14;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between font-sans selection:bg-brand-primary selection:text-white relative">
+
+  <!-- BARRA DE PROGRESO DE LA PRESENTACIÓN (TOP) -->
+  <div class="w-full bg-slate-900 h-1.5 fixed top-0 left-0 z-50">
+    <div id="presentationProgress" class="bg-gradient-to-r from-blue-600 via-indigo-500 to-amber-500 h-1.5 transition-all duration-300" style="width: 9%;"></div>
+  </div>
+
+  <!-- HEADER FIJO DE LA PRESENTACIÓN -->
+  <header class="w-full py-3 px-6 border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-md flex items-center justify-between z-40 relative">
+    <div class="flex items-center gap-3">
+      <img src="logo_grupo1.png" alt="Grupo 1" class="w-10 h-10 rounded-full object-contain ring-2 ring-blue-500/60 bg-slate-900 p-0.5">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] font-mono uppercase bg-blue-950 text-blue-400 border border-blue-800/60 px-2 py-0.5 rounded font-bold">
+            GRUPO #1
+          </span>
+          <span class="text-xs text-slate-400">Universidad Antonio Nariño • Sede Ibagué</span>
+        </div>
+        <h1 class="text-sm font-bold font-display text-white">
+          Gestión de la Innovación <span class="text-slate-400 text-xs font-normal">| Diapositivas Interactivas</span>
+        </h1>
+      </div>
+    </div>
+
+    <!-- Controles Rápidos -->
+    <div class="flex items-center gap-2.5">
+      <button id="btnToggleNotes" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700/80 px-3 py-1.5 rounded-xl transition flex items-center gap-1.5">
+        <span>📋</span> <span class="hidden sm:inline">Notas del Ponente</span>
+      </button>
+
+      <button id="btnFullscreen" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700/80 px-3 py-1.5 rounded-xl transition flex items-center gap-1.5" title="Pantalla Completa (F11)">
+        <span>⛶</span> <span class="hidden sm:inline">Pantalla Completa</span>
+      </button>
+
+      <a href="index.html" class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3.5 py-1.5 rounded-xl shadow-lg transition flex items-center gap-1.5">
+        <span>🚀</span> <span class="hidden sm:inline">Ir al</span> Taller / Quiz
+      </a>
+    </div>
+  </header>
+
+  <!-- CONTENEDOR DE DIAPOSITIVAS (SLIDES ENGINE) -->
+  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 w-full flex items-center justify-center relative overflow-hidden py-4">
+
+    <!-- ============================================== -->
+    <!-- SLIDE 1: PORTADA OFICIAL GRUPO #1              -->
+    <!-- ============================================== -->
+    <div class="slide active w-full flex-col justify-center items-center text-center max-w-5xl" data-slide="1">
+      <div class="glass-card rounded-3xl p-8 sm:p-12 w-full border-slate-800 shadow-2xl relative overflow-hidden">
+        <div class="absolute -right-24 -top-24 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="inline-flex items-center gap-2.5 bg-blue-950/80 text-blue-400 border border-blue-800 px-4 py-1.5 rounded-full text-xs font-mono mb-4">
+          <img src="logo_grupo1.png" alt="Grupo 1" class="w-5 h-5 rounded-full">
+          <span>FACILITADORES OFICIALES — GRUPO #1</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-5xl font-extrabold font-display text-white tracking-tight leading-tight">
+          Gestión de la Innovación: <br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-amber-400">
+            De la Idea al Mercado
+          </span>
+        </h2>
+        <p class="text-sm sm:text-base text-slate-300 mt-4 max-w-2xl mx-auto leading-relaxed">
+          Estrategias de Portafolio, Curvas de Adopción y Supervivencia Empresarial en Entornos Tecnológicos Competitivos.
+        </p>
+
+        <!-- Tarjetas de los 3 Desarrolladores con Fotos -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-8 max-w-4xl mx-auto">
+          
+          <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 flex flex-col items-center shadow-lg">
+            <img src="juan_esteban.jpg" alt="Juan Esteban Vera" class="w-20 h-20 rounded-full object-cover border-2 border-blue-500 shadow-md mb-2 ring-2 ring-blue-500/20">
+            <h3 class="text-sm font-bold text-white">Juan Esteban Vera</h3>
+            <p class="text-[11px] font-mono text-blue-400">Ingeniería Electrónica</p>
+            <span class="text-[10px] text-slate-400 mt-1">Arquitectura & Dirección</span>
+          </div>
+
+          <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 flex flex-col items-center shadow-lg">
+            <img src="jhon_jairo.png" alt="Jhon Jairo Lugo" class="w-20 h-20 rounded-full object-cover border-2 border-indigo-500 shadow-md mb-2 ring-2 ring-indigo-500/20">
+            <h3 class="text-sm font-bold text-white">Jhon Jairo Lugo</h3>
+            <p class="text-[11px] font-mono text-indigo-400">Ingeniería Electrónica</p>
+            <span class="text-[10px] text-slate-400 mt-1">Casos & Análisis Cuantitativo</span>
+          </div>
+
+          <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 flex flex-col items-center shadow-lg">
+            <img src="alejandro_carvajal.png" alt="Alejandro Carvajal" class="w-20 h-20 rounded-full object-cover border-2 border-emerald-500 shadow-md mb-2 ring-2 ring-emerald-500/20">
+            <h3 class="text-sm font-bold text-white">Alejandro Carvajal</h3>
+            <p class="text-[11px] font-mono text-emerald-400">Ingeniería Electrónica</p>
+            <span class="text-[10px] text-slate-400 mt-1">Simulador & Estrategia</span>
+          </div>
+
+        </div>
+
+        <div class="mt-8 pt-4 border-t border-slate-800 flex justify-between items-center text-xs text-slate-400 font-mono">
+          <span>Cátedra: Gestión Empresarial</span>
+          <span>Universidad Antonio Nariño • Sede Ibagué</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 2: CREATIVIDAD VS INNOVACIÓN             -->
+    <!-- ============================================== -->
+    <div class="slide w-full flex-col justify-center items-center max-w-5xl" data-slide="2">
+      <div class="glass-card rounded-3xl p-8 sm:p-10 w-full border-slate-800 shadow-2xl">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-xs font-mono uppercase bg-blue-950 text-blue-400 border border-blue-800 px-3 py-1 rounded-full font-bold">
+            Concepto Fundamental #1
+          </span>
+          <span class="text-xs font-mono text-slate-400">Diapositiva 02 / 11</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-4xl font-extrabold font-display text-white">
+          El Gran Mito: ¿Tener ideas es suficiente?
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-300 mt-1">
+          Diferencia crítica entre ocurrencias mentales y valor empresarial sostenible.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+            <div>
+              <span class="text-3xl">💡</span>
+              <h3 class="text-lg font-bold font-display text-amber-400 mt-2">Creatividad</h3>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                Capacidad cognitiva de idear conceptos novedosos y originales. Se queda en el papel o en el pensamiento si no se ejecuta.
+              </p>
+            </div>
+            <div class="mt-4 p-3 bg-slate-950 rounded-xl border border-slate-800/80 text-[11px] text-slate-400 font-mono">
+              Costo: Bajo • Valor económico: Incierto
+            </div>
+          </div>
+
+          <div class="bg-slate-900/90 p-5 rounded-2xl border border-blue-500/40 glow-blue flex flex-col justify-between">
+            <div>
+              <span class="text-3xl">🚀</span>
+              <h3 class="text-lg font-bold font-display text-blue-400 mt-2">Innovación</h3>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                Creatividad implementada con éxito que genera valor económico o social y es <b>adoptada activamente por el mercado</b>.
+              </p>
+            </div>
+            <div class="mt-4 p-3 bg-blue-950/60 rounded-xl border border-blue-800 text-[11px] text-blue-300 font-mono font-bold">
+              Innovación = Idea × Viabilidad Técnica × Adopción de Mercado
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 p-4 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs text-slate-300">
+          <p>
+            💡 <b>Caso Histórico:</b> Xerox inventó la interfaz gráfica y el ratón, pero fueron Apple y Microsoft quienes la comercializaron. Quien innovó fue quien creó el mercado.
+          </p>
+          <span class="text-amber-400 font-mono font-bold ml-3 shrink-0">Caso 1 del Quiz</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 3: LA CURVA EN S (FOSTER)                -->
+    <!-- ============================================== -->
+    <div class="slide w-full flex-col justify-center items-center max-w-5xl" data-slide="3">
+      <div class="glass-card rounded-3xl p-6 sm:p-8 w-full border-slate-800 shadow-2xl">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-mono uppercase bg-emerald-950 text-emerald-400 border border-emerald-800 px-3 py-1 rounded-full font-bold">
+            Modelo Cuantitativo #1: Richard Foster
+          </span>
+          <span class="text-xs font-mono text-slate-400">Diapositiva 03 / 11</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl font-extrabold font-display text-white">
+          La Curva en "S" y el Salto Tecnológico
+        </h2>
+        <p class="text-xs text-slate-300 mt-1">
+          Toda tecnología nace lenta, explota en rendimiento y se estanca en su límite físico.
+        </p>
+
+        <!-- Canvas Gráfica Curva en S -->
+        <div class="relative h-60 sm:h-72 w-full bg-slate-950/80 p-3 rounded-2xl border border-slate-800 mt-4">
+          <canvas id="slideSCurveChart"></canvas>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4 text-xs">
+          <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+            <b class="text-amber-400 block mb-0.5">1. Meseta de Madurez</b>
+            <p class="text-[11px] text-slate-400">Invertir más dinero en la tecnología vieja produce mejoras mínimas.</p>
+          </div>
+          <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+            <b class="text-emerald-400 block mb-0.5">2. Disrupción Naciente</b>
+            <p class="text-[11px] text-slate-400">La nueva tecnología arranca abajo, pero su techo de rendimiento es superior.</p>
+          </div>
+          <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+            <b class="text-blue-400 block mb-0.5">3. Caso: Netflix vs Blockbuster</b>
+            <p class="text-[11px] text-slate-400">Blockbuster optimizó videoclubes físicos; Netflix saltó a la curva del streaming.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 4: MCKINSEY 70/20/10                     -->
+    <!-- ============================================== -->
+    <div class="slide w-full flex-col justify-center items-center max-w-5xl" data-slide="4">
+      <div class="glass-card rounded-3xl p-6 sm:p-8 w-full border-slate-800 shadow-2xl">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-mono uppercase bg-indigo-950 text-indigo-400 border border-indigo-800 px-3 py-1 rounded-full font-bold">
+            Modelo de Portafolio #2: McKinsey & Co.
+          </span>
+          <span class="text-xs font-mono text-slate-400">Diapositiva 04 / 11</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl font-extrabold font-display text-white">
+          La Regla de Oro: Los 3 Horizontes (70 / 20 / 10)
+        </h2>
+        <p class="text-xs text-slate-300 mt-1">
+          La gestión de la innovación equilibra la supervivencia de hoy con la vigencia del mañana.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center mt-4">
+          <div class="md:col-span-7 space-y-3 text-xs">
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border-l-4 border-emerald-500 border-y border-r border-slate-800">
+              <div class="flex justify-between items-center mb-1">
+                <strong class="text-emerald-400 font-bold">Horizonte 1 (Core - 70% del fondo)</strong>
+                <span class="text-slate-400 font-mono">Corto Plazo</span>
+              </div>
+              <p class="text-slate-300 text-[11px]">Innovación incremental: optimización de costos, empaques y procesos. Financia las nóminas de hoy.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border-l-4 border-blue-500 border-y border-r border-slate-800">
+              <div class="flex justify-between items-center mb-1">
+                <strong class="text-blue-400 font-bold">Horizonte 2 (Adyacente - 20% del fondo)</strong>
+                <span class="text-slate-400 font-mono">Mediano Plazo (1-3 años)</span>
+              </div>
+              <p class="text-slate-300 text-[11px]">Nuevos mercados o transformación de producto a servicio (SaaS). Es el relevo del negocio maduro.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border-l-4 border-purple-500 border-y border-r border-slate-800">
+              <div class="flex justify-between items-center mb-1">
+                <strong class="text-purple-400 font-bold">Horizonte 3 (Disruptivo - 10% del fondo)</strong>
+                <span class="text-slate-400 font-mono">Largo Plazo (3-5+ años)</span>
+              </div>
+              <p class="text-slate-300 text-[11px]">Apuestas tecnológicas de alto riesgo (Moonshots). Si una triunfa, salva el futuro de la empresa.</p>
+            </div>
+          </div>
+
+          <div class="md:col-span-5 flex flex-col items-center">
+            <div class="relative h-56 w-full max-w-xs">
+              <canvas id="slideMcKinseyChart"></canvas>
+            </div>
+            <span class="text-[11px] font-mono text-emerald-400 mt-2 font-bold">Distribución Óptima de Capital</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 5: EL CASO KODAK                         -->
+    <!-- ============================================== -->
+    <div class="slide w-full flex-col justify-center items-center max-w-5xl" data-slide="5">
+      <div class="glass-card rounded-3xl p-8 sm:p-10 w-full border-slate-800 shadow-2xl">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-xs font-mono uppercase bg-amber-950 text-amber-400 border border-amber-800 px-3 py-1 rounded-full font-bold">
+            Autopsia de un Gigante
+          </span>
+          <span class="text-xs font-mono text-slate-400">Diapositiva 05 / 11</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-4xl font-extrabold font-display text-white">
+          ¿Por qué quebró Kodak si inventó la cámara digital?
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-300 mt-1">
+          El peligro del miedo a la canibalización y el encierro en el Horizonte 1.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+          <div class="p-4 bg-slate-900 rounded-2xl border border-slate-800">
+            <span class="text-2xl">📸</span>
+            <h4 class="font-bold text-white text-xs mt-2">1. La Invención (1975)</h4>
+            <p class="text-[11px] text-slate-400 mt-1">
+              El ingeniero Steve Sasson creó en Kodak la primera cámara digital sin rollos.
+            </p>
+          </div>
+
+          <div class="p-4 bg-slate-900 rounded-2xl border border-slate-800">
+            <span class="text-2xl">🤐</span>
+            <h4 class="font-bold text-amber-400 text-xs mt-2">2. El Miedo a Canibalizarse</h4>
+            <p class="text-[11px] text-slate-400 mt-1">
+              La gerencia archivó el invento para proteger las ventas multimillonarias de rollos químicos.
+            </p>
+          </div>
+
+          <div class="p-4 bg-slate-900 rounded-2xl border border-red-500/40">
+            <span class="text-2xl">💥</span>
+            <h4 class="font-bold text-red-400 text-xs mt-2">3. Bancarrota (2012)</h4>
+            <p class="text-[11px] text-slate-400 mt-1">
+              Sony y los smartphones masificaron lo digital. Kodak quebró siendo líder de una tecnología muerta.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-6 p-4 rounded-2xl bg-amber-950/40 border border-amber-900/60 text-xs text-amber-200 text-center font-medium">
+          ⚖️ <b>Máxima Gerencial:</b> <i>"Si tú no canibalizas tu propio producto exitoso con innovación, un competidor lo hará por ti."</i>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 6: EL ABISMO DE MOORE (ROGERS)           -->
+    <!-- ============================================== -->
+    <div class="slide w-full flex-col justify-center items-center max-w-5xl" data-slide="6">
+      <div class="glass-card rounded-3xl p-6 sm:p-8 w-full border-slate-800 shadow-2xl">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-mono uppercase bg-purple-950 text-purple-400 border border-purple-800 px-3 py-1 rounded-full font-bold">
+            Modelo de Adopción #3: Rogers & Moore
+          </span>
+          <span class="text-xs font-mono text-slate-400">Diapositiva 06 / 11</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl font-extrabold font-display text-white">
+          La Curva de Adopción y "El Abismo" (The Chasm)
+        </h2>
+        <p class="text-xs text-slate-300 mt-1">
+          ¿Por qué el 90% de las startups de tecnología fracasan tras ganar los primeros usuarios?
+        </p>
+
+        <!-- Canvas Rogers Chart -->
+        <div class="relative h-60 sm:h-72 w-full bg-slate-950/80 p-3 rounded-2xl border border-slate-800 mt-4">
+          <canvas id="slideRogersChart"></canvas>
+        </div>
+
+        <div class="mt-4 p-3.5 bg-slate-950 rounded-2xl border border-slate-800 text-xs text-slate-300">
+          <p>
+            ⚠️ <b>El Abismo (The Chasm):</b> Los *Early Adopters* toleran fallos y aman probar novedades. La *Mayoría Temprana* (34%) exige un <b>producto completo, con soporte, garantías y casos de éxito reales</b>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 7: TECH-PUSH VS MARKET-PULL              -->
+    <!-- ============================================== -->
+    <div class="slide w-full flex-col justify-center items-center max-w-5xl" data-slide="7">
+      <div class="glass-card rounded-3xl p-8 sm:p-10 w-full border-slate-800 shadow-2xl">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-xs font-mono uppercase bg-red-950 text-red-400 border border-red-800 px-3 py-1 rounded-full font-bold">
+            Trampa Metodológica Común
+          </span>
+          <span class="text-xs font-mono text-slate-400">Diapositiva 07 / 11</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-4xl font-extrabold font-display text-white">
+          La Falacia del "Tech-Push" Ciego
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-300 mt-1">
+          Enamorarse de la tecnología vs. enamorarse del problema real del cliente.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <div class="p-5 bg-red-950/30 rounded-2xl border border-red-900/60">
+            <span class="text-red-400 font-bold font-mono text-sm block mb-1">❌ TECH-PUSH CIEGO (Error Clásico)</span>
+            <p class="text-xs text-slate-300 leading-relaxed mt-2">
+              <i>"Inventé un producto con IA cuántica, conexión 5G y tokens en blockchain. Cuesta $4,000 dólares. ¿Quién lo compra?"</i>
+            </p>
+            <p class="text-[11px] text-red-300 mt-3 font-mono">
+              Resultado: Cero clientes. Producto técnicamente brillante pero sin mercado.
+            </p>
+          </div>
+
+          <div class="p-5 bg-emerald-950/30 rounded-2xl border border-emerald-900/60">
+            <span class="text-emerald-400 font-bold font-mono text-sm block mb-1">✅ MARKET-PULL (Innovación Real)</span>
+            <p class="text-xs text-slate-300 leading-relaxed mt-2">
+              Detectar un dolor de cabeza costoso en una industria $\rightarrow$ Diseñar la solución más eficiente $\rightarrow$ Validar disposición a pagar.
+            </p>
+            <p class="text-[11px] text-emerald-300 mt-3 font-mono">
+              Resultado: Adopción orgánica y crecimiento de ventas sostenido.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-6 text-center text-xs text-slate-400 font-mono">
+          💡 La innovación exitosa empieza con el cliente, no con el chip.
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 8: SERVITIZACIÓN (H2)                    -->
+    <!-- ============================================== -->
+    <div class="slide w-full flex-col justify-center items-center max-w-5xl" data-slide="8">
+      <div class="glass-card rounded-3xl p-8 sm:p-10 w-full border-slate-800 shadow-2xl">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-xs font-mono uppercase bg-blue-950 text-blue-400 border border-blue-800 px-3 py-1 rounded-full font-bold">
+            Innovación en Modelos de Negocio (H2)
+          </span>
+          <span class="text-xs font-mono text-slate-400">Diapositiva 08 / 11</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-4xl font-extrabold font-display text-white">
+          Servitización: De Vender Cajas a Vender Valor Recurrente
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-300 mt-1">
+          Cómo la ingeniería electrónica y el software transforman las finanzas empresariales.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800">
+            <span class="text-slate-400 font-mono font-bold text-xs block mb-1">MODELO TRANSACCIONAL ANTIGUO</span>
+            <h4 class="text-white font-bold text-sm">Venta Única de Hardware</h4>
+            <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+              Vendes un motor o PLC por $20,000 USD una sola vez. Si no consigues otro cliente el mes siguiente, la fábrica se queda sin ingresos.
+            </p>
+          </div>
+
+          <div class="bg-blue-950/40 p-5 rounded-2xl border border-blue-800/80">
+            <span class="text-blue-400 font-mono font-bold text-xs block mb-1">MODELO SERVITIZADO (H2)</span>
+            <h4 class="text-white font-bold text-sm">Suscripción & Mantenimiento Predictivo</h4>
+            <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+              Entregas el hardware con telemetría IoT y cobras una cuota mensual garantizando que la máquina nunca se detenga. Ingreso recurrente predecible.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-6 p-4 rounded-2xl bg-slate-950 border border-slate-800 text-xs text-slate-300 flex items-center justify-between">
+          <span>✈️ <b>Ejemplo Mundial:</b> Rolls-Royce no vende sus turbinas de avión; cobra por "horas de potencia en vuelo" (*Power-by-the-Hour*).</span>
+          <span class="text-blue-400 font-mono font-bold ml-2 shrink-0">Caso 7 del Quiz</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 9: CULTURA DEL FRACASO INTELIGENTE       -->
+    <!-- ============================================== -->
+    <div class="slide w-full flex-col justify-center items-center max-w-5xl" data-slide="9">
+      <div class="glass-card rounded-3xl p-8 sm:p-10 w-full border-slate-800 shadow-2xl">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-xs font-mono uppercase bg-emerald-950 text-emerald-400 border border-emerald-800 px-3 py-1 rounded-full font-bold">
+            Gestión del Riesgo en Horizonte 3
+          </span>
+          <span class="text-xs font-mono text-slate-400">Diapositiva 09 / 11</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-4xl font-extrabold font-display text-white">
+          Fracaso Inteligente: "Fallar Rápido y Barato"
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-300 mt-1">
+          En Horizonte 3, el 75% de los proyectos no llegarán a producción. ¿Cómo se gestiona esto?
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+          <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 text-center">
+            <span class="text-2xl">🛡️</span>
+            <h4 class="font-bold text-white text-xs mt-2">Seguridad Psicológica</h4>
+            <p class="text-[11px] text-slate-400 mt-1">Si castigas el error, tus ingenieros solo propondrán mejoras obvias y mediocres.</p>
+          </div>
+
+          <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 text-center">
+            <span class="text-2xl">🧪</span>
+            <h4 class="font-bold text-blue-400 text-xs mt-2">Prototipado Rápido (MVP)</h4>
+            <p class="text-[11px] text-slate-400 mt-1">Construir versiones mínimas viables para probar con usuarios reales en semanas, no en años.</p>
+          </div>
+
+          <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 text-center">
+            <span class="text-2xl">📉</span>
+            <h4 class="font-bold text-emerald-400 text-xs mt-2">Pivote Temprano</h4>
+            <p class="text-[11px] text-slate-400 mt-1">Aprender del fallo gastando $1,000 USD y corrigiendo el rumbo antes de gastar $1 millón.</p>
+          </div>
+        </div>
+
+        <div class="mt-6 p-4 rounded-2xl bg-slate-950 border border-slate-800 text-center text-xs text-slate-300 font-mono">
+          💡 La meta de una empresa innovadora no es cero errores: es aprender más rápido que los rivales.
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 10: MISIÓN ELECTROTECH S.A.S.            -->
+    <!-- ============================================== -->
+    <div class="slide w-full flex-col justify-center items-center max-w-5xl" data-slide="10">
+      <div class="glass-card rounded-3xl p-8 sm:p-10 w-full border-slate-800 shadow-2xl">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-xs font-mono uppercase bg-blue-950 text-blue-400 border border-blue-800 px-3 py-1 rounded-full font-bold">
+            Simulador de Casos en Vivo
+          </span>
+          <span class="text-xs font-mono text-slate-400">Diapositiva 10 / 11</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-4xl font-extrabold font-display text-white">
+          La Misión: Salvar a "ElectroTech Colombia S.A.S."
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-300 mt-1">
+          Ustedes son la nueva Junta Directiva de Innovación.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+          <div class="p-4 bg-slate-900 rounded-2xl border border-slate-800 text-center">
+            <span class="text-xs font-mono text-slate-500 uppercase block">Crisis Actual</span>
+            <p class="text-2xl font-extrabold text-red-400 font-mono mt-1">-35% Ventas</p>
+            <p class="text-[11px] text-slate-400 mt-1">Por competencia asiática barata</p>
+          </div>
+
+          <div class="p-4 bg-slate-900 rounded-2xl border border-slate-800 text-center">
+            <span class="text-xs font-mono text-slate-500 uppercase block">Empleos en Riesgo</span>
+            <p class="text-2xl font-extrabold text-amber-400 font-mono mt-1">80 Familias</p>
+            <p class="text-[11px] text-slate-400 mt-1">Nómina industrial en juego</p>
+          </div>
+
+          <div class="p-4 bg-slate-900 rounded-2xl border border-slate-800 text-center">
+            <span class="text-xs font-mono text-slate-500 uppercase block">Fondo Asignado</span>
+            <p class="text-2xl font-extrabold text-emerald-400 font-mono mt-1">$100,000 USD</p>
+            <p class="text-[11px] text-slate-400 mt-1">Para salvar el negocio en 3 trimestres</p>
+          </div>
+        </div>
+
+        <div class="mt-6 p-4 rounded-2xl bg-blue-950/40 border border-blue-800/60 text-xs text-blue-200 text-center">
+          Cada decisión que tomen en el simulador afectará la <b>Salud de la Empresa (%)</b> y sumará puntos para el <b>Podio de Ganadores</b>.
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 11: LLAMADO A LA ACCIÓN (LANZAMIENTO)    -->
+    <!-- ============================================== -->
+    <div class="slide w-full flex-col justify-center items-center text-center max-w-5xl" data-slide="11">
+      <div class="glass-card rounded-3xl p-8 sm:p-12 w-full border-slate-800 shadow-2xl relative overflow-hidden">
+        <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <img src="logo_grupo1.png" alt="Grupo 1" class="w-20 h-20 rounded-full mx-auto object-contain ring-4 ring-amber-500/60 shadow-xl mb-4 bg-slate-900 p-1">
+
+        <h2 class="text-3xl sm:text-5xl font-extrabold font-display text-white">
+          ¡Hora de Demostrar su Dominio!
+        </h2>
+        <p class="text-sm sm:text-base text-slate-300 mt-3 max-w-xl mx-auto">
+          Ingresen con sus teléfonos o computadores al portal interactivo del <b>GRUPO #1</b>.
+        </p>
+
+        <div class="my-6 p-4 bg-slate-900/90 rounded-2xl border border-slate-800 max-w-md mx-auto text-xs font-mono">
+          <p class="text-slate-400">Enlace oficial del taller:</p>
+          <a href="index.html" class="text-amber-400 text-sm font-bold block mt-1 hover:underline">
+            https://jeveraeng-bit.github.io/aurora-dsp/subasta-innovacion/
+          </a>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-3">
+          <a href="index.html" class="bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-500 hover:from-blue-500 hover:to-emerald-400 text-white font-extrabold text-sm px-8 py-4 rounded-2xl shadow-xl transition-all transform active:scale-95 inline-flex items-center gap-2">
+            <span>🚀 ENTRAR AL TALLER, QUIZ Y SIMULADOR</span>
+            <span>➔</span>
+          </a>
+        </div>
+
+        <p class="text-xs text-slate-400 mt-6">
+          Al completar las actividades recibirán su <b>Certificado Oficial emitido por el GRUPO #1</b> con firmas y puntaje acreditado.
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- PANEL DESPLEGABLE DE NOTAS DEL PONENTE (JUAN, JHON, ALEJANDRO) -->
+  <div id="speakerNotesDrawer" class="fixed bottom-16 left-1/2 transform -translate-x-1/2 w-11/12 max-w-3xl glass-card rounded-2xl p-4 border border-blue-500/50 shadow-2xl z-40 hidden">
+    <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-800">
+      <div class="flex items-center gap-2">
+        <span class="text-xs font-mono font-bold text-blue-400 uppercase">📋 Guion / Notas del Ponente:</span>
+        <span id="notesSpeakerBadge" class="text-[10px] font-mono bg-blue-950 text-blue-300 px-2 py-0.5 rounded border border-blue-800 font-bold">Juan Esteban Vera</span>
+      </div>
+      <button id="btnCloseNotes" class="text-slate-400 hover:text-white text-xs p-1">✕ Cerrar</button>
+    </div>
+    <p id="speakerNotesText" class="text-xs text-slate-200 leading-relaxed max-h-28 overflow-y-auto pr-2">
+      Cargando notas de la diapositiva...
+    </p>
+  </div>
+
+  <!-- BARRA DE NAVEGACIÓN INFERIOR (CONTROLES DE DIAPOSITIVAS) -->
+  <footer class="w-full py-3 px-6 border-t border-slate-800/80 bg-slate-950/90 backdrop-blur-md flex items-center justify-between z-40">
+    <div class="flex items-center gap-2">
+      <button id="btnPrevSlide" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-xs text-white font-mono flex items-center gap-1.5 transition">
+        <span>◄</span> <span class="hidden sm:inline">Anterior</span>
+      </button>
+
+      <span id="slideIndicator" class="text-xs font-mono font-bold text-slate-300 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800">
+        01 / 11
+      </span>
+
+      <button id="btnNextSlide" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-xs text-white font-bold flex items-center gap-1.5 transition shadow-md">
+        <span class="hidden sm:inline">Siguiente</span> <span>►</span>
+      </button>
+    </div>
+
+    <!-- Indicador de Teclas de Acceso Rápido -->
+    <div class="text-[11px] font-mono text-slate-400 hidden md:flex items-center gap-3">
+      <span>Navega con: <b class="text-slate-200">←</b> / <b class="text-slate-200">→</b> o <b class="text-slate-200">Espacio</b></span>
+      <span>•</span>
+      <span>Grupo #1 • Ing. Electrónica</span>
+    </div>
+
+    <div class="flex items-center gap-1.5" id="slideDotsContainer">
+      <!-- Dots inyectados por JS -->
+    </div>
+  </footer>
+
+  <!-- ============================================== -->
+  <!-- JAVASCRIPT: MOTOR DE PRESENTACIÓN & CHART.JS   -->
+  <!-- ============================================== -->
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 11;
+
+    // Guion de Notas para los tres presentadores
+    const speakerNotes = {
+      1: {
+        speaker: "Juan Esteban Vera",
+        notes: "Apertura ejecutiva: Da la bienvenida a los compañeros y docente. Plantea que la innovación no es tener ocurrencias, sino un proceso de ingeniería y gestión empresarial estructurado. Menciona que al final entraremos al taller web a competir."
+      },
+      2: {
+        speaker: "Juan Esteban Vera",
+        notes: "Concepto 1: Explica la diferencia entre Creatividad e Innovación. Cita la fórmula matemática: Idea × Viabilidad Técnica × Adopción. Menciona el caso de Xerox PARC que inventó el mouse y las ventanas pero no supo innovar comercialmente."
+      },
+      3: {
+        speaker: "Jhon Jairo Lugo",
+        notes: "Modelo 1: Explica la Curva en S de Richard Foster. Muestra cómo al inicio el avance es lento, luego explota y finalmente se estanca en una meseta. Destaca el caso Blockbuster vs Netflix como ejemplo del salto tecnológico."
+      },
+      4: {
+        speaker: "Juan Esteban Vera",
+        notes: "Modelo 2: Explica la regla 70/20/10 de McKinsey. 70% en el negocio de hoy (H1), 20% en nuevos modelos adyacentes (H2) y 10% en apuestas de alto riesgo (H3). Advierte que quien invierte 95% en H1 está condenado a la obsolescencia."
+      },
+      5: {
+        speaker: "Jhon Jairo Lugo",
+        notes: "Caso Kodak: Narra la historia de Steve Sasson en 1975. Explica el concepto de 'Miedo a la Canibalización': la gerencia guardó la cámara digital para no perder ventas de rollos fotográficos y terminaron quebrando en 2012."
+      },
+      6: {
+        speaker: "Jhon Jairo Lugo",
+        notes: "Modelo 3: Explica la Curva de Rogers y el famoso 'Abismo de Moore'. Resalta que los entusiastas toleran errores, pero para convencer a la mayoría del mercado se necesita un producto completo con garantías y soporte."
+      },
+      7: {
+        speaker: "Alejandro Carvajal",
+        notes: "Trampa Metodológica: Explica por qué el 'Tech-Push' ciego (meter palabras de moda como IA o Blockchain a cualquier cosa) destruye valor. La verdadera innovación arranca con el 'Market-Pull': encontrar un dolor de cliente real."
+      },
+      8: {
+        speaker: "Alejandro Carvajal",
+        notes: "Servitización (H2): Explica cómo transformar hardware de pago único en suscripciones continuas. Cita el caso de Rolls-Royce que cobra por horas de vuelo garantizadas en lugar de vender la turbina."
+      },
+      9: {
+        speaker: "Alejandro Carvajal",
+        notes: "Cultura de Fracaso Inteligente: En H3 el 75% de proyectos falla. La clave no es castigar al equipo, sino 'fallar rápido y barato' usando metodologías Lean y Prototipos Mínimos Viables (MVPs)."
+      },
+      10: {
+        speaker: "Alejandro Carvajal",
+        notes: "Misión del Simulador: Presenta la empresa ElectroTech Colombia S.A.S. con caída del 35% en ventas y $100,000 USD de presupuesto. Invita al salón a asumir el reto como junta directiva."
+      },
+      11: {
+        speaker: "Grupo #1 Completo",
+        notes: "Cierre & Invitación: Pide a todos los compañeros sacar el celular y abrir el enlace. Recuerda que al finalizar recibirán el Certificado Oficial emitido por el Grupo #1 con sus nombres y puntaje."
+      }
+    };
+
+    // Gráficas en Diapositivas
+    let slideSCurveInst = null;
+    let slideMcKinseyInst = null;
+    let slideRogersInst = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initSlideDots();
+      goToSlide(1);
+      initSlideCharts();
+
+      // Controles
+      document.getElementById('btnNextSlide').addEventListener('click', nextSlide);
+      document.getElementById('btnPrevSlide').addEventListener('click', prevSlide);
+
+      // Teclado
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+          nextSlide();
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          prevSlide();
+        } else if (e.key === 'Home') {
+          goToSlide(1);
+        } else if (e.key === 'End') {
+          goToSlide(totalSlides);
+        }
+      });
+
+      // Pantalla Completa
+      document.getElementById('btnFullscreen').addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      });
+
+      // Notas
+      const notesDrawer = document.getElementById('speakerNotesDrawer');
+      document.getElementById('btnToggleNotes').addEventListener('click', () => {
+        notesDrawer.classList.toggle('hidden');
+      });
+      document.getElementById('btnCloseNotes').addEventListener('click', () => {
+        notesDrawer.classList.add('hidden');
+      });
+    });
+
+    function initSlideDots() {
+      const container = document.getElementById('slideDotsContainer');
+      container.innerHTML = '';
+      for (let i = 1; i <= totalSlides; i++) {
+        const dot = document.createElement('button');
+        dot.className = `w-2 h-2 rounded-full transition-all ${i === 1 ? 'bg-blue-500 w-5' : 'bg-slate-700 hover:bg-slate-500'}`;
+        dot.title = `Ir a Diapositiva ${i}`;
+        dot.addEventListener('click', () => goToSlide(i));
+        container.appendChild(dot);
+      }
+    }
+
+    function updateDots() {
+      const dots = document.getElementById('slideDotsContainer').children;
+      for (let i = 0; i < dots.length; i++) {
+        if (i + 1 === currentSlide) {
+          dots[i].className = 'w-5 h-2 rounded-full bg-blue-500 transition-all';
+        } else {
+          dots[i].className = 'w-2 h-2 rounded-full bg-slate-700 hover:bg-slate-500 transition-all';
+        }
+      }
+    }
+
+    function goToSlide(n) {
+      if (n < 1 || n > totalSlides) return;
+      currentSlide = n;
+
+      document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+      const activeSlideEl = document.querySelector(`.slide[data-slide="${currentSlide}"]`);
+      if (activeSlideEl) activeSlideEl.classList.add('active');
+
+      // Actualizar indicadores
+      document.getElementById('slideIndicator').textContent = `${String(currentSlide).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`;
+      const pct = (currentSlide / totalSlides) * 100;
+      document.getElementById('presentationProgress').style.width = `${pct}%`;
+      updateDots();
+
+      // Actualizar Notas del Ponente
+      const note = speakerNotes[currentSlide] || { speaker: "Grupo #1", notes: "Presentar contenido." };
+      document.getElementById('notesSpeakerBadge').textContent = note.speaker;
+      document.getElementById('speakerNotesText').textContent = note.notes;
+
+      // Redibujar gráficas si es la diapositiva correspondiente
+      if (currentSlide === 3 && slideSCurveInst) {
+        setTimeout(() => slideSCurveInst.resize(), 100);
+      } else if (currentSlide === 4 && slideMcKinseyInst) {
+        setTimeout(() => slideMcKinseyInst.resize(), 100);
+      } else if (currentSlide === 6 && slideRogersInst) {
+        setTimeout(() => slideRogersInst.resize(), 100);
+      } else if (currentSlide === 11 && typeof confetti === 'function') {
+        confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+      }
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        goToSlide(currentSlide + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        goToSlide(currentSlide - 1);
+      }
+    }
+
+    // --- GRÁFICAS DE CHART.JS EN DIAPOSITIVAS ---
+    function initSlideCharts() {
+      // 1. Curva en S Slide 3
+      const ctxS = document.getElementById('slideSCurveChart');
+      if (ctxS) {
+        slideSCurveInst = new Chart(ctxS, {
+          type: 'line',
+          data: {
+            labels: ['Nacimiento I+D', 'Prototipo', 'Crecimiento Exponencial', 'Madurez', 'Límite Físico'],
+            datasets: [
+              {
+                label: 'Tecnología Tradicional (Blockbuster / Analógica)',
+                data: [15, 35, 75, 92, 95],
+                borderColor: '#f59e0b',
+                backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                tension: 0.45,
+                fill: true,
+                pointRadius: 6
+              },
+              {
+                label: 'Tecnología Disruptiva (Netflix / Streaming)',
+                data: [5, 15, 40, 85, 140],
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                tension: 0.45,
+                fill: true,
+                pointRadius: 6
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { labels: { color: '#cbd5e1', font: { family: 'Space Grotesk', size: 12 } } }
+            },
+            scales: {
+              x: { title: { display: true, text: 'Esfuerzo Acumulado / Tiempo', color: '#94a3b8' }, ticks: { color: '#64748b' }, grid: { color: 'rgba(255,255,255,0.06)' } },
+              y: { title: { display: true, text: 'Rendimiento / Valor de Mercado', color: '#94a3b8' }, ticks: { color: '#64748b' }, grid: { color: 'rgba(255,255,255,0.06)' } }
+            }
+          }
+        });
+      }
+
+      // 2. McKinsey Slide 4
+      const ctxMcK = document.getElementById('slideMcKinseyChart');
+      if (ctxMcK) {
+        slideMcKinseyInst = new Chart(ctxMcK, {
+          type: 'doughnut',
+          data: {
+            labels: ['H1: Core (70%)', 'H2: Adyacente (20%)', 'H3: Disruptivo (10%)'],
+            datasets: [{
+              data: [70, 20, 10],
+              backgroundColor: ['#10b981', '#3b82f6', '#8b5cf6'],
+              borderColor: '#0f172a',
+              borderWidth: 3
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom', labels: { color: '#cbd5e1', font: { size: 11 } } }
+            }
+          }
+        });
+      }
+
+      // 3. Rogers Slide 6
+      const ctxRog = document.getElementById('slideRogersChart');
+      if (ctxRog) {
+        slideRogersInst = new Chart(ctxRog, {
+          type: 'bar',
+          data: {
+            labels: [
+              'Innovadores (2.5%)',
+              'Early Adopters (13.5%)',
+              '⚡ EL ABISMO (The Chasm)',
+              'Mayoría Temprana (34%)',
+              'Mayoría Tardía (34%)',
+              'Rezagados (16%)'
+            ],
+            datasets: [{
+              data: [2.5, 13.5, 0.5, 34, 34, 16],
+              backgroundColor: ['#38bdf8', '#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#64748b'],
+              borderRadius: 8
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false }
+            },
+            scales: {
+              x: { ticks: { color: '#cbd5e1', font: { size: 10 } }, grid: { display: false } },
+              y: { title: { display: true, text: '% de Adopción', color: '#94a3b8' }, ticks: { color: '#64748b' }, grid: { color: 'rgba(255,255,255,0.06)' } }
+            }
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>

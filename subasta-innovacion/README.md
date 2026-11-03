@@ -4,6 +4,9 @@
 🌐 **Plataforma en vivo para jugar y participar en el aula:**  
 👉 **[https://jeveraeng-bit.github.io/aurora-dsp/subasta-innovacion/](https://jeveraeng-bit.github.io/aurora-dsp/subasta-innovacion/)**
 
+📽️ **Diapositivas Interactivas de Presentación:**  
+👉 **[https://jeveraeng-bit.github.io/aurora-dsp/subasta-innovacion/diapositivas.html](https://jeveraeng-bit.github.io/aurora-dsp/subasta-innovacion/diapositivas.html)**
+
 ---
 
 ## 🏛️ Créditos y Responsables
