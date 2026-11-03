@@ -179,6 +179,9 @@
         <button class="nav-tab px-3.5 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all flex items-center gap-1.5 whitespace-nowrap" data-tab="tab-certificate">
           <span>🎓</span> 6. Certificado Grupo #1
         </button>
+        <button class="nav-tab px-3.5 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all flex items-center gap-1.5 whitespace-nowrap" data-tab="tab-team">
+          <span>👥</span> 7. Desarrolladores (Grupo #1)
+        </button>
       </nav>
     </div>
   </div>
@@ -663,27 +666,33 @@
           </div>
 
           <!-- Firmas Oficiales de los 3 Estudiantes del Grupo #1 -->
-          <div class="mt-8 pt-6 border-t border-slate-800/90 grid grid-cols-3 gap-2 text-center">
-            <div>
-              <div class="h-9 border-b border-slate-700/80 mb-1 flex items-end justify-center font-mono text-xs text-blue-300 italic font-semibold">
+          <div class="mt-8 pt-6 border-t border-slate-800/90 grid grid-cols-3 gap-3 text-center">
+            <div class="flex flex-col items-center">
+              <img src="juan_esteban.jpg" alt="Juan Esteban Vera" 
+                   class="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-amber-500 shadow-lg mb-2 ring-2 ring-amber-500/30">
+              <div class="h-8 border-b border-slate-600/80 w-full mb-1 flex items-end justify-center font-mono text-xs text-blue-300 italic font-semibold">
                 Juan E. Vera
               </div>
-              <p class="text-[11px] font-bold text-slate-200">Juan Esteban Vera</p>
-              <p class="text-[9px] text-slate-400">Facilitador / Grupo #1</p>
+              <p class="text-xs font-bold text-slate-200">Juan Esteban Vera</p>
+              <p class="text-[10px] text-slate-400 font-mono">Facilitador / Grupo #1</p>
             </div>
-            <div>
-              <div class="h-9 border-b border-slate-700/80 mb-1 flex items-end justify-center font-mono text-xs text-indigo-300 italic font-semibold">
+            <div class="flex flex-col items-center">
+              <img src="jhon_jairo.png" alt="Jhon Jairo Lugo" 
+                   class="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-amber-500 shadow-lg mb-2 ring-2 ring-amber-500/30">
+              <div class="h-8 border-b border-slate-600/80 w-full mb-1 flex items-end justify-center font-mono text-xs text-indigo-300 italic font-semibold">
                 Jhon J. Lugo
               </div>
-              <p class="text-[11px] font-bold text-slate-200">Jhon Jairo Lugo</p>
-              <p class="text-[9px] text-slate-400">Facilitador / Grupo #1</p>
+              <p class="text-xs font-bold text-slate-200">Jhon Jairo Lugo</p>
+              <p class="text-[10px] text-slate-400 font-mono">Facilitador / Grupo #1</p>
             </div>
-            <div>
-              <div class="h-9 border-b border-slate-700/80 mb-1 flex items-end justify-center font-mono text-xs text-emerald-300 italic font-semibold">
+            <div class="flex flex-col items-center">
+              <img src="alejandro_carvajal.png" alt="Alejandro Carvajal" 
+                   class="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-amber-500 shadow-lg mb-2 ring-2 ring-amber-500/30">
+              <div class="h-8 border-b border-slate-600/80 w-full mb-1 flex items-end justify-center font-mono text-xs text-emerald-300 italic font-semibold">
                 Alejandro C.
               </div>
-              <p class="text-[11px] font-bold text-slate-200">Alejandro Carvajal</p>
-              <p class="text-[9px] text-slate-400">Facilitador / Grupo #1</p>
+              <p class="text-xs font-bold text-slate-200">Alejandro Carvajal</p>
+              <p class="text-[10px] text-slate-400 font-mono">Facilitador / Grupo #1</p>
             </div>
           </div>
 
@@ -697,6 +706,142 @@
         <div class="mt-6 flex justify-center gap-3">
           <button onclick="window.print()" class="bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs px-6 py-3 rounded-xl shadow-lg transition flex items-center gap-2">
             <span>🖨️</span> Imprimir / Descargar Certificado en PDF
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 7: EQUIPO DESARROLLADOR (GRUPO #1)     -->
+    <!-- ========================================== -->
+    <section id="tab-team" class="tab-content hidden">
+      <div class="max-w-5xl mx-auto space-y-8">
+        
+        <div class="text-center max-w-3xl mx-auto">
+          <div class="inline-flex items-center gap-2 bg-blue-950 text-blue-400 border border-blue-800 px-3 py-1 rounded-full text-xs font-mono mb-3">
+            <img src="logo_grupo1.png" alt="Grupo 1" class="w-4 h-4 rounded-full">
+            <span>EQUIPO RESPONSABLE & FACILITADORES</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold font-display text-white">
+            Desarrolladores — GRUPO #1
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-300 mt-2">
+            Estudiantes del programa de <b>Ingeniería Electrónica</b> de la <b>Universidad Antonio Nariño (Sede Ibagué)</b> para la cátedra de Gestión Empresarial.
+          </p>
+        </div>
+
+        <!-- Grid de las 3 Tarjetas de Perfil -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <!-- Perfil 1: Juan Esteban Vera Rodríguez -->
+          <div class="glass-card rounded-3xl p-6 border-slate-800 hover:border-blue-500/60 transition-all flex flex-col items-center text-center shadow-xl relative overflow-hidden group">
+            <div class="relative mb-4">
+              <img src="juan_esteban.jpg" alt="Juan Esteban Vera Rodríguez" 
+                   class="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-blue-500/80 shadow-xl ring-4 ring-blue-500/20 group-hover:scale-105 transition-transform duration-300">
+              <span class="absolute bottom-1 right-1 bg-blue-600 text-white text-[10px] font-mono px-2 py-0.5 rounded-full border border-slate-900 font-bold">
+                LÍDER
+              </span>
+            </div>
+
+            <h3 class="text-lg font-bold font-display text-white">
+              Juan Esteban Vera Rodríguez
+            </h3>
+            <p class="text-xs font-mono text-blue-400 font-semibold mt-0.5">
+              Ingeniería Electrónica • UAN
+            </p>
+            
+            <div class="my-3 py-1.5 px-3 bg-blue-950/60 rounded-xl border border-blue-800/60 text-[11px] font-mono text-blue-300">
+              Arquitectura Tecnológica & Dirección
+            </div>
+
+            <p class="text-xs text-slate-300 leading-relaxed mt-1">
+              Responsable de la dirección del taller, formulación conceptual de la innovación (<span class="font-mono text-emerald-300">Idea × Viabilidad × Mercado</span>) y diseño del motor web interactivo.
+            </p>
+
+            <div class="mt-4 pt-3 border-t border-slate-800/80 w-full flex justify-between text-[10px] font-mono text-slate-400">
+              <span>Cátedra: Gestión Emp.</span>
+              <span class="text-emerald-400 font-bold">Grupo #1</span>
+            </div>
+          </div>
+
+          <!-- Perfil 2: Jhon Jairo Lugo Peralta -->
+          <div class="glass-card rounded-3xl p-6 border-slate-800 hover:border-indigo-500/60 transition-all flex flex-col items-center text-center shadow-xl relative overflow-hidden group">
+            <div class="relative mb-4">
+              <img src="jhon_jairo.png" alt="Jhon Jairo Lugo Peralta" 
+                   class="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-indigo-500/80 shadow-xl ring-4 ring-indigo-500/20 group-hover:scale-105 transition-transform duration-300">
+              <span class="absolute bottom-1 right-1 bg-indigo-600 text-white text-[10px] font-mono px-2 py-0.5 rounded-full border border-slate-900 font-bold">
+                CASOS
+              </span>
+            </div>
+
+            <h3 class="text-lg font-bold font-display text-white">
+              Jhon Jairo Lugo Peralta
+            </h3>
+            <p class="text-xs font-mono text-indigo-400 font-semibold mt-0.5">
+              Ingeniería Electrónica • UAN
+            </p>
+            
+            <div class="my-3 py-1.5 px-3 bg-indigo-950/60 rounded-xl border border-indigo-800/60 text-[11px] font-mono text-indigo-300">
+              Moderación de Casos & Análisis Cuantitativo
+            </div>
+
+            <p class="text-xs text-slate-300 leading-relaxed mt-1">
+              Responsable del diseño del Quiz Estratégico, análisis cuantitativo de curvas en S de salto tecnológico y desmontaje de las falacias del 'Tech-Push'.
+            </p>
+
+            <div class="mt-4 pt-3 border-t border-slate-800/80 w-full flex justify-between text-[10px] font-mono text-slate-400">
+              <span>Cátedra: Gestión Emp.</span>
+              <span class="text-indigo-400 font-bold">Grupo #1</span>
+            </div>
+          </div>
+
+          <!-- Perfil 3: Alejandro Carvajal Paniagua -->
+          <div class="glass-card rounded-3xl p-6 border-slate-800 hover:border-emerald-500/60 transition-all flex flex-col items-center text-center shadow-xl relative overflow-hidden group">
+            <div class="relative mb-4">
+              <img src="alejandro_carvajal.png" alt="Alejandro Carvajal Paniagua" 
+                   class="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-emerald-500/80 shadow-xl ring-4 ring-emerald-500/20 group-hover:scale-105 transition-transform duration-300">
+              <span class="absolute bottom-1 right-1 bg-emerald-600 text-white text-[10px] font-mono px-2 py-0.5 rounded-full border border-slate-900 font-bold">
+                SIMULADOR
+              </span>
+            </div>
+
+            <h3 class="text-lg font-bold font-display text-white">
+              Alejandro Carvajal Paniagua
+            </h3>
+            <p class="text-xs font-mono text-emerald-400 font-semibold mt-0.5">
+              Ingeniería Electrónica • UAN
+            </p>
+            
+            <div class="my-3 py-1.5 px-3 bg-emerald-950/60 rounded-xl border border-emerald-800/60 text-[11px] font-mono text-emerald-300">
+              Simulador de Decisiones & Estrategia
+            </div>
+
+            <p class="text-xs text-slate-300 leading-relaxed mt-1">
+              Responsable de moderar la simulación ejecutiva de ElectroTech S.A.S., balance de portafolio McKinsey (70/20/10) y evaluación del podio del salón.
+            </p>
+
+            <div class="mt-4 pt-3 border-t border-slate-800/80 w-full flex justify-between text-[10px] font-mono text-slate-400">
+              <span>Cátedra: Gestión Emp.</span>
+              <span class="text-emerald-400 font-bold">Grupo #1</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Banner Institucional de Cierre -->
+        <div class="p-6 rounded-3xl bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+          <div class="flex items-center gap-4">
+            <img src="logo_grupo1.png" alt="Emblema Grupo 1" class="w-16 h-16 object-contain rounded-full border border-blue-500/50 shadow-lg">
+            <div>
+              <h4 class="text-sm font-bold text-white font-display">Taller Formativo de Gestión Empresarial</h4>
+              <p class="text-xs text-slate-400">Universidad Antonio Nariño • Sede Ibagué • Semestre 2026</p>
+              <p class="text-[11px] text-blue-400 font-mono mt-0.5">Tema: Gestión de la Innovación en Entornos Competitivos</p>
+            </div>
+          </div>
+
+          <button onclick="switchTab('tab-certificate')" class="bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-lg transition whitespace-nowrap">
+            Ver Certificado Oficial 🎓
           </button>
         </div>
 
@@ -734,17 +879,26 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
-            <span class="font-bold text-blue-400 block mb-1">🎤 Juan Esteban Vera</span>
-            <p>Apertura ejecutiva, fórmula matemática de la innovación ($\text{Idea} \times \text{Viabilidad} \times \text{Mercado}$) y síntesis final.</p>
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 flex items-start gap-3">
+            <img src="juan_esteban.jpg" alt="Juan Esteban Vera" class="w-10 h-10 rounded-full object-cover border border-blue-500 shrink-0">
+            <div>
+              <span class="font-bold text-blue-400 block mb-0.5">Juan Esteban Vera</span>
+              <p class="text-[11px] text-slate-300">Apertura ejecutiva, fórmula de la innovación y síntesis final.</p>
+            </div>
           </div>
-          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
-            <span class="font-bold text-indigo-400 block mb-1">🎤 Jhon Jairo Lugo</span>
-            <p>Moderador del Quiz interactivo, análisis de datos de las preguntas y explicación de los errores conceptuales.</p>
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 flex items-start gap-3">
+            <img src="jhon_jairo.png" alt="Jhon Jairo Lugo" class="w-10 h-10 rounded-full object-cover border border-indigo-500 shrink-0">
+            <div>
+              <span class="font-bold text-indigo-400 block mb-0.5">Jhon Jairo Lugo</span>
+              <p class="text-[11px] text-slate-300">Moderador del Quiz con gráficas y análisis de la Curva en S.</p>
+            </div>
           </div>
-          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
-            <span class="font-bold text-emerald-400 block mb-1">🎤 Alejandro Carvajal</span>
-            <p>Dirección del caso del simulador, gestión de los 3 horizontes y análisis de la supervivencia empresarial.</p>
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 flex items-start gap-3">
+            <img src="alejandro_carvajal.png" alt="Alejandro Carvajal" class="w-10 h-10 rounded-full object-cover border border-emerald-500 shrink-0">
+            <div>
+              <span class="font-bold text-emerald-400 block mb-0.5">Alejandro Carvajal</span>
+              <p class="text-[11px] text-slate-300">Dirección del Simulador ElectroTech y cierre con conclusiones.</p>
+            </div>
           </div>
         </div>
 
