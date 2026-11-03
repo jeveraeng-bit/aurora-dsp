@@ -1,49 +1,39 @@
-# Shark Tank Inverso: La Subasta de Innovación 🚀
+# Portal Interactivo: Gestión de la Innovación 🚀
+### Cátedra de Gestión Empresarial — Universidad Antonio Nariño (Sede Ibagué)
 
-Plataforma web interactiva para la dinámica formativa de **Gestión de la Innovación** en la cátedra de **Gestión Empresarial**.
-
-🌐 **Enlace para jugar en línea:** [https://jeveraeng-bit.github.io/aurora-dsp/subasta-innovacion/](https://jeveraeng-bit.github.io/aurora-dsp/subasta-innovacion/)
+🌐 **Plataforma en vivo para jugar y participar en el aula:**  
+👉 **[https://jeveraeng-bit.github.io/aurora-dsp/subasta-innovacion/](https://jeveraeng-bit.github.io/aurora-dsp/subasta-innovacion/)**
 
 ---
 
-## 🏛️ Información Institucional
-* **Universidad:** Universidad Antonio Nariño — Sede Ibagué
+## 🏛️ Créditos y Responsables
+* **Institución:** Universidad Antonio Nariño — Sede Ibagué
 * **Facultad:** Ingeniería
 * **Programa:** Ingeniería Electrónica
-* **Asignatura:** Gestión Empresarial
-* **Tema Central:** Gestión de la Innovación & Modelos de Portafolio
-
-### 👥 Equipo Desarrollador & Expositores
-1. **Juan Esteban Vera Rodríguez**
-2. **Jhon Jairo Lugo Peralta**
-3. **Alejandro Carvajal Paniagua**
+* **Expositores & Desarrolladores:**
+  1. **Juan Esteban Vera Rodríguez**
+  2. **Jhon Jairo Lugo Peralta**
+  3. **Alejandro Carvajal Paniagua**
 
 ---
 
-## 🎯 ¿De qué trata la dinámica?
-La Gestión de la Innovación no consiste en tener ocurrencias o ideas creativas aisladas: es el **proceso sistemático de transformar ideas en valor económico, operativo y social**.
+## 📖 Estructura del Portal por Submenús
 
-En esta dinámica:
-* Cada equipo o participante asume el rol de una **Junta Directiva / Comité de Innovación**.
-* Se les asigna un presupuesto corporativo de **$100,000 USD**.
-* Deben analizar y asignar capital entre 4 proyectos con perfiles contrastados de riesgo y retorno:
-  * **Proyecto Alfa (H1 - Incremental):** *EcoPack IoT 2.0* (Bajo riesgo, optimización del negocio principal).
-  * **Proyecto Beta (H2 - Adyacente):** *Nexus Predictivo B2B SaaS* (Riesgo medio, escalabilidad en nuevos mercados).
-  * **Proyecto Gamma (H3 - Disruptivo):** *BioNeuroChip Cuántico* (Riesgo alto 75%, apuestas de futuro radicales).
-  * **Proyecto Delta (Humo / Inviable):** *CyberMeta-Chakra Web5* (Trampa del "Tech-Push" sin necesidad de mercado).
-* **Simulación de Mercado en Vivo:** El sistema calcula los resultados económicos y genera un informe de ROI.
-* **Diagnóstico Ejecutivo:** Evalúa la estrategia del equipo contra la regla de oro de **McKinsey (70% H1 / 20% H2 / 10% H3)** y califica el perfil gerencial.
+La plataforma está diseñada como un taller interactivo paso a paso para que los compañeros del salón participen activamente desde sus celulares o computadores:
 
----
-
-## 💻 Características Técnicas
-* **Frontend:** HTML5 semántico, Tailwind CSS (Dark Mode), Canvas Confetti.
-* **Audio Engine:** Sintetizador de efectos sonoros procedurales usando **Web Audio API** nativo (sin dependencias de archivos de audio externos).
-* **Persistencia:** Tabla de clasificación (Leaderboard) en `localStorage` para guardar y comparar el desempeño de las mesas en clase.
-* **Totalmente Responsive:** Diseñado para proyectores de auditorio, laptops y teléfonos celulares.
-
----
-
-## 🚀 Cómo ejecutar localmente
-1. Simplemente haz doble clic en `abrir_juego.bat` o abre `index.html` en cualquier navegador.
-2. Para que la clase se conecte por red local en el aula, ejecuta `iniciar_servidor_red.bat`.
+1. **👋 1. Bienvenida & Registro:**  
+   Ingreso de nombre, selección de mesa/comité y personalización de avatar de gerente.
+2. **📝 2. Quiz Diagnóstico:**  
+   4 preguntas interactivas tipo caso real con retroalimentación inmediata (+100 pts por acierto) para desmentir mitos comunes de la innovación (como el caso Kodak y la diferencia entre creatividad e innovación).
+3. **💡 3. Micro-Clase Visual:**  
+   Infografías interactivas con los 4 pilares:
+   * *Pilar 1:* Fórmula de la Innovación (Idea × Viabilidad × Mercado).
+   * *Pilar 2:* Tipos de Innovación (Incremental, Adyacente, Disruptiva).
+   * *Pilar 3:* Modelo 70/20/10 de McKinsey & Co.
+   * *Pilar 4:* La trampa del "Tech-Push" / Humo tecnológico.
+4. **🎮 4. Simulador de Decisiones (Caso ElectroTech Colombia S.A.S.):**  
+   Misión en 3 trimestres donde el estudiante asume el rol de Director de Innovación y debe tomar decisiones estratégicas de producto, mercado e IA para salvar a la empresa sin quebrar.
+5. **🏆 5. Marcador & Podio en Vivo:**  
+   Tabla de clasificación con podio de ganadores (1°, 2° y 3° lugar) que suma los puntos del Quiz y del Simulador.
+6. **🎓 6. Certificado UAN Imprimible:**  
+   Genera un diploma oficial de participación personalizado con el nombre del usuario, puntaje final y las firmas de los tres expositores.
