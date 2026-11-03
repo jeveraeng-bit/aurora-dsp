@@ -140,8 +140,20 @@
       box-shadow: 0 0 14px rgba(139, 92, 246, 0.9) !important;
     }
 
-    /* Estilo de impresión para el Certificado */
+    /* Estilo de impresión de alta fidelidad para el Certificado (Mantiene el fondo oscuro oficial y dorado) */
+    @page {
+      size: A4 portrait;
+      margin: 10mm;
+    }
     @media print {
+      html, body {
+        background: #080c14 !important;
+        color: #f8fafc !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
       body * {
         visibility: hidden !important;
       }
@@ -153,10 +165,44 @@
         left: 0 !important;
         top: 0 !important;
         width: 100% !important;
-        background: #ffffff !important;
-        color: #0f172a !important;
-        border: 4px double #d97706 !important;
+        max-width: 100% !important;
+        background: linear-gradient(180deg, #0f172a 0%, #080c14 100%) !important;
+        color: #f8fafc !important;
+        border: 4px double #f59e0b !important;
+        border-radius: 20px !important;
         box-shadow: none !important;
+        padding: 36px 30px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      #certUserName {
+        color: #fbbf24 !important;
+        -webkit-text-fill-color: #fbbf24 !important;
+        background: none !important;
+        font-weight: 800 !important;
+        text-shadow: none !important;
+      }
+      #certificateCard .text-slate-400 {
+        color: #94a3b8 !important;
+      }
+      #certificateCard .text-slate-300 {
+        color: #e2e8f0 !important;
+      }
+      #certificateCard .text-slate-200 {
+        color: #ffffff !important;
+      }
+      #certificateCard .bg-slate-950\/80,
+      #certificateCard .bg-slate-900,
+      #certificateCard .bg-slate-950 {
+        background-color: #111827 !important;
+        border-color: #334155 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      #certificateCard img {
+        border-color: #f59e0b !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
     }
   </style>
