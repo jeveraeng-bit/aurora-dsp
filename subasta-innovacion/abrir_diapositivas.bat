@@ -1,0 +1,3 @@
+@echo off
+echo Abriendo Diapositivas Interactivas - Grupo #1...
+start "" "%~dp0diapositivas.html"
