@@ -1,0 +1,87 @@
+"EVALUACIÓN INTEGRAL
+ACTIVIDADES DE CTICE DESARROLLADAS DURANTE EL 2026-2",,,,,,,,
+"Fecha del diligenciamiento:","06/11/2026",,,,,,"Estimados profesores, el siguiente formato de registro de actividades se ha ajustado de acuerdo a los indicadores del nuevo DESPLIEGUE PLAN INSTITUCIONAL DE DESARROLLO UAN 2022-2026",
+"Facultad:","Facultad de Ingeniería (Ingeniería Electrónica)",,,,,,,
+"Nombre Profesor:","Juan Esteban Vera Rodríguez",,,,,,,
+"No. Identificación:","[Número de Identificación C.C.]",,,,,,,
+"Sede en la que labora:","Sede Ibagué (Tolima)",,,,,,"Porcentaje de Sedes en las que se realizan actividades:","100% (Sede Ibagué con impacto de alcance nacional UAN y proyección global)"
+"Fomento de la  cultura de Emprendimiento 2026-2",,,,,,,,
+"Actividades (EVENTOS) desarrolladas durante el semestre 2026-1 (Charlas)","# participantes",,,,Dedicación horaria por actividad,"Iniciativas y aportes:
+Nombre de los eventos","Resultados:
+Un resumen del impacto logrado en la actividad","Link de Evidencias Drive 
+con acceso de visualización (Fotografías,  Ponencias, Certificados, Conferencias, etc)"
+,Estudiantes,Profesores,Administrativos,Egresados,,,,
+"Actividad 1.","45","6","2","4","18 horas","Taller Teórico-Práctico: Procesamiento Digital de Señales (DSP) y Modelado Analógico Aplicado a la Música","Capacitación especializada en síntesis sustractiva, filtros de variable de estado TPT SVF y modulación FM. Los asistentes comprendieron la arquitectura algorítmica detrás del software musical comercial.","https://github.com/jeveraeng-bit/aurora-dsp/tree/main/ENTREGA_PROYECTO_UAN"
+"Actividad 2.","60","8","3","10","24 horas","Seminario de Innovación: Creación de Empresas de Base Tecnológica (Spin-offs) desde la Ingeniería Electrónica UAN","Presentación de la hoja de ruta para transformar proyectos de grado y desarrollos de software de audio en startups tecnológicas viables, con registro de propiedad intelectual (DNDA/SIC).","https://jeveraeng-bit.github.io/aurora-dsp/"
+"Actividad 3.","35","4","1","3","16 horas","Masterclass: Diseño de Interfaces de Audio en Tiempo Real y Programación Concurrente Lock-Free","Explicación de buffers de audio circular, atenuación de aliasing PolyBLEP y control gestual macro Super Knob aplicado a estaciones de trabajo modernas.","https://github.com/jeveraeng-bit/aurora-dsp/blob/main/ENTREGA_PROYECTO_UAN/03_ANEXO_MANUAL_DE_USUARIO/manual_usuario_aurora.pdf"
+"Actividad 4.","50","5","2","6","14 horas","Mesa Redonda: Ibagué Ciudad Creativa de la Música y las Oportunidades en la Industria Global de Audio Plugins (VST3/AU)","Articulación de la academia con el ecosistema de producción musical tolimense, visibilizando a la UAN como polo de desarrollo en tecnología de audio digital exportable.","https://github.com/jeveraeng-bit/aurora-dsp/blob/main/ENTREGA_PROYECTO_UAN/05_ANEXO_PLAN_DE_NEGOCIO_Y_FINANCIERO/plan_negocio_startup_audio.pdf"
+"Iniciativas de PROYECTOS o EMPRENDIMIEMTOS presentadas a instituciones o en eventos del ecosistema nacional e internacional
+en Sedes / Campus","# participantes",,,,Dedicación horaria por actividad,"Iniciativas y aportes:
+Nombre de los proyectos o emprendimientos (acompañados por mentorías)","Resultados:
+Un resumen del impacto logrado en la actividad","Link de Evidencias Drive 
+con acceso de visualización (Fotografías,  Ponencias, Certificados, Conferencias, etc)"
+,Estudiantes,Profesores,Administrativos,Egresados / Externos,,,,
+"Iniciativas 1.","12","3","1","4","40 horas","AURORA DSP: Sintetizador Híbrido Polifónico y Suite de Plugins VST3/AU (Spin-off de Audio Digital)","Consolidación del Producto Mínimo Viable (MVP) v2.1.0 con doble motor (CS-80 + FM-X), tienda web e-commerce internacional y certificación de 13 pruebas unitarias aprobadas al 100%.","https://github.com/jeveraeng-bit/aurora-dsp"
+"Iniciativas 2.","8","2","1","2","20 horas","Presentación de Aurora DSP en Encuentro Institucional de Semilleros y Rueda de Emprendimiento UAN","Validación del modelo de negocio de audio plugins ($1.280M USD TAM global), obteniendo retroalimentación positiva de jurados y pares académicos para el escalamiento a Spin-off.","https://github.com/jeveraeng-bit/aurora-dsp/blob/main/ENTREGA_PROYECTO_UAN/01_INFORME_TECNICO_Y_EMPRENDIMIENTO/informe_aurora_uan.pdf"
+"Iniciativas 3.","6","2","0","3","15 horas","Módulo de Afinación y Procesamiento Vocal en Tiempo Real Aurora Vocal Tune","Desarrollo de módulo autotune con algoritmo Wiener-Khinchin FFT de latencia cero (<8 ms) para artistas locales y productores independientes, articulado a la Economía Naranja.","https://github.com/jeveraeng-bit/aurora-dsp/blob/main/ENTREGA_PROYECTO_UAN/04_ANEXO_VALIDACION_Y_METRICAS/informe_validacion_benchmark.pdf"
+"Iniciativas 4.","4","1","0","2","12 horas","Plataforma Web E-Commerce y Despliegue Cloud en GitHub Pages para Venta de Plugins","Publicación de la plataforma de comercialización de plugins con soporte multidivisa (USD/COP), carrito de compras y emisión automática de seriales de licencia criptográfica.","https://jeveraeng-bit.github.io/aurora-dsp/"
+"Sistema #Crea-Innova-EmprendeUAN: Estructuración de Emprendimientos universitarios en áreas bio, artísticos y culturales, negocios verdes, femeninos, tecnológicos y/o sociales.",,,,,,,,
+Indicadores,Emprendimientos atendidos de:,,,,Dedicación horaria por actividad,"Iniciativas y aportes
+Nombre de los proyectos o emprendimientos (acompañados por mentorías)","Resultados:
+Un resumen del impacto logrado en la actividad","Link de Evidencias Drive 
+con acceso de visualización (Fotografías,  Ponencias, Certificados, Conferencias, etc)"
+,"#
+Estudiantes","#
+Profesores","#
+Administrativos","#
+Egresados",,,,
+"# Ideas de negocio (Indicadores de despegue) viabilidad comercial","1","1","0","0","30 horas","Startup de Audio y Plugins: Aurora DSP (Modelado Analógico & Síntesis FM)","Validación de viabilidad comercial basada en un mercado global de $1.280M USD en software de audio. Definición de estrategia de monetización Freemium académica y licencias comerciales de $19 a $69 USD.","https://github.com/jeveraeng-bit/aurora-dsp/blob/main/ENTREGA_PROYECTO_UAN/05_ANEXO_PLAN_DE_NEGOCIO_Y_FINANCIERO/plan_negocio_startup_audio.pdf"
+"# de Mínimos Productos Viables (MVP)
+Validación de usabilidad 
+Viabilidad técnica","1","1","0","0","55 horas","Aurora DSP Workstation v2.1.0 & Web Audio Synthesizer (TRL 6)","Validación técnica del MVP con 13/13 pruebas unitarias aprobadas, tiempo de procesamiento de 0.25 ms por bloque (consumo <5% de CPU, dejando >95% de margen de seguridad) y latencia ultra-baja de 7.98 ms.","https://github.com/jeveraeng-bit/aurora-dsp/blob/main/ENTREGA_PROYECTO_UAN/04_ANEXO_VALIDACION_Y_METRICAS/informe_validacion_benchmark.pdf"
+"# de emprendimiento basados en Conocimiento:
+Desarrollo de cliente 
+Propuesta valor
+Viabilidad financiera
+Viabilidad técnica
+Stakeholders
+Networking
+Creación de empresa","1","1","0","0","45 horas","Spin-Off Tecnológica: Aurora DSP Solutions S.A.S. (Ibagué, Tolima)","Estructuración completa del modelo de negocio financiero a 3 años ($48.800 USD Año 1 a $882.400 USD Año 3, punto de equilibrio en el mes 8 con 38 licencias/mes), blindaje de propiedad intelectual (DNDA) y registro de marca ante la SIC.","https://github.com/jeveraeng-bit/aurora-dsp/blob/main/ENTREGA_PROYECTO_UAN/05_ANEXO_PLAN_DE_NEGOCIO_Y_FINANCIERO/plan_negocio_startup_audio.pdf"
+"Desarrollo de proyectos de emprendimiento de la comunidad académica con #AceleraUAN",,,,,,,,
+Indicadores,Emprendimientos atendidos de:,,,,Dedicación horaria por actividad,"Iniciativas y aportes:
+Nombre de los proyectos o emprendimientos (acompañados por mentorías)","Resultados:
+Un resumen del impacto logrado en la actividad","Link de Evidencias Drive 
+con acceso de visualización (Fotografías,  Ponencias, Certificados, Conferencias, etc)"
+,"#
+Estudiantes","#
+Profesores","#
+Administrativos","#
+Egresados",,,,
+"# emprendimientos nuevos de base tecnológica creados
+""Startup"" (conocimiento)","1","1","0","0","40 horas","Aurora DSP — Empresa de Base Tecnológica para la Creación de Software de Audio y Plugins VST3/AU","Consolidación de la Spin-Off universitaria orientada al diseño y exportación de algoritmos de procesamiento digital de señales para productores, DJs y compositores mundiales.","https://github.com/jeveraeng-bit/aurora-dsp"
+"# de emprendimientos nuevos en áreas  bio, artísticos y culturales, negocios verdes, femeninos, tecnológicos y/o sociales.","1","1","0","0","35 horas","Aurora DSP (Categoría: Tecnológicos, Artísticos y Culturales / Industrias Creativas)","Desarrollo de software de síntesis sonora que impulsa la producción musical local y nacional, reduciendo la brecha de acceso a instrumentos de hardware de $4.500 USD mediante software optimizado de $49 USD.","https://jeveraeng-bit.github.io/aurora-dsp/"
+"# de emprendimiento presentados a Levantamiento de Capital","1","1","0","0","25 horas","Postulación al Fondo Emprender SENA y Convocatorias MinCiencias Spin-off 2026-2","Formulación del expediente de levantamiento de capital semilla ($100.000.000 COP) para la adquisición de equipos de laboratorio de audio, certificación de plugins y migración del código base a C++ (JUCE Framework).","https://github.com/jeveraeng-bit/aurora-dsp/blob/main/ENTREGA_PROYECTO_UAN/05_ANEXO_PLAN_DE_NEGOCIO_Y_FINANCIERO/plan_negocio_startup_audio.pdf"
+"Actividades Extras",,,,,,,,
+"Otras actividades desarrolladas",Emprendimientos atendidos de:,,,,Dedicación horaria por actividad,"Iniciativas y aportes:
+Nombre de los proyectos o emprendimientos (acompañados por mentorías)","Resultados:
+Un resumen del impacto logrado en la actividad","Link de Evidencias Drive 
+con acceso de visualización (Fotografías,  Ponencias, Certificados, Conferencias, etc)"
+,"#
+Estudiantes","#
+Profesores","#
+Administrativos","#
+Egresados",,,,
+"Elaboración del Dossier Institucional y Académico de Ingeniería UAN (6 Documentos Oficiales en PDF)","1","1","0","0","50 horas","Dossier Maestro Técnico, Operativo y Financiero (47 páginas compiladas en LaTeX)","Generación de los 6 documentos PDF oficiales (Informe Técnico, Manual de Usuario, Anexo de Código Fuente, Reporte de Validación, Plan de Negocio y Dossier General) dedicados con orgullo a la Universidad Antonio Nariño.","https://github.com/jeveraeng-bit/aurora-dsp/tree/main/ENTREGA_PROYECTO_UAN"
+"Despliegue y Pruebas de la Plataforma Web Interactiva con Web Audio API y GitHub Pages","1","1","0","0","30 horas","Página Web Comercial y Tienda Online Aurora DSP (https://jeveraeng-bit.github.io/aurora-dsp/)","Puesta en producción de la tienda de plugins con demo Web Audio interactiva, visualizador FFT, catálogo de productos y carrito de compras con generador criptográfico de licencias.","https://jeveraeng-bit.github.io/aurora-dsp/"
+"PLAN DE TRABAJO Y CRONOGRAMA DE ACTIVIDADES 2027-1
+Esta información es clave para la asignación de horas para el próximo semestre",,,,,,,,,,,,,,,,,
+ACTIVIDADES,Descripción y alcance de las actividades,Semanas Semestre,,,,,,,,,,,,,,,
+,,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
+"Constitución Jurídica de la Spin-Off S.A.S. y Trámites DNDA","Registro de la sociedad comercial en Cámara de Comercio de Ibagué y radicación del soporte lógico de software ante la Dirección Nacional de Derecho de Autor.",X,X,X,X,,,,,,,,,,,,
+"Migración del Núcleo DSP a C++ (JUCE Framework)","Reescritura y optimización SIMD (AVX2 / NEON) de los algoritmos de síntesis y filtros TPT SVF en C++ para compilación nativa en VST3, AU y AAX.",,,X,X,X,X,X,,,,,,,,
+"Desarrollo y Lanzamiento del Programa Beta Privado","Convocatoria y pruebas de campo con 500 productores e ingenieros de mezcla de Colombia y el exterior para recopilación de feedback de usabilidad.",,,,,,,X,X,X,X,,,,,
+"Integración de Pasarelas de Pago Internacionales y E-Commerce","Configuración de pasarelas FastSpring/Shopify y distribución comercial en tiendas mundiales (Plugin Boutique, Splice, KVR Audio).",,,,,,,,,X,X,X,X,,,
+"Diseño de Prototipo de Hardware Embebido (ARM Cortex-M7)","Fase preliminar de diseño esquemático y prototipo de sintetizador físico en caja metálica para presentaciones en vivo.",,,,,,,,,,,X,X,X,X,
+"Postulación a Fondos de Capital Semilla (Fondo Emprender / MinCiencias)","Radicación formal de la propuesta de escalamiento industrial ante el Fondo Emprender y convocatorias nacionales de transferencia de tecnología.",,,,,,,,X,X,X,X,,,,
+"Informes de Seguimiento y Divulgación Académica UAN","Elaboración de artículos científicos sobre modelado analógico digital y presentación de resultados en seminarios institucionales UAN.",,,,,,,,,,,,,,X,X
+"Informes:","Debe dar cuenta de lo realizado en todo el periodo junto con los resultados logrados: Se consolidará un informe semestral exhaustivo con métricas de ventas de plugins, usuarios de la versión educativa UAN, reportes de estabilidad técnica y avance del hardware embebido.",,,,,,,,,,,,,,,,
